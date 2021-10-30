@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'application configuration' => 'applicatie configuratie',
+  'item name' => 'Itemnaam',
+  'item short name' => 'korte naam van item',
+  'company name' => 'Bedrijfsnaam',
+  'company address' => 'bedrijfsadres',
+  'company email' => 'bedrijfse-mailadres',
+  'logo' => 'logo',
+  'favicon' => 'favicon',
+  'save' => 'sparen',
+  'deafult language' => 'doof taal',
+  'type your item short name here' => 'typ hier de korte naam van uw item',
+  'type your item name here' => 'typ hier uw itemnaam',
+  'type your company name here' => 'typ hier uw bedrijfsnaam',
+  'type your comapny email here' => 'typ hier uw bedrijfs-e-mailadres',
+  'max size: 2mb, allowed format: png' => 'maximale grootte: 2mb, toegestaan formaat: png',
+  'max size: 500kb, allowed format: png' => 'maximale grootte: 500 kb, toegestaan formaat: png',
+  'submit' => 'indienen',
+  'cancel' => 'Annuleer',
+  'time zone' => 'tijdzone',
+  'dashboard' => 'dashboard',
+  'application settings has updated' => 'toepassingsinstellingen zijn bijgewerkt',
+];

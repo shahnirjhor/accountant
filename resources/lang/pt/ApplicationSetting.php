@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'application configuration' => 'configuração de aplicativo',
+  'item name' => 'nome do item',
+  'item short name' => 'nome abreviado do item',
+  'company name' => 'Nome da empresa',
+  'company address' => 'Endereço da companhia',
+  'company email' => 'email da empresa',
+  'logo' => 'logotipo',
+  'favicon' => 'favicon',
+  'save' => 'Salve ',
+  'deafult language' => 'linguagem surda',
+  'type your item short name here' => 'digite aqui o nome abreviado do item',
+  'type your item name here' => 'digite aqui o nome do item',
+  'type your company name here' => 'digite o nome da sua empresa aqui',
+  'type your comapny email here' => 'digite seu email corporativo aqui',
+  'max size: 2mb, allowed format: png' => 'tamanho máximo: 2mb, formato permitido: png',
+  'max size: 500kb, allowed format: png' => 'tamanho máximo: 500kb, formato permitido: png',
+  'submit' => 'enviar',
+  'cancel' => 'cancelar',
+  'time zone' => 'fuso horário',
+  'dashboard' => 'painel de controle',
+  'application settings has updated' => 'as configurações do aplicativo foram atualizadas',
+];

@@ -1,0 +1,25 @@
+<?php
+
+return [
+  'application configuration' => 'διαμόρφωσης εφαρμογής',
+  'item name' => 'όνομα προϊόντος',
+  'item short name' => 'όνομα σύντομου αντικειμένου',
+  'company name' => 'Όνομα εταιρείας',
+  'company address' => 'Διεύθυνση εταιρίας',
+  'company email' => 'email της εταιρείας',
+  'logo' => 'λογότυπο',
+  'favicon' => 'favicon',
+  'save' => 'σώσει',
+  'deafult language' => 'γλώσσα βυθού',
+  'type your item short name here' => 'πληκτρολογήστε εδώ το σύντομο όνομα του αντικειμένου σας',
+  'type your item name here' => 'πληκτρολογήστε εδώ το όνομα του στοιχείου',
+  'type your company name here' => 'πληκτρολογήστε εδώ το όνομα της εταιρείας σας',
+  'type your comapny email here' => 'πληκτρολογήστε το ηλεκτρονικό σας email εδώ',
+  'max size: 2mb, allowed format: png' => 'μέγιστο μέγεθος: 2mb, επιτρεπόμενη μορφή: png',
+  'max size: 500kb, allowed format: png' => 'μέγιστο μέγεθος: 500kb, επιτρεπόμενη μορφή: png',
+  'submit' => 'υποβάλλουν',
+  'cancel' => 'Ματαίωση',
+  'time zone' => 'ζώνη ώρας',
+  'dashboard' => 'ταμπλό',
+  'application settings has updated' => 'οι ρυθμίσεις εφαρμογών ενημερώθηκαν',
+];

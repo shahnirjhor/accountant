@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'no.' => 'No.',
+    'name' => 'Name',
+    'number' => 'Number',
+    'status' => 'Status',
+    'actions' => 'Actions',
+    'currency' => 'Currency',
+    'default account' => 'Default Account',
+    'edit account' => 'Edit Account',
+    'bank phone' => 'Bank Phone',
+    'bank address' => 'Bank Address',
+    'enter bank phone number' => 'Enter Bank Phone Number',
+    'enter bank name' => 'Enter Bank Name',
+    'opening balance' => 'Opening Balance',
+    'bank name' => 'Bank Name',
+    'enter balance' => 'Enter Balance',
+    'current balance' => 'Current Balance',
+    'add new account' => 'Add New Account',
+    'enter account name' => 'Enter Account Name',
+    'enter number code' => 'Enter Number Code',
+    'account list' => 'Account List',
+    'account information inserted successfully' => 'Account Information Inserted Successfully',
+    'account information update successfully' => 'Account Information Update Successfully',
+    'your account has been deleted successfully' => 'Your Account Has Been Deleted Successfully',
+    'something went wrong. try again' => 'Something Went Wrong. Try Again',
+];

@@ -39,7 +39,9 @@
     @endif
 
     @if(isset($errors)&&count($errors) > 0)
-        toastr.error('Something went wrong. Try again')
+        @foreach ($errors->all() as $error)
+                toastr.error('{{ $error }}')
+        @endforeach
     @endif
 
 </script>

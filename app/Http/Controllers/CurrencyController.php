@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency;
 use App\Models\Setting;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Services\PayUService\Exception;
 use Illuminate\Support\Facades\DB;
+use Session;
 
 class CurrencyController extends Controller
 {
@@ -85,6 +87,9 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request['default_currency']) {
+            $request['rate'] = '1';
+        }
         $validatedData = $request->validate([
             'name' => 'required',
             'code' => 'required',
@@ -115,13 +120,10 @@ class CurrencyController extends Controller
             $data->enabled = $request->enabled;
             $data->save();
 
-            if ($request->enabled == "1") {
-                Currency::where('company_id', session('company_id'))
-                ->where('id', '!=', $data->id)
-                ->update(['enabled' => 0]);
+            if ($request->default_currency) {
                 Setting::where('company_id', session('company_id'))
                 ->where('key', 'general.default_currency')
-                ->update(['value' => $data->id]);
+                ->update(['value' => $data->code]);
             }
 
             DB::commit();
@@ -143,7 +145,9 @@ class CurrencyController extends Controller
     {
         $currencies = config('money');
         $data = $currency;
-        return view('currencies.edit', compact('data', 'currencies'));
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        return view('currencies.edit', compact('data', 'currencies', 'company'));
     }
 
     /**
@@ -155,7 +159,10 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, Currency $currency)
     {
-       $validatedData = $request->validate([
+        if ($request['default_currency']) {
+            $request['rate'] = '1';
+        }
+        $validatedData = $request->validate([
             'id' => 'required',
             'name' => 'required',
             'code' => 'required',
@@ -168,16 +175,13 @@ class CurrencyController extends Controller
             'enabled' => 'required',
         ]);
 
-       /**
+        /**
          * Method to call db transaction
          */
         $data = $currency;
         DB::beginTransaction();
         try {
             $data->company_id = session('company_id');
-            if($data->enabled == 1 && $request->enabled == 0) {
-                return redirect()->back()->withErrors(trans('extra.you cant disable all the status at a time'));
-            }
             $data->name = $request->name;
             $data->code = $request->code;
             $data->rate = $request->rate;
@@ -188,16 +192,11 @@ class CurrencyController extends Controller
             $data->thousands_separator = $request->thousands_separator;
             $data->enabled = $request->enabled;
             $data->save();
-
-            if ($request->enabled == "1") {
-                Currency::where('company_id', session('company_id'))
-                ->where('id', '!=', $data->id)
-                ->update(['enabled' => 0]);
+            if ($request->default_currency) {
                 Setting::where('company_id', session('company_id'))
                 ->where('key', 'general.default_currency')
-                ->update(['value' => $data->id]);
+                ->update(['value' => $data->code]);
             }
-
             DB::commit();
             return redirect()->route('currency.index')->withSuccess(trans('currency.currency information updated successfully'));
         } catch (Exception $e) {
@@ -216,8 +215,11 @@ class CurrencyController extends Controller
     public function destroy(Currency $currency)
     {
         $data = $currency;
-        if($data->enabled == 1) {
-            return redirect()->route('currency.index')->withErrors(trans('currency.you cant delete an enabled currency'));
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+
+        if($company->default_currency == $data->code) {
+            return redirect()->route('currency.index')->withErrors(trans('currency.you cant delete default currency'));
         }
 
        $data->delete();

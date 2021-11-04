@@ -45,8 +45,9 @@
                                         <label>@lang('Tax Type')</label>
                                         <select class="form-control" name="type">
                                             <option value="">--Select--</option>
+                                            <option value="normal" {{ old('type', request()->type) === 'normal' ? 'selected' : ''  }}>@lang('Normal')</option>
                                             <option value="inclusive" {{ old('type', request()->type) === 'inclusive' ? 'selected' : ''  }}>@lang('Inclusive')</option>
-                                            <option value="exclusive" {{ old('type', request()->type) === 'exclusive' ? 'selected' : ''  }}>@lang('Exclusive')</option>
+                                            <option value="compound" {{ old('type', request()->type) === 'compound' ? 'selected' : ''  }}>@lang('Compound')</option>
                                         </select>
                                     </div>
                                 </div>
@@ -80,8 +81,8 @@
                                 <td>
                                     @if($tax->type == 'inclusive')
                                         <span class="badge badge-pill badge-primary">@lang('tax.inclusive')</span>
-                                    @elseif ($tax->type == 'exclusive')
-                                        <span class="badge badge-pill badge-warning">@lang('tax.exclusive')</span>
+                                    @elseif ($tax->type == 'compound')
+                                        <span class="badge badge-pill badge-info">@lang('tax.compound')</span>
                                     @else
                                         <span class="badge badge-pill badge-secondary">@lang('tax.normal')</span>
                                     @endif

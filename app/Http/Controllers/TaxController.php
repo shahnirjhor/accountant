@@ -145,20 +145,43 @@ class TaxController extends Controller
      */
     public function destroy(Tax $tax)
     {
-        //
+        $tax->delete();
+        return redirect()->route('tax.index')->withSuccess(trans('tax.your tax info has been deleted successfully'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Currency  $tax
-     * @return \Illuminate\Http\Response
-     */
-    public function delete($id)
-    {
-       $data = Tax::find(decrypt($id));
-       $data->delete();
-       return redirect()->route('tax.index')->withSuccess(trans('tax.your tax info has been deleted successfully'));
-    }
+    // TODO: 'items' => 'items',
+            // 'invoice_items' => 'invoices',
+            // 'bill_items' => 'bills',
+
+            // public function destroy(Tax $tax)
+            // {
+            //     $relationships = $this->countRelationships($tax, [
+            //         'items' => 'items',
+            //         'invoice_items' => 'invoices',
+            //         'bill_items' => 'bills',
+            //     ]);
+        
+            //     if (empty($relationships)) {
+            //         $tax->delete();
+        
+            //         $message = trans('messages.success.deleted', ['type' => trans_choice('general.taxes', 1)]);
+        
+            //         return response()->json([
+            //             'success' => true,
+            //             'error' => false,
+            //             'message' => $message,
+            //             'data' => $tax,
+            //         ]);
+            //     } else {
+            //         $message = trans('messages.warning.deleted', ['name' => $tax->name, 'text' => implode(', ', $relationships)]);
+        
+            //         return response()->json([
+            //             'success' => false,
+            //             'error' => true,
+            //             'message' => $message,
+            //             'data' => $tax,
+            //         ]);
+            //     }
+            // }
 }
 

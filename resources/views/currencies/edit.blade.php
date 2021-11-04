@@ -181,7 +181,7 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="enabled">{{ __('brand.status') }} <b class="ambitious-crimson">*</b></label>
+                                    <label for="enabled">{{ __('brand.enabled') }} <b class="ambitious-crimson">*</b></label>
                                     <div class="form-group input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-bell"></i></span>
@@ -191,6 +191,23 @@
                                             <option value="0" {{ old('enabled', $data->enabled) == 0 ? 'selected' : '' }}>{{ __('tax.no') }}</option>
                                         </select>
                                         @error('enabled')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="default_currency">{{ __('brand.default currency') }} </label>
+                                    <div class="form-group input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fab fa-typo3"></i></span>
+                                        </div>
+                                        <select class="form-control ambitious-form-loading @error('default_currency') is-invalid @enderror" required="required" name="default_currency" id="default_currency">
+                                            <option value="1" @if($company->default_currency == $data->code) selected @endif>{{ __('tax.yes') }}</option>
+                                            <option value="0" @if($company->default_currency != $data->code) selected @endif>{{ __('tax.no') }}</option>
+                                        </select>
+                                        @error('default_currency')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>

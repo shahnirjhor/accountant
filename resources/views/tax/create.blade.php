@@ -78,8 +78,9 @@
                                     </div>
                                     <select class="form-control @error('type') is-invalid @enderror" required="required" id="type" name="type">
                                         <option value="">- {{ __('tax.select type') }} -</option>
+                                        <option value="normal" {{ old('type') == "normal" ? 'selected' : '' }}>{{ __('tax.normal') }}</option>
                                         <option value="inclusive" {{ old('type') == "inclusive" ? 'selected' : '' }}>{{ __('tax.inclusive') }}</option>
-                                        <option value="exclusive" {{ old('type') == "exclusive" ? 'selected' : '' }}>{{ __('tax.exclusive') }}</option>
+                                        <option value="compound" {{ old('type') == "compound" ? 'selected' : '' }}>{{ __('tax.compound') }}</option>
                                     </select>
                                     @error('type')
                                         <div class="invalid-feedback">
@@ -89,7 +90,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="enabled">{{ __('brand.status') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="enabled">{{ __('brand.enabled') }} <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>

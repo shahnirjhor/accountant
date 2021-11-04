@@ -121,6 +121,7 @@ class CompanyController extends Controller
                 'name' => 'Euro',
                 'code' => 'EUR',
                 'rate' => '1.25',
+                'enabled' => '1',
                 'precision' => config('money.EUR.precision'),
                 'symbol' => config('money.EUR.symbol'),
                 'symbol_first' => config('money.EUR.symbol_first'),
@@ -132,6 +133,7 @@ class CompanyController extends Controller
                 'name' => 'British Pound',
                 'code' => 'GBP',
                 'rate' => '1.60',
+                'enabled' => '1',
                 'precision' => config('money.GBP.precision'),
                 'symbol' => config('money.GBP.symbol'),
                 'symbol_first' => config('money.GBP.symbol_first'),
@@ -143,6 +145,7 @@ class CompanyController extends Controller
                 'name' => 'Turkish Lira',
                 'code' => 'TRY',
                 'rate' => '0.80',
+                'enabled' => '1',
                 'precision' => config('money.TRY.precision'),
                 'symbol' => config('money.TRY.symbol'),
                 'symbol_first' => config('money.TRY.symbol_first'),
@@ -280,6 +283,21 @@ class CompanyController extends Controller
             ];
 
             foreach ($addressRow as $row) {
+                Setting::create($row);
+            }
+        }
+
+        if($request->input('default_currency'))
+        {
+            $defaultCurrencyRow = [
+                [
+                    'company_id' => $company->id,
+                    'key' => 'general.default_currency',
+                    'value' => $request->input('default_currency'),
+                ],
+            ];
+
+            foreach ($defaultCurrencyRow as $row) {
                 Setting::create($row);
             }
         }

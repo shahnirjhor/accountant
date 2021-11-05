@@ -88,6 +88,13 @@ $RoleName = Auth::user()->getRoleNames();
                         </li>
 
                         <li class="nav-item">
+                            <a href="{{ route('category.index') }}" class="nav-link @if($c == 'category') active @endif ">
+                                <i class="fas fa-code-branch nav-icon"></i>
+                                <p>{{ __('entire.category') }}</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a href="{{ route('currency.index') }}" class="nav-link @if($c == 'currency') active @endif ">
                                 <i class="fas fa-coins nav-icon"></i>
                                 <p>{{ __('entire.currencies') }}</p>

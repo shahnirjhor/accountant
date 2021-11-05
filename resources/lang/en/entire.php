@@ -3,6 +3,7 @@
 return [
     "login title" => "Login",
     "login" => "Login",
+    "category" => "Category",
     "remember me" => "Remember Me",
     "email" => "Email",
     "password" => "Password",

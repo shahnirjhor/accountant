@@ -53,10 +53,10 @@ Route::group(['middleware' => ['auth']], function() {
         'roles' => App\Http\Controllers\RoleController::class,
         'users' => App\Http\Controllers\UserController::class,
         'currency' => App\Http\Controllers\CurrencyController::class,
+        'category' => App\Http\Controllers\CategoryController::class,
         'tax' => App\Http\Controllers\TaxController::class,
         'smtp' => App\Http\Controllers\SmtpConfigurationController::class,
         'company' => App\Http\Controllers\CompanyController::class
-
     ]);
 
     Route::get('patient-appointments/get-schedule/doctorwise', [App\Http\Controllers\PatientAppointmentController::class, 'getScheduleDoctorWise'])->name('patient-appointments.getScheduleDoctorWise');

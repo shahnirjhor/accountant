@@ -1,6 +1,7 @@
 <?php
 return [
     "category list" => "Category List",
+    "edit category" => "Edit Category",
     "categories" => "Categories",
     "name" => "Name",
     "type" => "Type",

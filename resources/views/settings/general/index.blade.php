@@ -38,6 +38,7 @@
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{ __('general.company') }}</a>
             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{ __('general.localisation') }}</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">{{ __('general.invoice') }}</a>
         </div>
     </nav>
 	<div class="card-body" style="padding-top : 0">
@@ -250,6 +251,103 @@
                                                         </div>
                                                     @enderror
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-form-label"></label>
+                                        <div class="col-md-8">
+                                            <input type="submit" value="{{ __('general.save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('general.cancel') }}</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <div class="card-body">
+                                <form class="form-material form-horizontal" action="{{ route('general.invoice') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">{{ __('general.number prefix') }} </label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                  </div>
+                                                  <input type="text" name="invoice_number_prefix" id="invoice_number_prefix" class="form-control" placeholder="{{ __('general.enter number prefix') }}" value="{{ $company->invoice_number_prefix ?? null }}">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">{{ __('general.number digit') }}</label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-text-width"></i></span>
+                                                  </div>
+                                                  <input type="text" name="invoice_number_digit" id="invoice_number_digit" class="form-control" placeholder="{{ __('general.enter number digit') }}" value="{{ $company->invoice_number_digit ?? null }}">
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">{{ __('general.next number') }}</label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-chevron-right"></i></span>
+                                                  </div>
+                                                  <input type="text" name="invoice_number_next" id="invoice_number_next" class="form-control" placeholder="{{ __('general.enter next number') }}" value="{{ $company->invoice_number_next ?? null }}">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>{{ __('general.item name') }}</label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                  </div>
+                                                  <input type="text" name="invoice_item" id="invoice_item" class="form-control" placeholder="{{ __('general.enter item name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_item ?? null)}}">
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">{{ __('general.price name') }}</label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                  </div>
+                                                  <select class="form-control @error('invoice_price') is-invalid @enderror" autocomplete="off" id="invoice_price" name="invoice_price">
+                                                    @foreach($priceNames as $key => $value)
+                                                            <option value="{{ $key }}" {{ old('invoice_price', $company->invoice_price) == $key ? 'selected' : '' }} >{{ ucwords(str_replace('settings.invoice.', '', $value ?? null)) }}</option>
+                                                    @endforeach
+                                                </select>
+                                                  {{-- <input type="text" name="" id="" class="form-control" placeholder="{{ __('general.enter price name') }}" value=""> --}}
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">{{ __('general.quantity name') }}</label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                  </div>
+                                                  <input type="text" name="invoice_quantity" id="invoice_quantity" class="form-control" placeholder="{{ __('general.enter quantity name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_quantity ?? null) }}">
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>{{ __('general.logo') }}</label>
+                                              
+                                                <input id="photo1" class="dropify" name="invoice_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
+                                                <small id="name" class="form-text text-muted">{{ __('general.leave blank for remain unchanged') }}</small>
+                                                <p>{{ __('general.max size: 1000kb, allowed format: png, jpg, jpeg') }}</p>
+                                             
                                             </div>
                                         </div>
                                     </div>

@@ -203,6 +203,36 @@ class CompanyController extends Controller
             ],
             [
                 'company_id' => $company->id,
+                'key' => 'general.invoice_number_prefix',
+                'value' => 'INV-',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.invoice_number_digit',
+                'value' => '5',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.invoice_number_next',
+                'value' => '1',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.invoice_item',
+                'value' => 'settings.invoice.item',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.invoice_price',
+                'value' => 'settings.invoice.price',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.invoice_quantity',
+                'value' => 'settings.invoice.quantity',
+            ],
+            [
+                'company_id' => $company->id,
                 'key' => 'general.default_payment_method',
                 'value' => 'offlinepayment.cash.1',
             ],

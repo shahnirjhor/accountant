@@ -37,7 +37,11 @@ class GeneralController extends Controller
             $company->setSettings();
             $currencies = Currency::where('company_id',$id)->pluck('name', 'code');
             $timezone = $this->timeZones();
-            return view('settings.general.index', compact('company','currencies','timezone'));
+            $priceNames = [
+                'settings.invoice.price' => 'settings.invoice.price',
+                'settings.invoice.rate' => 'settings.invoice.rate'
+            ];
+            return view('settings.general.index', compact('company','currencies','timezone','priceNames'));
         }
     }
 
@@ -66,8 +70,6 @@ class GeneralController extends Controller
 		} else {
 		  	$data = Setting::create(['company_id' => $id, 'key' => 'general.company_tax_number', 'value' => $request->company_tax_number]);
 		}
-
-
 
 		// phone
 		if (array_key_exists("company_phone", $company->toArray())) {

@@ -309,10 +309,10 @@
                                                     </div>
                                                     <select class="form-control @error('invoice_item') is-invalid @enderror" autocomplete="off" id="invoice_item" name="invoice_item">
                                                     @foreach($itemNames as $key => $value)
-                                                        <option value="{{ $key }}"></option>
+                                                        <option value="{{ $key }}" {{ old('invoice_item', $company->invoice_item) == $key ? 'selected' : '' }}>{{ ucwords(str_replace('settings.invoice.', '', $value ?? null)) }}</option>
                                                     @endforeach
                                                     </select>
-                                                  <input type="text" name="invoice_item" id="invoice_item" class="form-control" placeholder="{{ __('general.enter item name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_item ?? null)}}">
+                                                  {{-- <input type="text" name="invoice_item" id="invoice_item" class="form-control" placeholder="{{ __('general.enter item name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_item ?? null)}}"> --}}
                                                 </div>
                                             </div>
                                         </div>

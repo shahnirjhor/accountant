@@ -191,4 +191,77 @@ class GeneralController extends Controller
         	return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
         }
  	}
+
+      	/**
+ 	* Method to check general invoice section edit
+ 	*
+ 	* @access public
+ 	* @param Request $request
+    */
+ 	public function invoice(Request $request) {
+        $id = Session::get('company_id');
+        $data = Setting::where('company_id', $id)->get();
+        $company = Company::findOrFail($id);
+        $company->setSettings();
+        // invoice_number_prefix
+        if (array_key_exists("invoice_number_prefix", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.invoice_number_prefix')->update(['value' => $request->invoice_number_prefix]);
+        } else {
+             $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_number_prefix', 'value' => $request->invoice_number_prefix]);
+       }
+
+       // invoice_number_digit
+       if (array_key_exists("invoice_number_digit", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.invoice_number_digit')->update(['value' => $request->invoice_number_digit]);
+       } else {
+             $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_number_digit', 'value' => $request->invoice_number_digit]);
+       }
+
+       // invoice_number_next
+       if (array_key_exists("invoice_number_next", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.invoice_number_next')->update(['value' => $request->invoice_number_next]);
+       } else {
+             $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_number_next', 'value' => $request->invoice_number_next]);
+       }
+
+       // invoice_item
+       if (array_key_exists("invoice_item", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.invoice_item')->update(['value' => $request->invoice_item]);
+       } else {
+             $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_item', 'value' => $request->invoice_item]);
+       }
+
+       // invoice_price
+       if (array_key_exists("invoice_price", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.invoice_price')->update(['value' => $request->invoice_price]);
+       } else {
+             $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_price', 'value' => $request->invoice_price]);
+       }
+
+       // invoice_quantity
+       if (array_key_exists("invoice_quantity", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.invoice_quantity')->update(['value' => $request->invoice_quantity]);
+       } else {
+             $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_quantity', 'value' => $request->invoice_quantity]);
+       }
+
+       // Logo
+       if($request->hasFile('invoice_logo'))
+       {
+           $logo = $request->invoice_logo;
+           $logoNewName = time().$logo->getClientOriginalName();
+           $logo->move('uploads/companies/invoices/',$logoNewName);
+           $logo = 'uploads/companies/invoices/'.$logoNewName;
+           if (array_key_exists("invoice_logo", $company->toArray())) {
+               $data = Setting::where('company_id', $id)->where('key', 'general.invoice_logo')->update(['value' => $logo]);
+           } else {
+                 $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_logo', 'value' => $logo]);
+           }
+       }
+       if($data) {
+           return redirect()->route('general')->withSuccess(trans('general.invoice information updated successfully'));
+       } else {
+           return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
+       }
+    }
 }

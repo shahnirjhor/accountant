@@ -303,12 +303,17 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label>{{ __('general.item name') }}</label>
-                                              <div class="form-group input-group mb-3">
-                                                  <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-font"></i></span>
-                                                  </div>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                    </div>
+                                                    <select class="form-control @error('invoice_item') is-invalid @enderror" autocomplete="off" id="invoice_item" name="invoice_item">
+                                                    @foreach($itemNames as $key => $value)
+                                                        <option value="{{ $key }}"></option>
+                                                    @endforeach
+                                                    </select>
                                                   <input type="text" name="invoice_item" id="invoice_item" class="form-control" placeholder="{{ __('general.enter item name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_item ?? null)}}">
-                                              </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -316,26 +321,25 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label for="exampleInputPassword1">{{ __('general.price name') }}</label>
-                                              <div class="form-group input-group mb-3">
-                                                  <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-font"></i></span>
-                                                  </div>
-                                                  <select class="form-control @error('invoice_price') is-invalid @enderror" autocomplete="off" id="invoice_price" name="invoice_price">
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                    </div>
+                                                    <select class="form-control @error('invoice_price') is-invalid @enderror" autocomplete="off" id="invoice_price" name="invoice_price">
                                                     @foreach($priceNames as $key => $value)
-                                                            <option value="{{ $key }}" {{ old('invoice_price', $company->invoice_price) == $key ? 'selected' : '' }} >{{ ucwords(str_replace('settings.invoice.', '', $value ?? null)) }}</option>
+                                                        <option value="{{ $key }}" {{ old('invoice_price', $company->invoice_price) == $key ? 'selected' : '' }} >{{ ucwords(str_replace('settings.invoice.', '', $value ?? null)) }}</option>
                                                     @endforeach
-                                                </select>
-                                                  {{-- <input type="text" name="" id="" class="form-control" placeholder="{{ __('general.enter price name') }}" value=""> --}}
-                                              </div>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="exampleInputPassword1">{{ __('general.quantity name') }}</label>
-                                              <div class="form-group input-group mb-3">
-                                                  <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-font"></i></span>
-                                                  </div>
-                                                  <input type="text" name="invoice_quantity" id="invoice_quantity" class="form-control" placeholder="{{ __('general.enter quantity name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_quantity ?? null) }}">
-                                              </div>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                    </div>
+                                                    <input type="text" name="invoice_quantity" id="invoice_quantity" class="form-control" placeholder="{{ __('general.enter quantity name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_quantity ?? null) }}">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

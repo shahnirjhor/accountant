@@ -41,7 +41,12 @@ class GeneralController extends Controller
                 'settings.invoice.price' => 'settings.invoice.price',
                 'settings.invoice.rate' => 'settings.invoice.rate'
             ];
-            return view('settings.general.index', compact('company','currencies','timezone','priceNames'));
+            $itemNames = [
+                'settings.invoice.item' => 'settings.invoice.item',
+                'settings.invoice.product' => 'settings.invoice.product',
+                'settings.invoice.service' =>  'settings.invoice.service'
+            ];
+            return view('settings.general.index', compact('company','currencies','timezone','priceNames','itemNames'));
         }
     }
 

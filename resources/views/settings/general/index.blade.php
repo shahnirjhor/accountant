@@ -39,6 +39,7 @@
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{ __('general.company') }}</a>
             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{ __('general.localisation') }}</a>
             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">{{ __('general.invoice') }}</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-defaults" role="tab" aria-controls="nav-defaults" aria-selected="false">{{ __('general.defaults') }}</a>
         </div>
     </nav>
 	<div class="card-body" style="padding-top : 0">
@@ -353,6 +354,101 @@
                                                 <p>{{ __('general.max size: 1000kb, allowed format: png, jpg, jpeg') }}</p>
                                              
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-form-label"></label>
+                                        <div class="col-md-8">
+                                            <input type="submit" value="{{ __('general.save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('general.cancel') }}</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-defaults" role="tabpanel" aria-labelledby="nav-defaults-tab">
+                            <div class="card-body">
+                                <form class="form-material form-horizontal" action="{{ route('general.defaults') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">{{ __('general.default account') }} </label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-university"></i></span>
+                                                  </div>
+
+                                                  <select id="default_account" name="default_account" class="form-control">
+                                                  @foreach($company->accounts as $value)
+                                                       <option value="{{ $value->id }}" @if ($company->default_account == $value->id) selected="selected" @endif >{{ $value->name }}</option>
+                                                   @endforeach
+                                                  </select>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>{{ __('general.default currency') }}</label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-exchange-alt"></i></span>
+                                                  </div>
+                                                  <select id="default_currency" name="default_currency" class="form-control">
+                                                  @foreach($company->currencies as $value)
+                                                       <option value="{{ $value->id }}" @if ($company->default_currency == $value->id) selected="selected" @endif >{{ $value->name }}</option>
+                                                   @endforeach
+                                                  </select>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>{{ __('general.default tax rate') }}</label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-chevron-right"></i></span>
+                                                    </div>
+                                                    <select id="default_tax" name="default_tax" class="form-control">
+                                                    @foreach($company->taxes as $value)
+                                                        <option value="{{ $value->id }}" @if ($company->default_tax == $key) selected="selected" @endif >{{ $value->name }}</option>
+                                                    @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>{{ __('general.default payment method') }}</label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                                                    </div>
+                                                   <select id="default_payment_method" name="default_payment_method" class="form-control">
+                                                       <option value="offlinepayment.cash" @if ($company->default_payment_method == 'offlinepayment.cash') selected="selected" @endif >{{ __('general.cash') }}</option>
+                                                       <option value="offlinepayment.bank_transfer" @if ($company->default_payment_method == 'offlinepayment.bank_transfer') selected="selected" @endif >{{ __('general.bank transfer') }}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">{{ __('general.default language') }}</label>
+                                              <div class="form-group input-group mb-3">
+                                                  <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                                                  </div>
+                                                  <select class="form-control ambitious-form-loading" name="default_locale" id="default_locale">
+                                                    @php
+                                                        $defaultLang = env('LOCALE_LANG', 'en');
+                                                    @endphp
+                                                    @foreach($getLang as $key => $value)
+                                                        <option value="{{ $key }}" @if ($defaultLang == $key) selected="selected" @endif >{{ $value }}</option>
+                                                    @endforeach
+                                                </select>
+                                              </div>
+                                            </div>						                
                                         </div>
                                     </div>
                                     <div class="form-group">

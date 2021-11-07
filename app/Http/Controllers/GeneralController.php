@@ -264,4 +264,69 @@ class GeneralController extends Controller
            return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
        }
     }
+
+     	/**
+ 	* Method to check general defaults section edit
+ 	*
+ 	* @access public
+ 	* @param Request $request
+    */
+ 	public function defaults(Request $request) {
+        $id = Session::get('company_id');
+        $data = Setting::where('company_id', $id)->get();
+        $company = Company::findOrFail($id);
+        $company->setSettings();
+        // default_account
+        if (array_key_exists("default_account", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.default_account')->update(['value' => $request->default_account]);
+            $data  = $company->accounts()->where('company_id', $id)->update(['enabled' => 0]);
+            $data  = $company->accounts()->where('id', $request->default_account)->update(['enabled' => 1]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.default_account', 'value' => $request->default_account]);
+            $data  = $company->accounts()->where('company_id', $id)->update(['enabled' => 0]);
+            $data  = $company->accounts()->where('id', $request->default_account)->update(['enabled' => 1]);
+        }
+
+        // default_currency
+        if (array_key_exists("default_currency", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.default_currency')->update(['value' => $request->default_currency]);
+            $data  = $company->currencies()->where('company_id', $id)->update(['enabled' => 0]);
+            $data  = $company->currencies()->where('id', $request->default_currency)->update(['enabled' => 1]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.default_currency', 'value' => $request->default_currency]);
+            $data  = $company->currencies()->where('company_id', $id)->update(['enabled' => 0]);
+            $data  = $company->currencies()->where('id', $request->default_currency)->update(['enabled' => 1]);
+        }
+
+        // default_tax
+        if (array_key_exists("default_tax", $company->toArray())) {
+           $data = Setting::where('company_id', $id)->where('key', 'general.default_tax')->update(['value' => $request->default_tax]);
+           $data  = $company->taxes()->where('company_id', $id)->update(['enabled' => 0]);
+           $data  = $company->taxes()->where('id', $request->default_tax)->update(['enabled' => 1]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.default_tax', 'value' => $request->default_tax]);
+            $data  = $company->taxes()->where('company_id', $id)->update(['enabled' => 0]);
+            $data  = $company->taxes()->where('id', $request->default_tax)->update(['enabled' => 1]);
+        }
+
+        // default_payment_method
+        if (array_key_exists("default_payment_method", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.default_payment_method')->update(['value' => $request->default_payment_method]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.default_payment_method', 'value' => $request->default_payment_method]);
+        }
+
+        // default_locale
+        if (array_key_exists("default_locale", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.default_locale')->update(['value' => $request->default_locale]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.default_locale', 'value' => $request->default_locale]);
+        }
+
+        if($data) {
+            return redirect()->route('general')->withSuccess(trans('general.default information updated successfully'));
+        } else {
+            return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
+        }
+    }
 }

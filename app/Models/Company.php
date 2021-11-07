@@ -46,6 +46,11 @@ class Company extends Model
         return $this->id;
     }
 
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
+
     public function setSettings()
     {
         $settings = $this->settings;

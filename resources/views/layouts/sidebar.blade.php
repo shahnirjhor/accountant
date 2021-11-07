@@ -44,8 +44,8 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                 </li>
 
-                <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'currency' || $c == 'tax' ) menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'currency' || $c == 'tax'  ) active @endif">
+                <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' ) menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax'  ) active @endif">
                         <i class="nav-icon fa fa-cogs"></i>
                         <p>
                             {{ __('entire.settings') }}

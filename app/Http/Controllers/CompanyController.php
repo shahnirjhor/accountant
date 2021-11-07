@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
+use App\Models\Account;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -103,6 +104,55 @@ class CompanyController extends Controller
             'enabled' => $request->input('enabled')
         ]);
         $company->users()->attach(auth()->user()->id);
+        $account = Account::create([
+            'company_id' => $company->id,
+            'name' => 'Cash',
+            'number' => '1',
+            'currency_code' => $request->input('default_currency'),
+            'bank_name' => 'Cash',
+            'enabled' => '1',
+        ]);
+        $categoriesRows = [
+            [
+                'company_id' => $company->id,
+                'name' => 'Transfer',
+                'type' => 'other',
+                'color' => '#605ca8',
+                'enabled' => '1'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Deposit',
+                'type' => 'income',
+                'color' => '#f39c12',
+                'enabled' => '1'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Sales',
+                'type' => 'income',
+                'color' => '#6da252',
+                'enabled' => '1'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Other',
+                'type' => 'expense',
+                'color' => '#d2d6de',
+                'enabled' => '1'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'General',
+                'type' => 'item',
+                'color' => '#00c0ef',
+                'enabled' => '1'
+            ],
+        ];
+
+        foreach ($categoriesRows as $row) {
+            Category::create($row);
+        }
         $currencyRows = [
             [
                 'company_id' => $company->id,
@@ -174,7 +224,11 @@ class CompanyController extends Controller
                 'key' => 'general.default_locale',
                 'value' => 'en-GB',
             ],
-
+            [
+                'company_id' => $company->id,
+                'key' => 'general.default_account',
+                'value' => $account->id,
+            ],
             [
                 'company_id' => $company->id,
                 'key' => 'general.financial_start',

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
+use App\Models\Category;
 use App\Models\Account;
 use App\Models\User;
 use Carbon\Carbon;

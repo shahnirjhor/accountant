@@ -44,6 +44,13 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="{{ route('item.index') }}" class="nav-link @if($c == 'item') active @endif ">
+                        <i class="fas fa-code-branch nav-icon"></i>
+                        <p>{{ __('entire.items') }}</p>
+                    </a>
+                </li>
+
                 <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' ) menu-open @endif">
                     <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax'  ) active @endif">
                         <i class="nav-icon fa fa-cogs"></i>

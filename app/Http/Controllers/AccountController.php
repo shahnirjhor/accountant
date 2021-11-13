@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Currency;
 use Illuminate\Http\Request;
+use Session;
 
 class AccountController extends Controller
 {
@@ -12,9 +14,26 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $accounts = $this->filter($request)->paginate(10)->withQueryString();
+        return view('accounts.index',compact('accounts'));
+    }
+
+    private function filter(Request $request)
+    {
+        $query = Account::where('company_id', session('company_id'))->latest();
+
+        if ($request->name)
+            $query->where('name', 'like', '%'.$request->name.'%');
+
+        if($request->number)
+            $query->where('number', 'like', '%'.$request->number.'%');
+
+        if($request->currency_code)
+            $query->where('currency_code', '=', $request->currency_code);
+
+        return $query;
     }
 
     /**
@@ -24,7 +43,8 @@ class AccountController extends Controller
      */
     public function create()
     {
-        //
+        $currencies = Currency::where('company_id', Session::get('company_id'))->where('enabled', 1)->pluck('name', 'code');
+        return view('accounts.create',compact('currencies'));
     }
 
     /**
@@ -35,7 +55,7 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

@@ -51,6 +51,42 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                 </li>
 
+                <li class="nav-item has-treeview @if($c == 'account' || $c == 'transfers' || $c == 'transactions') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfers' || $c == 'transactions' ) active @endif">
+                        <i class="nav-icon fas fa-university"></i>
+                        <p>
+                            {{ __('entire.banking') }}
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('account.index') }}" class="nav-link @if($c == 'account') active @endif ">
+                                <i class="fas fa-user-circle"></i>
+                                <p>{{ __('entire.accounts') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link @if($c == 'transfers') active @endif ">
+                                <i class="fas fa-exchange-alt"></i>
+                                <p>{{ __('entire.transfers') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link @if($c == 'transactions') active @endif ">
+                                <i class="fas fa-handshake"></i>
+                                <p>{{ __('entire.transactions') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link @if($c == 'reconciliations') active @endif ">
+                                <i class="fab fa-creative-commons-sampling-plus"></i>
+                                <p>{{ __('entire.reconciliations') }}</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' ) menu-open @endif">
                     <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax'  ) active @endif">
                         <i class="nav-icon fa fa-cogs"></i>

@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Currency;
 use App\Models\Tax;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Session;
 
 class ItemController extends Controller
@@ -17,9 +18,17 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $items = $this->filter($request)->paginate(10)->withQueryString();
+        $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'item')->orderBy('name')->pluck('name', 'id');
+        return view('items.index',compact('items','categories'));
+    }
+
+    private function filter(Request $request)
+    {
+        $query = Item::where('company_id', session('company_id'))->latest();
+        return $query;
     }
 
     /**
@@ -32,7 +41,7 @@ class ItemController extends Controller
  		$company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'item')->orderBy('name')->pluck('name', 'id');
-        $taxes = Tax::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->get()->pluck('title', 'id');
+        $taxes = Tax::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->get()->pluck('name', 'id');
         $currency = Currency::where('code', '=', $company->default_currency)->first();
         return view('items.create', compact('categories', 'taxes', 'currency'));
     }
@@ -45,7 +54,16 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['name','sku','sale_price','purchase_price','quantity','tax_id','category_id','enabled','description']);
+        $data['company_id'] = session('company_id');
+        if ($request->picture) {
+            $data['picture'] = $request->picture->store('item-images');
+        }
+        DB::transaction(function () use ($data) {
+            Item::create($data);
+        });
+
+        return redirect()->route('item.index')->with('success', trans('Item Added Successfully'));
     }
 
     /**
@@ -67,7 +85,12 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        //
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'item')->orderBy('name')->pluck('name', 'id');
+        $taxes = Tax::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->get()->pluck('name', 'id');
+        $currency = Currency::where('code', '=', $company->default_currency)->first();
+        return view('items.edit', compact('item', 'company', 'categories', 'taxes', 'currency'));
     }
 
     /**
@@ -79,7 +102,13 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        //
+        $this->validation($request, $item->id);
+        $data = $request->only(['name','sku','sale_price','purchase_price','quantity','tax_id','category_id','enabled','description']);
+        if ($request->picture) {
+            $data['picture'] = $request->picture->store('item-images');
+        }
+        $item->update($data);
+        return redirect()->route('item.index')->with('success', trans('Item Updated Successfully'));
     }
 
     /**
@@ -90,6 +119,23 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $item->delete();
+        return redirect()->route('item.index')->with('success', trans('Item Deleted Successfully'));
+    }
+
+    private function validation(Request $request, $id = 0)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'sku' => ['required', 'string', 'unique:items,sku,'.$id, 'max:255'],
+            'sale_price' => ['required', 'numeric'],
+            'purchase_price' => ['required', 'numeric'],
+            'quantity' => ['required', 'numeric'],
+            'tax_id' => ['nullable', 'numeric'],
+            'category_id' => ['required', 'numeric'],
+            'description' => ['nullable', 'string', 'max:1000'],
+            'enabled' => ['required', 'in:0,1'],
+            'picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048']
+        ]);
     }
 }

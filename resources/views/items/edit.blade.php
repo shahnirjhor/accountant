@@ -7,7 +7,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('item.index') }}">{{ __('items.item list') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('items.create item') }}</li>
+                    <li class="breadcrumb-item active">{{ __('items.edit item') }}</li>
                 </ol>
             </div>
         </div>
@@ -17,11 +17,12 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3>{{ __('items.new item') }}</h3>
+                <h3>{{ __('items.edit item') }}</h3>
             </div>
             <div class="card-body">
-                <form id="itemQuickForm" class="form-material form-horizontal" action="{{ route('item.store') }}" method="post" enctype="multipart/form-data">
+                <form id="itemQuickForm" class="form-material form-horizontal" action="{{ route('item.update', $item) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -30,7 +31,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-signature"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" id="name" type="text" placeholder="{{ __('items.type your item name here') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('name') is-invalid @enderror" name="name" value="{{ old('name', $item->name) }}" id="name" type="text" placeholder="{{ __('items.type your item name here') }}" required>
                                     @error('name')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -46,7 +47,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-key"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('sku') is-invalid @enderror" name="sku" value="{{ old('sku') }}" id="sku" type="text" placeholder="{{ __('items.enter sku') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('sku') is-invalid @enderror" name="sku" value="{{ old('sku', $item->sku) }}" id="sku" type="text" placeholder="{{ __('items.enter sku') }}" required>
                                     @error('sku')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -64,7 +65,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('sale_price') is-invalid @enderror" name="sale_price" value="{{ old('sale_price') }}" id="sale_price" type="number" placeholder="{{ __('items.enter sale price') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('sale_price') is-invalid @enderror" name="sale_price" value="{{ old('sale_price', $item->sale_price) }}" id="sale_price" type="number" placeholder="{{ __('items.enter sale price') }}" required>
                                     @error('sale_price')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -80,7 +81,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('purchase_price') is-invalid @enderror" name="purchase_price" value="{{ old('purchase_price') }}" id="purchase_price" type="number" placeholder="{{ __('items.enter purchase price') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('purchase_price') is-invalid @enderror" name="purchase_price" value="{{ old('purchase_price', $item->purchase_price) }}" id="purchase_price" type="number" placeholder="{{ __('items.enter purchase price') }}" required>
                                     @error('purchase_price')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -98,7 +99,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-cubes"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity') }}" id="quantity" type="number" placeholder="{{ __('items.enter quantity') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('quantity') is-invalid @enderror" name="quantity" value="{{ old('quantity', $item->quantity) }}" id="quantity" type="number" placeholder="{{ __('items.enter quantity') }}" required>
                                     @error('quantity')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -117,7 +118,7 @@
                                     <select class="form-control ambitious-form-loading @error('tax_id') is-invalid @enderror" name="tax_id" id="tax_id">
                                         <option value="">- Select Tax -</option>
                                         @foreach($taxes as $key => $value)
-                                            <option value="{{ $key }}" @if($key == old('tax_id', $item->tax_id)) selected @endif>{{ $value }}</option>
+                                            <option value="{{ $key }}" {{ old('tax_id', $item->tax_id) == $key ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                     @error('tax_id')
@@ -140,7 +141,7 @@
                                     <select class="form-control ambitious-form-loading @error('category_id') is-invalid @enderror" required="required" name="category_id" id="category_id">
                                         <option value="">- Select Category -</option>
                                         @foreach($categories as $key => $value)
-                                            <option value="{{ $key }}" @if($key == old('category_id')) selected @endif>{{ $value }}</option>
+                                            <option value="{{ $key }}" {{ old('category_id', $item->category_id) == $key ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
@@ -159,8 +160,8 @@
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" required="required" name="enabled" id="enabled">
-                                        <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>{{ __('tax.yes') }}</option>
-                                        <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>{{ __('tax.no') }}</option>
+                                        <option value="1" {{ old('enabled', $item->enabled) == 1 ? 'selected' : '' }}>{{ __('tax.yes') }}</option>
+                                        <option value="0" {{ old('enabled', $item->enabled) == 0 ? 'selected' : '' }}>{{ __('tax.no') }}</option>
                                     </select>
                                     @error('enabled')
                                         <div class="invalid-feedback">
@@ -179,7 +180,7 @@
                                 <div class="col-md-12">
                                     <div id="input_description" class="@error('description') is-invalid @enderror" style="min-height: 55px;">
                                     </div>
-                                    <input type="hidden" name="description" value="{{ old('description') }}" id="description">
+                                    <input type="hidden" name="description" value="{{ old('description', $item->description) }}" id="description">
                                     @error('description')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -193,6 +194,7 @@
                                 <label class="col-md-12 col-form-label"><h4>{{ __('items.picture') }}</h4></label>
                                 <div class="col-md-12">
                                     <input id="picture" class="dropify" name="picture" value="{{ old('picture') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="2024K" />
+                                    <small id="name" class="form-text text-muted">{{ __('users.leave blank for remain unchanged') }}</small>
                                     <p>{{ __('users.max size: 2mb, allowed format: png, jpg, jpeg') }}</p>
                                 </div>
                                 @if ($errors->has('picture'))

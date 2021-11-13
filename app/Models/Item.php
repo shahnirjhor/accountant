@@ -17,7 +17,8 @@ class Item extends Model
         'quantity',
         'category_id',
         'tax_id',
-        'enabled'
+        'enabled',
+        'picture'
     ];
 
     protected $sortable = [

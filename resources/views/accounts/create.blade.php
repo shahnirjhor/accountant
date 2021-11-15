@@ -31,12 +31,12 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="exampleInputPassword1">{{ __('brand.name') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="name">{{ __('brand.name') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-file-signature"></i>
                                 </div>
-                                <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('account.enter account name') }}" required>
+                                <input type="text" name="name" value="{{ old('name') }}" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('account.enter account name') }}" required>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -45,12 +45,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleInputPassword1">{{ __('account.number') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="number">{{ __('account.number') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i>
                                 </div>
-                                <input type="text" name="number" value="{{ old('number') }}" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('account.enter number code') }}">
+                                <input type="text" name="number" value="{{ old('number') }}" id="number" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('account.enter number code') }}">
                                 @error('number')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -63,14 +63,14 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="exampleInputPassword1">{{ __('account.currency') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="currency_code">{{ __('account.currency') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
                                 </div>
-                                <select class="form-control @error('currency') is-invalid @enderror" name="currency" id="currency">
+                                <select class="form-control @error('currency') is-invalid @enderror" name="currency_code" id="currency_code">
                                     @foreach ($currencies as $key => $value)
-                                        <option value="{{ $key }}" @if($key == old('currency')) selected @endif>{{ $value }}</option>
+                                        <option value="{{ $key }}" @if($key == old('currency_code')) selected @endif>{{ $value }}</option>
                                     @endforeach
                                 </select>
                                 @error('currency')
@@ -81,12 +81,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleInputPassword1">{{ __('account.opening balance') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="opening_balance">{{ __('account.opening balance') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-hand-holding-usd"></i>
                                 </div>
-                                <input type="text" name="opening_balance" value="{{ old('opening_balance') }}" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('account.enter balance') }}">
+                                <input type="text" name="opening_balance" value="{{ old('opening_balance') }}" id="opening_balance" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('account.enter balance') }}">
                                 @error('opening_balance')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -121,7 +121,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-thermometer-three-quarters"></i></span>
                                 </div>
-                                <select class="form-control @error('default_account') is-invalid @enderror" name="enabled" id="enabled">
+                                <select class="form-control @error('enabled') is-invalid @enderror" name="enabled" id="enabled">
                                     <option value="1">Yes</option> 
                                     <option value="0">No</option>            
                                 </select>
@@ -137,12 +137,12 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="exampleInputPassword1">{{ __('account.bank name') }}</label>
+                            <label for="bank_name">{{ __('account.bank name') }}</label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-university"></i>
                                 </div>
-                                <input type="text" name="bank_name" value="{{ old('bank_name') }}" class="form-control @error('bank_name') is-invalid @enderror" placeholder="{{ __('account.enter bank name') }}">
+                                <input type="text" name="bank_name" value="{{ old('bank_name') }}" id="bank_name" class="form-control @error('bank_name') is-invalid @enderror" placeholder="{{ __('account.enter bank name') }}">
                                 @error('bank_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -151,12 +151,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="exampleInputPassword1">{{ __('account.bank phone') }}</label>
+                            <label for="bank_phone">{{ __('account.bank phone') }}</label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-phone"></i>
                                 </div>
-                                <input type="text" name="bank_phone" value="{{ old('bank_phone') }}" class="form-control @error('bank_phone') is-invalid @enderror" placeholder="{{ __('account.enter bank phone number') }}">
+                                <input type="text" name="bank_phone" value="{{ old('bank_phone') }}" id="bank_phone" class="form-control @error('bank_phone') is-invalid @enderror" placeholder="{{ __('account.enter bank phone number') }}">
                                 @error('bank_phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -172,8 +172,8 @@
                         <div class="col-md-12">
                             <div id="edit_input_address" style="min-height: 55px;">
                             </div>
-                            <input type="hidden" name="address" id="address" value="{{ old('address') }}">
-                            @error('address')
+                            <input type="hidden" name="bank_address" id="bank_address" value="{{ old('bank_address') }}">
+                            @error('bank_address')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -184,8 +184,8 @@
                 <div class="form-group">
                     <label class="col-md-3 col-form-label"></label>
                     <div class="col-md-8">
-                        <input type="submit" value="{{ __('entire.submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                        <a href="{{ route('account.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('category.cancel') }}</a>
+                        <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
+                        <a href="{{ route('account.index') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                     </div>
                 </div> 
                 </form>
@@ -200,12 +200,12 @@
         var equill = new Quill('#edit_input_address', {
             theme: 'snow'
         });
-        var address = $("#address").val();
+        var address = $("#bank_address").val();
         equill.clipboard.dangerouslyPasteHTML(address);
         equill.root.blur();
         $('#edit_input_address').on('keyup', function(){
             var edit_input_address = equill.container.firstChild.innerHTML;
-            $("#address").val(edit_input_address);
+            $("#bank_address").val(edit_input_address);
         });  
     });
 </script>

@@ -26,6 +26,46 @@
                 </div>
             </div>
             <div class="card-body">
+                <div id="filter" class="collapse @if(request()->isFilterActive) show @endif">
+                    <div class="card-body border">
+                        <form action="" method="get" role="form" autocomplete="off">
+                            <input type="hidden" name="isFilterActive" value="true">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('Name')</label>
+                                        <input type="text" name="name" class="form-control" value="{{ request()->name }}" placeholder="@lang('Name')">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('Number')</label>
+                                        <input type="text" name="number" class="form-control" value="{{ request()->number }}" placeholder="@lang('Number')">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('Currency')</label>
+                                        <select name="currency_code" class="form-control">
+                                            <option value="">--@lang('Select')--</option>
+                                            @foreach ($currencies as $key => $value)
+                                                <option value="{{ $key }}" @if($key == old('currency_code')) selected @endif>{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-info">@lang('Submit')</button>
+                                    @if(request()->isFilterActive)
+                                        <a href="{{ route('account.index') }}" class="btn btn-secondary">@lang('Clear')</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <table id="laravel_datatable" class="table table-striped compact table-width">
                     <thead>
                         <tr>
@@ -50,7 +90,6 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('account.show', $account) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Show"><i class="fa fa-eye ambitious-padding-btn"></i></a>&nbsp;&nbsp;
                                 <a href="{{ route('account.edit', $account) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
                                 <a href="#" data-href="{{ route('account.destroy', $account) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
                             </td>

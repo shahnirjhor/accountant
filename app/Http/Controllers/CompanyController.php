@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Currency;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Models\OfflinePayment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company;
@@ -154,6 +155,28 @@ class CompanyController extends Controller
         foreach ($categoriesRows as $row) {
             Category::create($row);
         }
+
+        $offlinePaymentRows = [
+            [
+                'company_id' => $company->id,
+                'name' => 'Cash',
+                'code' => 'offlinepayment.cash.1',
+                'show_to_customer' => '0',
+                'order' => '1'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Bank Transfer',
+                'code' => 'offlinepayment.bank_transfer.2',
+                'show_to_customer' => '0',
+                'order' => '2'
+            ]
+        ];
+
+        foreach ($offlinePaymentRows as $row) {
+            OfflinePayment::create($row);
+        }
+
         $currencyRows = [
             [
                 'company_id' => $company->id,
@@ -289,7 +312,7 @@ class CompanyController extends Controller
             [
                 'company_id' => $company->id,
                 'key' => 'general.default_payment_method',
-                'value' => 'offlinepayment.cash.1',
+                'value' => 1,
             ],
             [
                 'company_id' => $company->id,

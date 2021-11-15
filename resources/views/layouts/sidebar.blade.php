@@ -87,8 +87,8 @@ $RoleName = Auth::user()->getRoleNames();
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' ) menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax'  ) active @endif">
+                <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' || $c == 'offline-payment' ) menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' || $c == 'offline-payment' ) active @endif">
                         <i class="nav-icon fa fa-cogs"></i>
                         <p>
                             {{ __('entire.settings') }}
@@ -148,6 +148,13 @@ $RoleName = Auth::user()->getRoleNames();
                             <a href="{{ route('tax.index') }}" class="nav-link @if($c == 'tax') active @endif ">
                                 <i class="fas fa-percentage nav-icon"></i>
                                 <p>{{ __('entire.tax rates') }}</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('offline-payment.index') }}" class="nav-link @if($c == 'offline-payment') active @endif ">
+                                <i class="fas fa-money-check nav-icon"></i>
+                                <p>@lang('Offline Payments')</p>
                             </a>
                         </li>
                     </ul>

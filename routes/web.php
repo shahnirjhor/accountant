@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function() {
         'company' => App\Http\Controllers\CompanyController::class,
         'item' => App\Http\Controllers\ItemController::class,
         'account' => App\Http\Controllers\AccountController::class,
+        'offline-payment' => App\Http\Controllers\OfflinePaymentController::class,
     ]);
 
     Route::get('patient-appointments/get-schedule/doctorwise', [App\Http\Controllers\PatientAppointmentController::class, 'getScheduleDoctorWise'])->name('patient-appointments.getScheduleDoctorWise');

@@ -54,6 +54,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validation($request);
         $data = $request->only(['name','sku','sale_price','purchase_price','quantity','tax_id','category_id','enabled','description']);
         $data['company_id'] = session('company_id');
         if ($request->picture) {

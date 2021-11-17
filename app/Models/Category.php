@@ -24,4 +24,9 @@ class Category extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function scopeTransfer($query)
+    {
+        return $query->where('type', 'other')->pluck('id')->first();
+    }
 }

@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function() {
         'company' => App\Http\Controllers\CompanyController::class,
         'item' => App\Http\Controllers\ItemController::class,
         'account' => App\Http\Controllers\AccountController::class,
+        'transfer' => App\Http\Controllers\TransferController::class,
         'offline-payment' => App\Http\Controllers\OfflinePaymentController::class,
     ]);
 

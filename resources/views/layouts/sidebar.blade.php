@@ -67,7 +67,7 @@ $RoleName = Auth::user()->getRoleNames();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link @if($c == 'transfers') active @endif ">
+                            <a href="{{ route('transfer.index') }}" class="nav-link @if($c == 'transfer') active @endif ">
                                 <i class="fas fa-exchange-alt"></i>
                                 <p>{{ __('entire.transfers') }}</p>
                             </a>
@@ -108,49 +108,42 @@ $RoleName = Auth::user()->getRoleNames();
                                 <p>{{ __('entire.user management') }}</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('apsetting') }}" class="nav-link @if($c == 'apsetting' && $m == null) active @endif ">
                                 <i class="fa fa-globe nav-icon"></i>
                                 <p>{{ __('entire.application settings') }}</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('smtp.index') }}" class="nav-link @if($c == 'smtp') active @endif ">
                                 <i class="fas fa-mail-bulk nav-icon"></i>
                                 <p>{{ __('entire.smtp settings') }}</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('general') }}" class="nav-link @if($c == 'general') active @endif ">
                                 <i class="fas fa-align-left nav-icon"></i>
                                 <p>{{ __('entire.general settings') }}</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('category.index') }}" class="nav-link @if($c == 'category') active @endif ">
                                 <i class="fas fa-code-branch nav-icon"></i>
                                 <p>{{ __('entire.category') }}</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('currency.index') }}" class="nav-link @if($c == 'currency') active @endif ">
                                 <i class="fas fa-coins nav-icon"></i>
                                 <p>{{ __('entire.currencies') }}</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('tax.index') }}" class="nav-link @if($c == 'tax') active @endif ">
                                 <i class="fas fa-percentage nav-icon"></i>
                                 <p>{{ __('entire.tax rates') }}</p>
                             </a>
                         </li>
-
                         <li class="nav-item">
                             <a href="{{ route('offline-payment.index') }}" class="nav-link @if($c == 'offline-payment') active @endif ">
                                 <i class="fas fa-money-check nav-icon"></i>

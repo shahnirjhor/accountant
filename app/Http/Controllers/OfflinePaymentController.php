@@ -53,7 +53,7 @@ class OfflinePaymentController extends Controller
         $data = $request->only(['name','code','order','show_to_customer','description']);
         $data['company_id'] = session('company_id');
         OfflinePayment::create($data);
-        return redirect()->route('offline-payment.index')->with('success', trans('Item Added Successfully'));
+        return redirect()->route('offline-payment.index')->with('success', trans('Offline Payment Added Successfully'));
     }
 
     /**
@@ -64,7 +64,7 @@ class OfflinePaymentController extends Controller
      */
     public function edit(OfflinePayment $offlinePayment)
     {
-        //
+        return view('offline-payments.edit', compact('offlinePayment'));
     }
 
     /**
@@ -76,7 +76,10 @@ class OfflinePaymentController extends Controller
      */
     public function update(Request $request, OfflinePayment $offlinePayment)
     {
-        //
+        $this->validation($request);
+        $data = $request->only(['name','code','order','show_to_customer','description']);
+        $offlinePayment->update($data);
+        return redirect()->route('offline-payment.index')->with('success', trans('Offline Payment Update Successfully'));
     }
 
     /**
@@ -87,7 +90,8 @@ class OfflinePaymentController extends Controller
      */
     public function destroy(OfflinePayment $offlinePayment)
     {
-        //
+        $offlinePayment->delete();
+        return redirect()->route('offline-payment.index')->with('success', trans('Offline Payment Deleted Successfully'));
     }
 
     private function validation(Request $request, $id = 0)

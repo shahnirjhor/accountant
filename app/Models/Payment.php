@@ -7,5 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'company_id',
+        'account_id',
+        'paid_at',
+        'amount',
+        'currency_code',
+        'currency_rate',
+        'vendor_id',
+        'description',
+        'category_id',
+        'payment_method',
+        'reference',
+        'attachment',
+        'reconciled',
+        'parent_id'
+    ];
+
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 }

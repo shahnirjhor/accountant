@@ -11,6 +11,8 @@ use App\Models\Category;
 use App\Models\Transfer;
 use App\Models\OfflinePayment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Services\PayUService\Exception;
 use Session;
 
 class TransferController extends Controller
@@ -20,9 +22,17 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $transfers = $this->filter($request)->paginate(10)->withQueryString();
+        return view('transfers.index',compact('transfers'));
+    }
+
+    private function filter(Request $request)
+    {
+        $query = Transfer::with(['payment', 'payment.account', 'revenue', 'revenue.account'])->where('transfers.company_id', session('company_id'))->latest();
+
+        return $query;
     }
 
     /**
@@ -50,7 +60,6 @@ class TransferController extends Controller
     {
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
-        dd($company);
         $currencies = Currency::where('company_id', session('company_id'))->where('enabled', 1)->pluck('rate', 'code')->toArray();
 
         $payment_currency_code = Account::where('id', $request->from_account)->pluck('currency_code')->first();

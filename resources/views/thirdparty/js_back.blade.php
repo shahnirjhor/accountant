@@ -39,6 +39,11 @@
             defaultDate: "today"
         });
 
+        $(".dateTime-flatpickr").flatpickr({
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        });
+
         $(".select2").select2();
     });
 

@@ -25,6 +25,51 @@
                 </div>
             </div>
             <div class="card-body">
+                <div id="filter" class="collapse @if(request()->isFilterActive) show @endif">
+                    <div class="card-body border">
+                        <form action="" method="get" role="form" autocomplete="off">
+                            <input type="hidden" name="isFilterActive" value="true">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('Date')</label>
+                                        <input type="text" name="paid_at" id="paid_at" class="form-control flatpickr" placeholder="@lang('Date')" value="{{ old('paid_at', request()->paid_at) }}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('From Account')</label>
+                                        <select name="from_account" class="form-control">
+                                            <option value="">--@lang('Select')--</option>
+                                            @foreach ($accounts as $key => $value)
+                                                <option value="{{ $key }}" @if($key == old('from_account')) selected @endif>{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('To Account')</label>
+                                        <select name="to_account" class="form-control">
+                                            <option value="">--@lang('Select')--</option>
+                                            @foreach ($accounts as $key => $value)
+                                                <option value="{{ $key }}" @if($key == old('to_account')) selected @endif>{{ $value }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-info">@lang('Submit')</button>
+                                    @if(request()->isFilterActive)
+                                        <a href="{{ route('transfer.index') }}" class="btn btn-secondary">@lang('Clear')</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <table id="laravel_datatable" class="table table-striped compact table-width">
                     <thead>
                         <tr>
@@ -38,7 +83,7 @@
                     <tbody>
                         @foreach ($transfers as $transfer)
                         <tr>
-                            <td>{{ $transfer->payment->paid_at }}</td>
+                            <td>{{ date($company->date_format, strtotime($transfer->payment->paid_at)) }}</td>
                             <td>{{ $transfer->payment->account->name }}</td>
                             <td>{{ $transfer->revenue->account->name }}</td>
                             <td>@money($transfer->payment->amount, $transfer->payment->currency_code, true)</td>                            

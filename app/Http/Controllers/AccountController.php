@@ -128,7 +128,7 @@ class AccountController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'number' => ['required', 'string', 'max:255'],
             'currency_code' => ['required', 'string', 'max:55'],
-            'opening_balance' => ['required', 'numeric'],            
+            'opening_balance' => ['required', 'numeric'],
             'enabled' => ['required', 'in:0,1'],
             'bank_name' => ['nullable', 'string', 'max:255'],
             'bank_phone' => ['nullable', 'string', 'max:255'],

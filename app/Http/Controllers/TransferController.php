@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Services\PayUService\Exception;
 use Session;
+// use Date;
 
 class TransferController extends Controller
 {
@@ -24,13 +25,29 @@ class TransferController extends Controller
      */
     public function index(Request $request)
     {
-        $transfers = $this->filter($request)->paginate(10)->withQueryString();
-        return view('transfers.index',compact('transfers'));
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $transfers = $this->filter($request)->paginate(10);
+        $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        return view('transfers.index',compact('transfers','company','accounts'));
     }
 
     private function filter(Request $request)
     {
-        $query = Transfer::with(['payment', 'payment.account', 'revenue', 'revenue.account'])->where('transfers.company_id', session('company_id'))->latest();
+        $query = Transfer::with(['payment', 'payment.account', 'revenue', 'revenue.account'])
+            ->whereHas('payment', function($q) use ($request) {
+                if ($request->paid_at) {
+                    $q->where('paid_at', 'like', $request->paid_at.'%');
+                }
+                if ($request->from_account) {
+                    $q->where('account_id', $request->from_account);
+                }
+
+            })->whereHas('revenue', function($r) use ($request) {
+                if ($request->to_account) {
+                    $r->where('account_id', $request->to_account);
+                }
+            })->where('transfers.company_id', session('company_id'))->latest();;
 
         return $query;
     }
@@ -58,6 +75,7 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validation($request);
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $currencies = Currency::where('company_id', session('company_id'))->where('enabled', 1)->pluck('rate', 'code')->toArray();
@@ -135,7 +153,7 @@ class TransferController extends Controller
      */
     public function show(Transfer $transfer)
     {
-        //
+        
     }
 
     /**
@@ -146,7 +164,21 @@ class TransferController extends Controller
      */
     public function edit(Transfer $transfer)
     {
-        //
+        $payment = Payment::findOrFail($transfer->payment_id);
+        $revenue = Revenue::findOrFail($transfer->revenue_id);
+        $transfer['from_account_id'] = $payment->account_id;
+        $transfer['to_account_id'] = $revenue->account_id;
+        $transfer['transferred_at'] = $payment->paid_at;
+        //$transfer['transferred_at'] = Date::parse($payment->paid_at)->format('Y-m-d');
+        $transfer['description'] = $payment->description;
+        $transfer['amount'] = $payment->amount;
+        $transfer['payment_method'] = $payment->payment_method;
+        $transfer['reference'] = $payment->reference;
+        $account = Account::find($payment->account_id);
+        $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $payment_methods = OfflinePayment::where('company_id', session('company_id'))->orderBy('name')->pluck('name', 'code');
+        $currency = Currency::where('code', '=', $account->currency_code)->first();
+        return view('transfers.edit', compact('transfer', 'accounts', 'payment_methods', 'currency'));
     }
 
     /**
@@ -171,4 +203,15 @@ class TransferController extends Controller
     {
         //
     }
+
+    private function validation(Request $request, $id = 0)
+    {
+        $request->validate([
+            'from_account' => ['required', 'integer'],
+            'to_account' => ['required', 'integer'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'date_format:Y-m-d H:i'],
+            'payment_method' => ['required', 'string', 'max:255']
+        ]);
+    } 
 }

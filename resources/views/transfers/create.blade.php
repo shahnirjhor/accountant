@@ -73,7 +73,7 @@
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-calendar"></i>
                                     </div>
-                                    <input type="text" name="date" id="date" class="form-control today-flatpickr" autofocus required>
+                                    <input type="text" name="date" id="date" class="form-control dateTime-flatpickr" required>
                                 </div>
                             </div>
                         </div>

@@ -33,4 +33,9 @@ class Revenue extends Model
     {
         return $this->belongsTo(Account::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

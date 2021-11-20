@@ -73,7 +73,7 @@ $RoleName = Auth::user()->getRoleNames();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link @if($c == 'transactions') active @endif ">
+                            <a href="{{ route('transaction.index') }}" class="nav-link @if($c == 'transactions') active @endif ">
                                 <i class="fas fa-handshake"></i>
                                 <p>{{ __('entire.transactions') }}</p>
                             </a>

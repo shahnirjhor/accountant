@@ -35,7 +35,7 @@
                                     <select class="form-control ambitious-form-loading" name="from_account" id="from_account" required>
                                         <option value="">Select Account</option>
                                         @foreach ($accounts as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
+                                            <option value="{{ $key }}" {{ old('from_account') == $key ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
                               </div>
@@ -49,7 +49,7 @@
                                     <select class="form-control ambitious-form-loading" name="to_account" id="to_account" required>
                                         <option value="">Select Account</option>
                                         @foreach ($accounts as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
+                                            <option value="{{ $key }}" {{ old('to_account') == $key ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
                               </div>
@@ -64,7 +64,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-hand-holding-usd"></i>
                                     </div>
-                                    <input type="text" name="amount" id="amount" class="form-control" placeholder="@lang('Enter Amount')" required>
+                                    <input id="amount" class="form-control" name="amount" type="text" value="{{ old('amount') }}" placeholder="@lang('Enter Amount')" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -73,7 +73,7 @@
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-calendar"></i>
                                     </div>
-                                    <input type="text" name="date" id="date" class="form-control dateTime-flatpickr" required>
+                                    <input type="text" name="date" id="date" class="form-control dateTime-flatpickr" value="{{ old('date') }}" required>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                     </div>
                                     <select class="form-control ambitious-form-loading" name="payment_method" id="payment_method" required>
                                         @foreach ($payment_methods as $key => $value)
-                                            <option value="{{ $key }}">{{ $value }}</option>
+                                            <option value="{{ $key }}" {{ old('payment_method') == $key ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -99,7 +99,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-align-left"></i>
                                     </div>
-                                    <input type="text" id="reference" name="reference" class="form-control" placeholder="@lang('Enter Reference Number')">
+                                    <input type="text" id="reference" name="reference" class="form-control" value="{{ old('reference') }}" placeholder="@lang('Enter Reference Number')">
                                 </div>
                             </div>
                         </div>

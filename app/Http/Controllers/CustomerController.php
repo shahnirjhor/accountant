@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Currency;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Session;
 
 class CustomerController extends Controller
 {
@@ -40,7 +42,8 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        $currencies = Currency::where('company_id', Session::get('company_id'))->where('enabled', 1)->pluck('name', 'code');
+        return view('customers.create',compact('currencies'));
     }
 
     /**
@@ -51,7 +54,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

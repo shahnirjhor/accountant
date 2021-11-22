@@ -51,6 +51,44 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                 </li>
 
+                <li class="nav-item has-treeview @if($c == 'customer') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'customer') active @endif">
+                        {{-- <i class="nav-icon fas fa-money-bill-wave"></i> --}}
+                        <i class="nav-icon fas fa-plus"></i>
+                        <p>
+                            @lang('Incomes')
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('customer.index') }}" class="nav-link @if($c == 'customer') active @endif ">
+                                <i class="fas fa-user-plus"></i>
+                                <p>@lang('Customer')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview @if($c == 'vendor') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'vendor') active @endif">
+                        {{-- <i class="nav-icon fas fa-money-check"></i> --}}
+                        <i class="nav-icon fas fa-minus"></i>
+                        <p>
+                            @lang('Expenses')
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('vendor.index') }}" class="nav-link @if($c == 'vendor') active @endif ">
+                                <i class="fas fa-user-minus"></i>
+                                <p>@lang('Vendor')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item has-treeview @if($c == 'account' || $c == 'transfers' || $c == 'transactions') menu-open @endif">
                     <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfers' || $c == 'transactions' ) active @endif">
                         <i class="nav-icon fas fa-university"></i>

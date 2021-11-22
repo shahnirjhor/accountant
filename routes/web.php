@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resources([
         'roles' => App\Http\Controllers\RoleController::class,
         'users' => App\Http\Controllers\UserController::class,
+        'customer' => App\Http\Controllers\CustomerController::class,
+        'vendor' => App\Http\Controllers\VendorController::class,
         'currency' => App\Http\Controllers\CurrencyController::class,
         'category' => App\Http\Controllers\CategoryController::class,
         'tax' => App\Http\Controllers\TaxController::class,

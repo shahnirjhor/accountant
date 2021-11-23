@@ -62,6 +62,12 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('revenue.index') }}" class="nav-link @if($c == 'revenue') active @endif ">
+                                <i class="fas fa-coins"></i>
+                                <p>@lang('Revenue')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('customer.index') }}" class="nav-link @if($c == 'customer') active @endif ">
                                 <i class="fas fa-user-plus"></i>
                                 <p>@lang('Customer')</p>
@@ -80,6 +86,12 @@ $RoleName = Auth::user()->getRoleNames();
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('payment.index') }}" class="nav-link @if($c == 'payment') active @endif ">
+                                <i class="fab fa-ethereum"></i>
+                                <p>@lang('Payment')</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('vendor.index') }}" class="nav-link @if($c == 'vendor') active @endif ">
                                 <i class="fas fa-user-minus"></i>

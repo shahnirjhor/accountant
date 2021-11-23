@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
+use App\Models\Account;
+use App\Models\Customer;
 use App\Models\Revenue;
+use App\Models\Category;
+use App\Models\OfflinePayment;
 use Illuminate\Http\Request;
+use Session;
 
 class RevenueController extends Controller
 {
@@ -24,7 +30,13 @@ class RevenueController extends Controller
      */
     public function create()
     {
-        //
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $customers = Customer::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $Categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
+        $payment_methods = OfflinePayment::where('company_id', session('company_id'))->orderBy('name')->pluck('name', 'code');
+        return view('revenues.create', compact('company','accounts','customers','Categories','payment_methods'));
     }
 
     /**
@@ -57,7 +69,13 @@ class RevenueController extends Controller
      */
     public function edit(Revenue $revenue)
     {
-        //
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $customers = Customer::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $Categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
+        $payment_methods = OfflinePayment::where('company_id', session('company_id'))->orderBy('name')->pluck('name', 'code');
+        return view('revenues.edit', compact('company','accounts','customers','Categories','payment_methods','revenue'));
     }
 
     /**

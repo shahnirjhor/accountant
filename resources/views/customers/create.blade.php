@@ -96,7 +96,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="phone"<h4>@lang('Phone')</h4></label>
+                                <label for="phone"><h4>@lang('Phone')</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-phone"></i></span>

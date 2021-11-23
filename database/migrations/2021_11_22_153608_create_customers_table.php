@@ -27,7 +27,6 @@ class CreateCustomersTable extends Migration
             $table->boolean('enabled');
             $table->string('reference')->nullable();
             $table->timestamps();
-
             $table->index('company_id');
             $table->unique(['company_id', 'email']);
         });

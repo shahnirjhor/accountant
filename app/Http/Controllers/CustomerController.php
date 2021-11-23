@@ -54,7 +54,11 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $this->validation($request);
+        $data = $request->only(['name','email','tax_number','phone','address','website','currency_code','enabled','reference']);
+        $data['company_id'] = session('company_id');
+        Customer::create($data);
+        return redirect()->route('customer.index')->with('success', trans('Customer Added Successfully'));
     }
 
     /**
@@ -76,7 +80,8 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        $currencies = Currency::where('company_id', Session::get('company_id'))->where('enabled', 1)->pluck('name', 'code');
+        return view('customers.edit', compact('customer', 'currencies'));
     }
 
     /**
@@ -88,7 +93,10 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $this->validation($request, $customer->id);
+        $data = $request->only(['name','email','tax_number','phone','address','website','currency_code','enabled','reference']);
+        $customer->update($data);
+        return redirect()->route('customer.index')->with('success', trans('Customer Edit Successfully'));
     }
 
     /**
@@ -99,6 +107,22 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return redirect()->route('customer.index')->with('success', trans('Customer Deleted Successfully'));
+    }
+
+    private function validation(Request $request, $id = 0)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email', 'unique:customers,email,'.$id, 'max:255'],
+            'tax_number' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:14'],            
+            'address' => ['nullable', 'string', 'max:255'],
+            'currency_code' => ['required', 'string', 'max:255'],
+            'website' => ['nullable', 'string', 'max:14'],
+            'enabled' => ['required', 'in:0,1'],
+            'reference' => ['nullable', 'string', 'max:255']
+        ]);
     }
 }

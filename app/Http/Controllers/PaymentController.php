@@ -19,20 +19,20 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
-        $revenues = $this->filter($request)->paginate(10);
+        $payments = $this->filter($request)->paginate(10);
         $vendors = Vendor::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
         $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
         $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
-        return view('payments.index',compact('revenues','vendors','categories','accounts','company'));
+        return view('payments.index',compact('payments','vendors','categories','accounts','company'));
     }
 
     private function filter(Request $request)
     {
-        $query = Payment::where('company_id', session('company_id'))->latest();
+        $query = Payment::where('company_id', session('company_id'))->isNotTransfer()->latest();
 
         if ($request->paid_at)
             $query->where('paid_at', 'like', $request->paid_at.'%');
@@ -60,7 +60,7 @@ class PaymentController extends Controller
         $company->setSettings();
         $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
         $vendors = Vendor::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
-        $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
+        $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'expense')->orderBy('name')->pluck('name', 'id');
         $payment_methods = OfflinePayment::where('company_id', session('company_id'))->orderBy('name')->pluck('name', 'code');
         $account_currency_code = Account::where('id', $company->default_account)->pluck('currency_code')->first();
         $currency = Currency::where('code', $account_currency_code)->first();
@@ -121,7 +121,7 @@ class PaymentController extends Controller
         $company->setSettings();
         $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
         $vendors = Vendor::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
-        $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
+        $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'expense')->orderBy('name')->pluck('name', 'id');
         $payment_methods = OfflinePayment::where('company_id', session('company_id'))->orderBy('name')->pluck('name', 'code');
         $account_currency_code = Account::where('id', $company->default_account)->pluck('currency_code')->first();
         $currency = Currency::where('code', $account_currency_code)->first();

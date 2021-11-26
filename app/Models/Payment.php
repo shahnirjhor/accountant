@@ -24,11 +24,6 @@ class Payment extends Model
         'parent_id'
     ];
 
-    public function transfers()
-    {
-        return $this->hasMany(Transfer::class);
-    }
-
     public function account()
     {
         return $this->belongsTo(Account::class);
@@ -38,4 +33,25 @@ class Payment extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_code', 'code');
+    }
+
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
+    public function scopeIsNotTransfer($query)
+    {
+        return $query->where('category_id', '<>', Category::transfer());
+    }
+    
 }

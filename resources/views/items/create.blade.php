@@ -117,7 +117,7 @@
                                     <select class="form-control ambitious-form-loading @error('tax_id') is-invalid @enderror" name="tax_id" id="tax_id">
                                         <option value="">- Select Tax -</option>
                                         @foreach($taxes as $key => $value)
-                                            <option value="{{ $key }}" @if($key == old('tax_id', $item->tax_id)) selected @endif>{{ $value }}</option>
+                                            <option value="{{ $key }}" @if($key == old('tax_id')) selected @endif>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                     @error('tax_id')

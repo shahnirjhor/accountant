@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth']], function() {
         'tax' => App\Http\Controllers\TaxController::class,
         'smtp' => App\Http\Controllers\SmtpConfigurationController::class,
         'company' => App\Http\Controllers\CompanyController::class,
+        'invoice' => App\Http\Controllers\InvoiceController::class,
         'item' => App\Http\Controllers\ItemController::class,
         'account' => App\Http\Controllers\AccountController::class,
         'transfer' => App\Http\Controllers\TransferController::class,

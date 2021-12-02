@@ -36,7 +36,7 @@ class InvoiceController extends Controller
         $customers = Customer::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
         $currencies = Currency::where('company_id', Session::get('company_id'))->where('enabled', 1)->pluck('name', 'code');
         $currency = Currency::where('company_id', Session::get('company_id'))->where('code', '=', $company->default_currency)->first();
-        $items = Item::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->get();
+        $items = Item::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
         $taxes = Tax::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->get()->pluck('title', 'id');
         $categories = Category::where('company_id', Session::get('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
         $number = $this->getNextInvoiceNumber($company);

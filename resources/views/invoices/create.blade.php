@@ -142,8 +142,8 @@
                                             <td>
                                                 <select id="mySelect2" name="account_name[]" class="form-control select2" required>
                                                     <option value="">--@lang('Select')--</option>
-                                                    @foreach ($items as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @foreach ($items as $key => $value)
+                                                        <option value="{{ $key }}">{{ $value }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>

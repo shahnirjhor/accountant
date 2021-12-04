@@ -66,9 +66,9 @@ class DatatablesController extends Controller
             {
                 if ($row->is_default == '1')
                 {
-                    $btn = '<span class="badge badge-pill badge-info">'.trans('roles.yes').'</span>';
+                    $btn = '<span class="badge badge-pill badge-info">'.trans('Yes').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-danger">'.trans('tax.no').'</span>';
+                    $btn = '<span class="badge badge-pill badge-danger">'.trans('No').'</span>';
                 }
                 return $btn;
             })
@@ -85,16 +85,16 @@ class DatatablesController extends Controller
                 if(is_null($row->validity)) {
                     return 'N/A';
                 } else {
-                    return $row->validity . ' '. trans('roles.days');;
+                    return $row->validity . ' '. trans('Days');;
                 }
             })
             ->addColumn('role_for', function($row)
             {
                 if ($row->role_for == '1')
                 {
-                    $btn = '<span class="badge badge-pill badge-info">'.trans('roles.staff').'</span>';
+                    $btn = '<span class="badge badge-pill badge-info">'.trans('Staff').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-primary">'.trans('roles.user').'</span>';
+                    $btn = '<span class="badge badge-pill badge-primary">'.trans('User').'</span>';
                 }
                 return $btn;
             })
@@ -124,7 +124,7 @@ class DatatablesController extends Controller
 //                {
                     $btn .= '<a href="'.route('users.edit',['user' => $row->id]).'" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp';
 //                }
-                $deleteUser = trans('users.are you sure you want to delete this user');
+                $deleteUser = trans('Are You Sure You Want To Delete This User');
 //                if (Auth::user()->hasPermissionTo('user-delete')) {
                     $btn .= '<a href="#" data-href="'.route('users.destroy',['id' => $row->id]).'" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>';
 //                }
@@ -147,9 +147,9 @@ class DatatablesController extends Controller
             {
                 if($row->status == 0)
                 {
-                    $btn = '<span class="badge badge-danger">'.trans('users.inactive').'</span>';
+                    $btn = '<span class="badge badge-danger">'.trans('Inactive').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-success">'.trans('users.active').'</span>';
+                    $btn = '<span class="badge badge-success">'.trans('Active').'</span>';
                 }
                 return $btn;
             })

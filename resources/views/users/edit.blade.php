@@ -18,8 +18,8 @@
             <div class="col-sm-6"></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('users.index') }}">User List</a></li>
-                    <li class="breadcrumb-item active">Edit User</li>
+                    <li class="breadcrumb-item"><a href="{{ route('users.index') }}">@lang('User List')</a></li>
+                    <li class="breadcrumb-item active">@lang('Edit User')</li>
                 </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3>{{ __('users.edit user') }}</h3>
+                <h3>{{ __('Edit User') }}</h3>
             </div>
             <div class="card-body">
                 <form class="form-material form-horizontal" action="{{ route('users.update', $user) }}" method="POST" enctype="multipart/form-data">
@@ -39,12 +39,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.name') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Name') }} <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-signature"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name',$user->name) }}" type="text" placeholder="{{ __('users.type your name here') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name',$user->name) }}" type="text" placeholder="{{ __('Type Your Name Here') }}" required>
                                     @error('name')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -55,12 +55,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.email') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Email') }} <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-at"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email', $user->email) }}" type="email" placeholder="{{ __('users.type your email here') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('email') is-invalid @enderror" name="email" id="email" value="{{ old('email', $user->email) }}" type="email" placeholder="{{ __('Type Your Email Here') }}" required>
                                     @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -73,50 +73,50 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.password') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Password') }}</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading  @error('password') is-invalid @enderror" name="password" id="password" type="password" placeholder="{{ __('users.type your password here') }}">
+                                    <input class="form-control ambitious-form-loading  @error('password') is-invalid @enderror" name="password" id="password" type="password" placeholder="{{ __('Type Your Password Here') }}">
                                     @error('password')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
-                                <small id="name" class="form-text text-muted">{{ __('users.leave blank for remain unchanged') }}</small>
+                                <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.confirm password') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Confirm Password') }}</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-fingerprint"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('password_confirmation') is-invalid @enderror" name="confirm_password" id="confirm_password" type="password" placeholder="{{ __('users.type your confirm password here') }}">
+                                    <input class="form-control ambitious-form-loading @error('password_confirmation') is-invalid @enderror" name="confirm_password" id="confirm_password" type="password" placeholder="{{ __('Type Your Confirm Password Here') }}">
                                     @error('password_confirmation')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
-                                <small id="name" class="form-text text-muted">{{ __('users.leave blank for remain unchanged') }}</small>
+                                <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.user for') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('User For') }}</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-users-cog"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('role_for') is-invalid @enderror" name="role_for" id="role_for">
-                                        <option value="0" {{ old('role_for', $roleFor->role_for) == 0 ? 'selected' : '' }} >{{ __('roles.system user') }}</option>
-                                        <option value="1" {{ old('role_for', $roleFor->role_for) == 1 ? 'selected' : '' }} >{{ __('roles.general user') }}</option>
+                                        <option value="0" {{ old('role_for', $roleFor->role_for) == 0 ? 'selected' : '' }} >{{ __('System User') }}</option>
+                                        <option value="1" {{ old('role_for', $roleFor->role_for) == 1 ? 'selected' : '' }} >{{ __('General User') }}</option>
                                     </select>
                                     @error('role_for')
                                         <div class="invalid-feedback">
@@ -128,12 +128,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.phone') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Phone') }}</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('phone') is-invalid @enderror" name="phone" id="phone" value="{{ old('phone',$user->phone) }}" type="text" placeholder="{{ __('users.type phone number here') }}">
+                                    <input class="form-control ambitious-form-loading @error('phone') is-invalid @enderror" name="phone" id="phone" value="{{ old('phone',$user->phone) }}" type="text" placeholder="{{ __('Type Phone Number Here') }}">
                                     @error('phone')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -148,7 +148,7 @@
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-12 col-form-label"><h4>{{ __('users.staff role') }}</h4></label>
+                                    <label class="col-md-12 col-form-label"><h4>{{ __('Staff Role') }}</h4></label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
@@ -163,7 +163,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="col-md-12 col-form-label"><h4>{{ __('users.staff company') }}</h4></label>
+                                    <label class="col-md-12 col-form-label"><h4>{{ __('Staff Company') }}</h4></label>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-building"></i></span>
@@ -182,7 +182,7 @@
                     <div id="user_block">
                         <div class="form-group row">
                             <div class="col-md-6">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.user role') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('User Role') }}</h4></label>
                                 <div class="col-md-12">
                                     <select class="form-control ambitious-form-loading" name="user_roles" id="user_roles">
                                         @foreach($userRoles as $key => $role)
@@ -192,7 +192,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.user company') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('User Company') }}</h4></label>
                                 <div class="col-md-12">
                                     <select class="select2" id="user_company" name="user_company[]" multiple="multiple" style="width: 100%;" data-placeholder="Select a company">
                                         @foreach ($companies as $value)
@@ -207,10 +207,10 @@
 
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label"><h4>{{ __('users.photo') }}</h4></label>
+                            <label class="col-md-12 col-form-label"><h4>{{ __('Photo') }}</h4></label>
                             <div class="col-md-12">
                                 <input id="photo" class="dropify" name="photo" value="{{ old('photo') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="2024K" />
-                                <small id="name" class="form-text text-muted">{{ __('users.leave blank for remain unchanged') }}</small>
+                                <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
                                 <p>Max Size: 2MB, Allowed Format: png, jpg, jpeg</p>
                             </div>
                             @if ($errors->has('photo'))
@@ -218,7 +218,7 @@
                             @endif
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12 col-form-label"><h4>{{ __('users.address') }}</h4></label>
+                            <label class="col-md-12 col-form-label"><h4>{{ __('Address') }}</h4></label>
                             <div class="col-md-12">
                                 <div id="edit_input_address" style="min-height: 55px;">
                                 </div>
@@ -233,14 +233,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('users.status') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Status') }}</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('status') is-invalid @enderror" required="required" name="status" id="status">
-                                        <option value="1" {{ old('status', $user->status) == 1 ? 'selected' : ''  }}>{{ __('users.active') }}</option>
-                                        <option value="0" {{ old('status', $user->status) == 0 ? 'selected' : ''  }}>{{ __('users.inactive') }}</option>
+                                        <option value="1" {{ old('status', $user->status) == 1 ? 'selected' : ''  }}>{{ __('Active') }}</option>
+                                        <option value="0" {{ old('status', $user->status) == 0 ? 'selected' : ''  }}>{{ __('Inactive') }}</option>
                                     </select>
                                     @error('status')
                                         <div class="invalid-feedback">
@@ -255,8 +255,8 @@
                     <div class="form-group">
                         <label class="col-md-2 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('users.submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('users.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('users.cancel') }}</a>
+                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                            <a href="{{ route('users.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
                         </div>
                     </div>
                 </form>

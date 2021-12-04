@@ -5,14 +5,14 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 @can('user-create')
-                    <h3><a href="{{ route('users.create') }}" class="btn btn-outline btn-info">+ {{ __('users.add user') }}</a>
+                    <h3><a href="{{ route('users.create') }}" class="btn btn-outline btn-info">+ {{ __('Add User') }}</a>
                     </h3>
                 @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('users.dashboard') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('users.user list') }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                    <li class="breadcrumb-item active">{{ __('User List') }}</li>
                 </ol>
             </div>
         </div>
@@ -23,7 +23,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('users.user list') }}</h3>
+                <h3 class="card-title">{{ __('User List') }}</h3>
                 <div class="card-tools">
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
@@ -55,9 +55,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <button type="submit" class="btn btn-info">Submit</button>
+                                    <button type="submit" class="btn btn-info">@lang('Submit')</button>
                                     @if(request()->isFilterActive)
-                                        <a href="{{ route('users.index') }}" class="btn btn-secondary">Clear</a>
+                                        <a href="{{ route('users.index') }}" class="btn btn-secondary">@lang('Clear')</a>
                                     @endif
                                 </div>
                             </div>
@@ -68,13 +68,13 @@
                 <table class="table table-striped" id="laravel_datatable">
                     <thead>
                         <tr>
-                            <th>{{ __('users.id') }}</th>
-                            <th>{{ __('users.name') }}</th>
-                            <th>{{ __('users.email') }}</th>
-                            <th>{{ __('users.roles') }}</th>
-                            <th>{{ __('users.register date') }}</th>
-                            <th>{{ __('users.status') }}</th>
-                            <th data-orderable="false">{{ __('users.actions') }}</th>
+                            <th>{{ __('Id') }}</th>
+                            <th>{{ __('Name') }}</th>
+                            <th>{{ __('Email') }}</th>
+                            <th>{{ __('Roles') }}</th>
+                            <th>{{ __('Register Date') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th data-orderable="false">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,9 +87,9 @@
                                 <td>{{ date('d F Y', strtotime($user->created_at)) }}</td>
                                 <td>
                                     @if($user->status)
-                                        <span class="badge badge-success">@lang('users.active')</span>
+                                        <span class="badge badge-success">@lang('Active')</span>
                                     @else
-                                        <span class="badge badge-danger">@lang('users.inactive')</span>
+                                        <span class="badge badge-danger">@lang('Inactive')</span>
                                     @endif
                                 </td>
                                 <td>

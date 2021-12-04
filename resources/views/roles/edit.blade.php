@@ -6,8 +6,8 @@
             <div class="col-sm-6"></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('roles.role list') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('roles.update role') }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('Role List') }}</a></li>
+                    <li class="breadcrumb-item active">{{ __('Update Role') }}</li>
                 </ol>
             </div>
         </div>
@@ -18,16 +18,16 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3>{{ __('roles.update role') }}</h3>
+                <h3>{{ __('Update Role') }}</h3>
             </div>
             <div class="card-body">
                 <form class="form-material form-horizontal" action="{{ route('roles.update', $role) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group row mb-0">
-                        <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin ambitious-center">{{ __('roles.role name') }} <b class="ambitious-crimson">*</b></h4></label>
+                        <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin ambitious-center">{{ __('Role Name') }} <b class="ambitious-crimson">*</b></h4></label>
                         <div class="col-md-8">
-                            <input class="form-control ambitious-form-loading @error('name') is-invalid @enderror" name="name" id="name" type="text" placeholder="{{ __('roles.role name') }}" value="{{ old('name', $role->name) }}" >
+                            <input class="form-control ambitious-form-loading @error('name') is-invalid @enderror" name="name" id="name" type="text" placeholder="{{ __('Role Name') }}" value="{{ old('name', $role->name) }}" >
                             @error('name')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -36,11 +36,11 @@
                         </div>
                     </div>
                     <div class="form-group row mb-0">
-                        <label class="col-md-2 col-form-label ambitious-center"><h4>{{ __('roles.role for') }}</h4></label>
+                        <label class="col-md-2 col-form-label ambitious-center"><h4>{{ __('Role For') }}</h4></label>
                         <div class="col-md-8">
                             <select class="form-control ambitious-form-loading @error('role_for') is-invalid @enderror" name="role_for" id="role_for">
-                                <option value="1" {{ old('role_for', $role->role_for) == 1 ? 'selected' : ''  }}>{{ __('roles.general user') }}</option>
-                                <option value="0" {{ old('role_for', $role->role_for) == 0 ? 'selected' : ''  }}>{{ __('roles.system user') }}</option>
+                                <option value="1" {{ old('role_for', $role->role_for) == 1 ? 'selected' : ''  }}>{{ __('General User') }}</option>
+                                <option value="0" {{ old('role_for', $role->role_for) == 0 ? 'selected' : ''  }}>{{ __('System User') }}</option>
                             </select>
                             @error('role_for')
                                 <div class="invalid-feedback">
@@ -51,9 +51,9 @@
                     </div>
                     <div id="user_block">
                         <div class="form-group row mb-0">
-                            <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('roles.price') }} <b class="ambitious-crimson">*</b></h4></label>
+                            <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('Price') }} <b class="ambitious-crimson">*</b></h4></label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading @error('price') is-invalid @enderror" name="price" id="price" type="text" placeholder="{{ __('roles.role price') }}" value="{{ old('price', $role->price) }}">
+                                <input class="form-control ambitious-form-loading @error('price') is-invalid @enderror" name="price" id="price" type="text" placeholder="{{ __('Role Price') }}" value="{{ old('price', $role->price) }}">
                                 @error('price')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -62,9 +62,9 @@
                             </div>
                         </div>
                         <div class="form-group row mb-0">
-                            <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('roles.validity day') }} <b class="ambitious-crimson">*</b></h4></label>
+                            <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('Validity day') }} <b class="ambitious-crimson">*</b></h4></label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading @error('validity') is-invalid @enderror" name="validity" id="validity" type="text" placeholder="{{ __('roles.validity day') }}" value="{{ old('validity', $role->validity) }}" >
+                                <input class="form-control ambitious-form-loading @error('validity') is-invalid @enderror" name="validity" id="validity" type="text" placeholder="{{ __('Validity Day') }}" value="{{ old('validity', $role->validity) }}" >
                                 @error('validity')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="form-group row mb-0">
-                        <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('roles.permissions') }}</h4></label>
+                        <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('Permissions') }}</h4></label>
                         <div class="col-md-10">
                             <div class="form-control-plaintext">
                                 @php
@@ -139,7 +139,7 @@
                     <div class="form-group row mb-0">
                         <label class="col-md-2 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('roles.submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
                         </div>
                     </div>
                     <br>

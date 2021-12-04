@@ -25,7 +25,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name"><h4>{{ __('users.name') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="name"><h4>{{ __('Name') }} <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-signature"></i></span>
@@ -193,7 +193,7 @@
                                 <label class="col-md-12 col-form-label"><h4>{{ __('items.picture') }}</h4></label>
                                 <div class="col-md-12">
                                     <input id="picture" class="dropify" name="picture" value="{{ old('picture') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="2024K" />
-                                    <p>{{ __('users.max size: 2mb, allowed format: png, jpg, jpeg') }}</p>
+                                    <p>{{ __('Max Size: 2mb, Allowed Format: png, jpg, jpeg') }}</p>
                                 </div>
                                 @if ($errors->has('picture'))
                                     <div class="error ambitious-red">{{ $errors->first('picture') }}</div>
@@ -204,8 +204,8 @@
                     <div class="form-group">
                         <label class="col-md-3 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('users.submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('item.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('users.cancel') }}</a>
+                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                            <a href="{{ route('item.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
                         </div>
                     </div>
                 </form>

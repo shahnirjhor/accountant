@@ -103,7 +103,7 @@ class RoleController extends Controller
             ]);
             $role->syncPermissions($request->input('permission'));
         }
-        session()->flash('success', trans('roles.role created successfully'));
+        session()->flash('success', trans('Role Created Successfully'));
         return redirect()->route('roles.index');
     }
 
@@ -175,7 +175,7 @@ class RoleController extends Controller
             $role->syncPermissions($request->input('permission'));
         }
 
-        return redirect()->route('roles.index')->with('success',trans('roles.role updated successfully'));
+        return redirect()->route('roles.index')->with('success',trans('Role Updated Successfully'));
     }
 
     /**

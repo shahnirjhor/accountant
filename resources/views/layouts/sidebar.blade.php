@@ -40,20 +40,19 @@ $RoleName = Auth::user()->getRoleNames();
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link @if($c == 'dashboard') active @endif">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>{{ __('entire.dashboard') }}</p>
+                        <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route('item.index') }}" class="nav-link @if($c == 'item') active @endif ">
                         <i class="fas fa-code-branch nav-icon"></i>
-                        <p>{{ __('entire.items') }}</p>
+                        <p>@lang('Items')</p>
                     </a>
                 </li>
 
                 <li class="nav-item has-treeview @if($c == 'customer') menu-open @endif">
                     <a href="javascript:void(0)" class="nav-link @if($c == 'customer') active @endif">
-                        {{-- <i class="nav-icon fas fa-money-bill-wave"></i> --}}
                         <i class="nav-icon fas fa-plus"></i>
                         <p>
                             @lang('Incomes')
@@ -78,7 +77,6 @@ $RoleName = Auth::user()->getRoleNames();
 
                 <li class="nav-item has-treeview @if($c == 'vendor') menu-open @endif">
                     <a href="javascript:void(0)" class="nav-link @if($c == 'vendor') active @endif">
-                        {{-- <i class="nav-icon fas fa-money-check"></i> --}}
                         <i class="nav-icon fas fa-minus"></i>
                         <p>
                             @lang('Expenses')
@@ -105,7 +103,7 @@ $RoleName = Auth::user()->getRoleNames();
                     <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfers' || $c == 'transactions' ) active @endif">
                         <i class="nav-icon fas fa-university"></i>
                         <p>
-                            {{ __('entire.banking') }}
+                            @lang('Banking')
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -113,25 +111,25 @@ $RoleName = Auth::user()->getRoleNames();
                         <li class="nav-item">
                             <a href="{{ route('account.index') }}" class="nav-link @if($c == 'account') active @endif ">
                                 <i class="fas fa-user-circle"></i>
-                                <p>{{ __('entire.accounts') }}</p>
+                                <p>@lang('Accounts')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('transfer.index') }}" class="nav-link @if($c == 'transfer') active @endif ">
                                 <i class="fas fa-exchange-alt"></i>
-                                <p>{{ __('entire.transfers') }}</p>
+                                <p>@lang('Transfers')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('transaction.index') }}" class="nav-link @if($c == 'transactions') active @endif ">
                                 <i class="fas fa-handshake"></i>
-                                <p>{{ __('entire.transactions') }}</p>
+                                <p>@lang('Transactions')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link @if($c == 'reconciliations') active @endif ">
                                 <i class="fab fa-creative-commons-sampling-plus"></i>
-                                <p>{{ __('entire.reconciliations') }}</p>
+                                <p>@lang('Reconciliations')</p>
                             </a>
                         </li>
                     </ul>
@@ -141,7 +139,7 @@ $RoleName = Auth::user()->getRoleNames();
                     <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' || $c == 'offline-payment' ) active @endif">
                         <i class="nav-icon fa fa-cogs"></i>
                         <p>
-                            {{ __('entire.settings') }}
+                            @lang('Settings')
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -149,49 +147,49 @@ $RoleName = Auth::user()->getRoleNames();
                         <li class="nav-item">
                             <a href="{{ route('roles.index') }}" class="nav-link @if($c == 'roles') active @endif ">
                                 <i class="fas fa-cube nav-icon"></i>
-                                <p>{{ __('entire.role management') }}</p>
+                                <p>@lang('Role Management')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('users.index') }}" class="nav-link @if($c == 'users') active @endif ">
                                 <i class="fa fa-users nav-icon"></i>
-                                <p>{{ __('entire.user management') }}</p>
+                                <p>@lang('User Management')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('apsetting') }}" class="nav-link @if($c == 'apsetting' && $m == null) active @endif ">
                                 <i class="fa fa-globe nav-icon"></i>
-                                <p>{{ __('entire.application settings') }}</p>
+                                <p>@lang('Application Settings')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('smtp.index') }}" class="nav-link @if($c == 'smtp') active @endif ">
                                 <i class="fas fa-mail-bulk nav-icon"></i>
-                                <p>{{ __('entire.smtp settings') }}</p>
+                                <p>@lang('Smtp Settings')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('general') }}" class="nav-link @if($c == 'general') active @endif ">
                                 <i class="fas fa-align-left nav-icon"></i>
-                                <p>{{ __('entire.general settings') }}</p>
+                                <p>@lang('General Settings')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('category.index') }}" class="nav-link @if($c == 'category') active @endif ">
                                 <i class="fas fa-code-branch nav-icon"></i>
-                                <p>{{ __('entire.category') }}</p>
+                                <p>@lang('Category')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('currency.index') }}" class="nav-link @if($c == 'currency') active @endif ">
                                 <i class="fas fa-coins nav-icon"></i>
-                                <p>{{ __('entire.currencies') }}</p>
+                                <p>@lang('Currencies')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('tax.index') }}" class="nav-link @if($c == 'tax') active @endif ">
                                 <i class="fas fa-percentage nav-icon"></i>
-                                <p>{{ __('entire.tax rates') }}</p>
+                                <p>@lang('Tax rates')</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -204,7 +202,5 @@ $RoleName = Auth::user()->getRoleNames();
                 </li>
             </ul>
         </nav>
-        <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
 </aside>

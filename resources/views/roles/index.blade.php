@@ -5,14 +5,14 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
 
-                    <h3><a href="{{ route('roles.create') }}" class="btn btn-outline btn-info">+ {{ __('roles.add role') }}</a>
+                    <h3><a href="{{ route('roles.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Role') }}</a>
                         <span class="pull-right"></span>
                     </h3>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('roles.dashboard') }}</a></li>
-                        <li class="breadcrumb-item active">{{ __('roles.role list') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                        <li class="breadcrumb-item active">{{ __('Role List') }}</li>
                     </ol>
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('roles.role list') }}</h3>
+                    <h3 class="card-title">{{ __('Role List') }}</h3>
                     <div class="card-tools">
                         <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                     </div>
@@ -43,7 +43,7 @@
                                         <div class="form-group">
                                             <label>@lang('Role For')</label>
                                             <select class="form-control" name="role_for">
-                                                <option value="">--Select--</option>
+                                                <option value="">--@lang('Select')--</option>
                                                 <option value="0" {{ old('role_for', request()->role_for) === '0' ? 'selected' : ''  }}>@lang('User')</option>
                                                 <option value="1" {{ old('role_for', request()->role_for) === '1' ? 'selected' : ''  }}>@lang('Staff')</option>
                                             </select>
@@ -52,9 +52,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <button type="submit" class="btn btn-info">Submit</button>
+                                        <button type="submit" class="btn btn-info">@lang('Submit')</button>
                                         @if(request()->isFilterActive)
-                                            <a href="{{ route('roles.index') }}" class="btn btn-secondary">Clear</a>
+                                            <a href="{{ route('roles.index') }}" class="btn btn-secondary">@lang('Clear')</a>
                                         @endif
                                     </div>
                                 </div>
@@ -64,14 +64,14 @@
                     <table class="table table-striped" id="laravel_datatable">
                         <thead>
                             <tr>
-                                <th>{{ __('roles.id') }}</th>
-                                <th>{{ __('roles.name') }}</th>
-                                <th>{{ __('roles.price') }}</th>
-                                <th>{{ __('roles.validity') }}</th>
-                                <th>{{ __('roles.role for') }}</th>
-                                <th>{{ __('roles.default') }}</th>
+                                <th>{{ __('Id') }}</th>
+                                <th>{{ __('Name') }}</th>
+                                <th>{{ __('Price') }}</th>
+                                <th>{{ __('Validity') }}</th>
+                                <th>{{ __('Role For') }}</th>
+                                <th>{{ __('Default') }}</th>
                                 @canany(['role-delete', 'role-edit'])
-                                    <th data-orderable="false">{{ __('roles.actions') }}</th>
+                                    <th data-orderable="false">{{ __('Actions') }}</th>
                                 @endcan
                             </tr>
                         </thead>
@@ -84,16 +84,16 @@
                                     <td>{{ $role->validity }}</td>
                                     <td>
                                         @if($role->role_for == '1')
-                                            <span class="badge badge-pill badge-success">@lang('roles.general user')</span>
+                                            <span class="badge badge-pill badge-success">@lang('General User')</span>
                                         @else
-                                            <span class="badge badge-pill badge-primary">@lang('roles.system user')</span>
+                                            <span class="badge badge-pill badge-primary">@lang('System User')</span>
                                         @endif
                                     </td>
                                     <td>
                                         @if($role->is_default == '1')
-                                            <span class="badge badge-pill badge-info">@lang('roles.yes')</span>
+                                            <span class="badge badge-pill badge-info">@lang('Yes')</span>
                                         @else
-                                            <span class="badge badge-pill badge-danger">@lang('tax.no')</span>
+                                            <span class="badge badge-pill badge-danger">@lang('No')</span>
                                         @endif
                                     </td>
                                     <td>

@@ -143,7 +143,7 @@ class UserController extends Controller
                 }
             }
         }
-        return redirect()->route('users.index')->with('success', trans('users.user created successfully'));
+        return redirect()->route('users.index')->with('success', trans('User Created Successfully'));
     }
 
     /**
@@ -204,7 +204,7 @@ class UserController extends Controller
             DB::table("model_has_roles")->where('model_id',$user->id)->delete();
             DB::table("user_companies")->where('user_id',$user->id)->delete();
             DB::commit();
-            return redirect()->route('users.index')->with('success', trans('users.user deleted successfully'));
+            return redirect()->route('users.index')->with('success', trans('User Deleted Successfully'));
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->route('users.index')->with('error',$e);
@@ -300,6 +300,6 @@ class UserController extends Controller
         }
 
         $user->assignRole($roles);
-        return redirect()->route('users.index')->with('success', trans('users.user updated successfully'));
+        return redirect()->route('users.index')->with('success', trans('User Updated Successfully'));
     }
 }

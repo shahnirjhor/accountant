@@ -100,7 +100,7 @@ class ApplicationSettingController extends Controller
                 $message = "Database Connection Error !!!";
             }
         }
-        return redirect()->route('apsetting')->withSuccess(trans('ApplicationSetting.application settings has updated'));
+        return redirect()->route('apsetting')->withSuccess(trans('Application Settings Has Updated'));
     }
 
     /**

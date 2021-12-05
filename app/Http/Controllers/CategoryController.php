@@ -73,7 +73,7 @@ class CategoryController extends Controller
         $data = $request->only(['name','type','color','enabled']);
         $data['company_id'] = session('company_id');
         Category::create($data);
-        return redirect()->route('category.index')->with('success', trans('category Create Successfully'));
+        return redirect()->route('category.index')->with('success', trans('Category Create Successfully'));
     }
 
     /**

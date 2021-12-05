@@ -17,8 +17,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('category.index') }}">{{ __('category.category list') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('category.edit category') }}</li>
+                        <a href="{{ route('category.index') }}">{{ __('Category List') }}</a></li>
+                    <li class="breadcrumb-item active">{{ __('Edit Category') }}</li>
                 </ol>
             </div>
         </div>
@@ -28,7 +28,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('category.edit category') }}</h3>
+                <h3 class="card-title">{{ __('Edit Category') }}</h3>
             </div>
             <div class="card-body">
                 <form class="form-material form-horizontal" action="{{ route('category.update', $category) }}" method="POST" enctype="multipart/form-data">
@@ -37,23 +37,23 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="exampleInputPassword1">{{ __('category.name') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="exampleInputPassword1">{{ __('Name') }} <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-money-check-alt"></i>
                                     </div>
-                                    <input type="text" name="name" value="{{ old('name', $category->name) }}" class="form-control" placeholder="{{ __('category.enter category name') }}" required>
+                                    <input type="text" name="name" value="{{ old('name', $category->name) }}" class="form-control" placeholder="{{ __('Enter Category Name') }}" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="type">{{ __('brand.type') }}</label>
+                                <label for="type">{{ __('Type') }}</label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-weight"></i></span>
                                     </div>
                                     <select class="form-control" id="type" name="type">
-                                            <option value="">- {{ __('brand.select type') }} -</option>
+                                            <option value="">- {{ __('Select Type') }} -</option>
                                             @foreach($types as $key=> $value)
                                                 <option value="{{ $key }}" {{ old('type', $category->type) == $key ? 'selected' : '' }}>{{ $value }}</option>
                                             @endforeach
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="exampleInputPassword1">{{ __('category.color') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="exampleInputPassword1">{{ __('Color') }} <b class="ambitious-crimson">*</b></label>
                               <div class="form-group input-group mb-3">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text color-id" id="color-id"><i class="fas fa-stop"></i></span>
@@ -75,14 +75,14 @@
                               </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="enabled">{{ __('brand.enabled') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="enabled">{{ __('Enabled') }} <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" required="required" name="enabled" id="enabled">
-                                        <option value="1" {{ old('enabled', $category->enabled) == 1 ? 'selected' : '' }}>{{ __('tax.yes') }}</option>
-                                        <option value="0" {{ old('enabled', $category->enabled) == 0 ? 'selected' : '' }}>{{ __('tax.no') }}</option>
+                                        <option value="1" {{ old('enabled', $category->enabled) == 1 ? 'selected' : '' }}>{{ __('Yes') }}</option>
+                                        <option value="0" {{ old('enabled', $category->enabled) == 0 ? 'selected' : '' }}>{{ __('No') }}</option>
                                     </select>
                                     @error('enabled')
                                         <div class="invalid-feedback">
@@ -96,8 +96,8 @@
                     <div class="form-group">
                         <label class="col-md-3 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('entire.submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('category.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('category.cancel') }}</a>
+                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                            <a href="{{ route('category.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
                         </div>
                     </div>
                 </form>

@@ -5,13 +5,13 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h3>
-                    <a href="{{ route('category.create') }}" class="btn btn-outline btn-info">+ {{ __('category.add new') }}</a>
+                    <a href="{{ route('category.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New') }}</a>
                 </h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('category.category list') }}</li>
+                    <li class="breadcrumb-item active">{{ __('Category List') }}</li>
                 </ol>
             </div>
         </div>
@@ -63,9 +63,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <button type="submit" class="btn btn-info">Submit</button>
+                                    <button type="submit" class="btn btn-info">@lang('Submit')</button>
                                     @if(request()->isFilterActive)
-                                        <a href="{{ route('category.index') }}" class="btn btn-secondary">Clear</a>
+                                        <a href="{{ route('category.index') }}" class="btn btn-secondary">@lang('Clear')</a>
                                     @endif
                                 </div>
                             </div>
@@ -94,9 +94,9 @@
                                 </td>
                                 <td>
                                     @if($category->enabled == '1')
-                                        <span class="badge badge-pill badge-success">@lang('category.enabled')</span>
+                                        <span class="badge badge-pill badge-success">@lang('Enabled')</span>
                                     @else
-                                        <span class="badge badge-pill badge-danger">@lang('category.disabled')</span>
+                                        <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                     @endif
                                 </td>
                                 <td>

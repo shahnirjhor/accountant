@@ -20,13 +20,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h3>{{ __('general.general setting') }}</h3>
+                <h3>{{ __('General Setting') }}</h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('dashboard') }}">{{ __('general.dashboard') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('general.settings') }}</li>
+                        <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                    <li class="breadcrumb-item active">{{ __('Settings') }}</li>
                 </ol>
             </div>
         </div>
@@ -36,10 +36,10 @@
 <div class="card">
 	<nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{ __('general.company') }}</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{ __('general.localisation') }}</a>
-            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">{{ __('general.invoice') }}</a>
-            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-defaults" role="tab" aria-controls="nav-defaults" aria-selected="false">{{ __('general.defaults') }}</a>
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{ __('Company') }}</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{ __('Localisation') }}</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">{{ __('Invoice') }}</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-defaults" role="tab" aria-controls="nav-defaults" aria-selected="false">{{ __('Defaults') }}</a>
         </div>
     </nav>
 	<div class="card-body" style="padding-top : 0">
@@ -54,12 +54,12 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.company') }} <b class="ambitious-crimson">*</b></label>
+                                                <label for="exampleInputPassword1">{{ __('Company') }} <b class="ambitious-crimson">*</b></label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="far fa-address-card"></i></span>
                                                     </div>
-                                                    <input type="text" name="company_name" class="form-control @error('company_name') is-invalid @enderror" placeholder="{{ __('general.enter company name') }}" value="{{ old('company_name',$company->company_name) }}" required>
+                                                    <input type="text" name="company_name" class="form-control @error('company_name') is-invalid @enderror" placeholder="{{ __('Enter Company Name') }}" value="{{ old('company_name',$company->company_name) }}" required>
                                                     @error('company_name')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -68,12 +68,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.email') }} <b class="ambitious-crimson">*</b></label>
+                                                <label for="exampleInputPassword1">{{ __('Email') }} <b class="ambitious-crimson">*</b></label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                                     </div>
-                                                    <input type="text" name="company_email" class="form-control @error('company_email') is-invalid @enderror" placeholder="{{ __('general.enter email address') }}" value="{{ old('company_email',$company->company_email) }}" required>
+                                                    <input type="text" name="company_email" class="form-control @error('company_email') is-invalid @enderror" placeholder="{{ __('Enter Email Address') }}" value="{{ old('company_email',$company->company_email) }}" required>
                                                     @error('company_email')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -86,12 +86,12 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.tax number') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Tax Number') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-percentage"></i></span>
                                                     </div>
-                                                    <input type="text" name="company_tax_number" class="form-control @error('company_tax_number') is-invalid @enderror" placeholder="{{ __('general.enter tax number') }}" value="{{ old('company_tax_number',$company->company_tax_number) }}">
+                                                    <input type="text" name="company_tax_number" class="form-control @error('company_tax_number') is-invalid @enderror" placeholder="{{ __('Enter Tax Number') }}" value="{{ old('company_tax_number',$company->company_tax_number) }}">
                                                     @error('company_tax_number')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -100,12 +100,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.phone') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Phone') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                                                     </div>
-                                                    <input type="text" name="company_phone" class="form-control @error('company_phone') is-invalid @enderror" placeholder="{{ __('general.enter phone number') }}" value="{{ old('company_phone',$company->company_phone) }}">
+                                                    <input type="text" name="company_phone" class="form-control @error('company_phone') is-invalid @enderror" placeholder="{{ __('Enter Phone Number') }}" value="{{ old('company_phone',$company->company_phone) }}">
                                                     @error('company_phone')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -118,10 +118,10 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>{{ __('general.logo') }}</label>
+                                                <label>{{ __('Logo') }}</label>
                                                 <input id="photo" class="dropify" name="company_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
-                                                <small id="name" class="form-text text-muted">{{ __('general.leave blank for remain unchanged') }}</small>
-                                                <p>{{ __('general.max size: 1000kb, allowed format: png, jpg, jpeg') }}</p>
+                                                <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
+                                                <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
                                                 @error('company_logo')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -129,7 +129,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-6">
-                                                <label>{{ __('general.address') }} <b class="ambitious-crimson">*</b></label>
+                                                <label>{{ __('Address') }} <b class="ambitious-crimson">*</b></label>
                                                 <div id="edit_input_address" class="form-control @error('company_address') is-invalid @enderror" style="max-height: 55px;"></div>
                                                 <input type="hidden" name="company_address" id="company_address" value="{{ old('company_address',$company->company_address) }}">
                                                 @error('company_address')
@@ -143,8 +143,8 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('general.save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('general.cancel') }}</a>
+                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
                                         </div>
                                     </div>
                                 </form>
@@ -157,12 +157,12 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.financial year start') }} </label>
+                                                <label for="exampleInputPassword1">{{ __('Financial Year Start') }} </label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="far fa-calendar-check"></i></span>
                                                     </div>
-                                                    <input type="text" name="financial_start" id="financial_start" class="form-control @error('financial_start') is-invalid @enderror" placeholder="{{ __('general.enter financial year start') }}" value="{{ old('financial_start',$company->financial_start) }}">
+                                                    <input type="text" name="financial_start" id="financial_start" class="form-control @error('financial_start') is-invalid @enderror" placeholder="{{ __('Enter Financial Year Start') }}" value="{{ old('financial_start',$company->financial_start) }}">
                                                     @error('financial_start')
                                                         <div class="invalid-feedback">
                                                             {{ $message }}
@@ -171,7 +171,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.time zone') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Time Zone') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-globe"></i></span>
@@ -193,7 +193,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.date format') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Date Format') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-calendar"></i></span>
@@ -213,17 +213,17 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label>{{ __('general.date separator') }}</label>
+                                                <label>{{ __('Date Separator') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-minus"></i></span>
                                                     </div>
                                                     <select class="form-control @error('date_separator') is-invalid @enderror" id="date_separator" name="date_separator">
-                                                        <option value="dash" {{ old('date_separator', $company->date_separator) == "dash" ? 'selected' : '' }}>{{ __('general.dash') }} (-)</option>
-                                                        <option value="slash" {{ old('date_separator', $company->date_separator) == "slash" ? 'selected' : '' }}>{{ __('general.slash') }} (/)</option>
-                                                        <option value="dot" {{ old('date_separator', $company->date_separator) == "dot" ? 'selected' : '' }}>{{ __('general.dot') }} (.)</option>
-                                                        <option value="comma" {{ old('date_separator', $company->date_separator) == "comma" ? 'selected' : '' }}>{{ __('general.comma') }} (,)</option>
-                                                        <option value="space" {{ old('date_separator', $company->date_separator) == "space" ? 'selected' : '' }}>{{ __('general.space') }} ( )</option>
+                                                        <option value="dash" {{ old('date_separator', $company->date_separator) == "dash" ? 'selected' : '' }}>{{ __('Dash') }} (-)</option>
+                                                        <option value="slash" {{ old('date_separator', $company->date_separator) == "slash" ? 'selected' : '' }}>{{ __('Slash') }} (/)</option>
+                                                        <option value="dot" {{ old('date_separator', $company->date_separator) == "dot" ? 'selected' : '' }}>{{ __('Dot') }} (.)</option>
+                                                        <option value="comma" {{ old('date_separator', $company->date_separator) == "comma" ? 'selected' : '' }}>{{ __('Comma') }} (,)</option>
+                                                        <option value="space" {{ old('date_separator', $company->date_separator) == "space" ? 'selected' : '' }}>{{ __('Space') }} ( )</option>
                                                     </select>
                                                     @error('date_separator')
                                                         <div class="invalid-feedback">
@@ -237,14 +237,14 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.percent (%) position') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Percent (%) Position') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-percentage"></i></span>
                                                     </div>
                                                     <select class="form-control @error('percent_position') is-invalid @enderror" id="percent_position" name="percent_position">
-                                                        <option value="before" {{ old('percent_position', $company->percent_position) == "before" ? 'selected' : '' }}>{{ __('general.before number') }}</option>
-                                                        <option value="after" {{ old('percent_position', $company->percent_position) == "after" ? 'selected' : '' }}>{{ __('general.after number') }}</option>
+                                                        <option value="before" {{ old('percent_position', $company->percent_position) == "before" ? 'selected' : '' }}>{{ __('Before Number') }}</option>
+                                                        <option value="after" {{ old('percent_position', $company->percent_position) == "after" ? 'selected' : '' }}>{{ __('After Number') }}</option>
                                                     </select>
                                                     @error('percent_position')
                                                         <div class="invalid-feedback">
@@ -258,8 +258,8 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('general.save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('general.cancel') }}</a>
+                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
                                         </div>
                                     </div>
                                 </form>
@@ -272,21 +272,21 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.number prefix') }} </label>
+                                                <label for="exampleInputPassword1">{{ __('Number Prefix') }} </label>
                                               <div class="form-group input-group mb-3">
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-font"></i></span>
                                                   </div>
-                                                  <input type="text" name="invoice_number_prefix" id="invoice_number_prefix" class="form-control" placeholder="{{ __('general.enter number prefix') }}" value="{{ $company->invoice_number_prefix ?? null }}">
+                                                  <input type="text" name="invoice_number_prefix" id="invoice_number_prefix" class="form-control" placeholder="{{ __('Enter Number Prefix') }}" value="{{ $company->invoice_number_prefix ?? null }}">
                                               </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.number digit') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Number Digit') }}</label>
                                               <div class="form-group input-group mb-3">
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-text-width"></i></span>
                                                   </div>
-                                                  <input type="text" name="invoice_number_digit" id="invoice_number_digit" class="form-control" placeholder="{{ __('general.enter number digit') }}" value="{{ $company->invoice_number_digit ?? null }}">
+                                                  <input type="text" name="invoice_number_digit" id="invoice_number_digit" class="form-control" placeholder="{{ __('Enter Number Digit') }}" value="{{ $company->invoice_number_digit ?? null }}">
                                               </div>
                                             </div>
                                         </div>
@@ -294,16 +294,16 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.next number') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Next Number') }}</label>
                                               <div class="form-group input-group mb-3">
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-chevron-right"></i></span>
                                                   </div>
-                                                  <input type="text" name="invoice_number_next" id="invoice_number_next" class="form-control" placeholder="{{ __('general.enter next number') }}" value="{{ $company->invoice_number_next ?? null }}">
+                                                  <input type="text" name="invoice_number_next" id="invoice_number_next" class="form-control" placeholder="{{ __('Enter Next Number') }}" value="{{ $company->invoice_number_next ?? null }}">
                                               </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label>{{ __('general.item name') }}</label>
+                                                <label>{{ __('Item Name') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-font"></i></span>
@@ -313,7 +313,7 @@
                                                         <option value="{{ $key }}" {{ old('invoice_item', $company->invoice_item) == $key ? 'selected' : '' }}>{{ ucwords(str_replace('settings.invoice.', '', $value ?? null)) }}</option>
                                                     @endforeach
                                                     </select>
-                                                  {{-- <input type="text" name="invoice_item" id="invoice_item" class="form-control" placeholder="{{ __('general.enter item name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_item ?? null)}}"> --}}
+                                                  {{-- <input type="text" name="invoice_item" id="invoice_item" class="form-control" placeholder="{{ __('enter item name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_item ?? null)}}"> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -321,7 +321,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.price name') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Price Name') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-font"></i></span>
@@ -334,12 +334,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.quantity name') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Quantity Name') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-font"></i></span>
                                                     </div>
-                                                    <input type="text" name="invoice_quantity" id="invoice_quantity" class="form-control" placeholder="{{ __('general.enter quantity name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_quantity ?? null) }}">
+                                                    <input type="text" name="invoice_quantity" id="invoice_quantity" class="form-control" placeholder="{{ __('Enter Quantity Name') }}" value="{{ str_replace('settings.invoice.', '', $company->invoice_quantity ?? null) }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -347,11 +347,11 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>{{ __('general.logo') }}</label>
+                                                <label>{{ __('Logo') }}</label>
                                               
                                                 <input id="photo1" class="dropify" name="invoice_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
-                                                <small id="name" class="form-text text-muted">{{ __('general.leave blank for remain unchanged') }}</small>
-                                                <p>{{ __('general.max size: 1000kb, allowed format: png, jpg, jpeg') }}</p>
+                                                <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
+                                                <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
                                              
                                             </div>
                                         </div>
@@ -359,8 +359,8 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('general.save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('general.cancel') }}</a>
+                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
                                         </div>
                                     </div>
                                 </form>
@@ -373,7 +373,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.default account') }} </label>
+                                                <label for="exampleInputPassword1">{{ __('Default Account') }} </label>
                                               <div class="form-group input-group mb-3">
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-university"></i></span>
@@ -387,7 +387,7 @@
                                               </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label>{{ __('general.default currency') }}</label>
+                                                <label>{{ __('Default Currency') }}</label>
                                               <div class="form-group input-group mb-3">
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-exchange-alt"></i></span>
@@ -405,7 +405,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>{{ __('general.default tax rate') }}</label>
+                                                <label>{{ __('Default Tax Rate') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-chevron-right"></i></span>
@@ -418,14 +418,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label>{{ __('general.default payment method') }}</label>
+                                                <label>{{ __('Default Payment Method') }}</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
                                                     </div>
                                                    <select id="default_payment_method" name="default_payment_method" class="form-control">
-                                                       <option value="offlinepayment.cash" @if ($company->default_payment_method == 'offlinepayment.cash') selected="selected" @endif >{{ __('general.cash') }}</option>
-                                                       <option value="offlinepayment.bank_transfer" @if ($company->default_payment_method == 'offlinepayment.bank_transfer') selected="selected" @endif >{{ __('general.bank transfer') }}</option>
+                                                       <option value="offlinepayment.cash" @if ($company->default_payment_method == 'offlinepayment.cash') selected="selected" @endif >{{ __('Cash') }}</option>
+                                                       <option value="offlinepayment.bank_transfer" @if ($company->default_payment_method == 'offlinepayment.bank_transfer') selected="selected" @endif >{{ __('Bank Transfer') }}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -434,7 +434,7 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('general.default language') }}</label>
+                                                <label for="exampleInputPassword1">{{ __('Default Language') }}</label>
                                               <div class="form-group input-group mb-3">
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-flag"></i></span>
@@ -454,8 +454,8 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('general.save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('general.cancel') }}</a>
+                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
                                         </div>
                                     </div>
                                 </form>

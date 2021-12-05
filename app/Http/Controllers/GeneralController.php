@@ -121,9 +121,9 @@ class GeneralController extends Controller
         }
 
         if($data) {
-        	return redirect()->route('general')->withSuccess(trans('general.company information updated successfully'));
+        	return redirect()->route('general')->withSuccess(trans('Company Information Updated Successfully'));
         } else {
-        	return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
+        	return redirect()->back()->withErrors(trans('Something Went Wrong, Please Try Again'));
         }
  	}
 
@@ -186,9 +186,9 @@ class GeneralController extends Controller
 		}
 
         if($data) {
-        	return redirect()->route('general')->withSuccess(trans('general.localisation information updated successfully'));
+        	return redirect()->route('general')->withSuccess(trans('Localisation Information Updated Successfully'));
         } else {
-        	return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
+        	return redirect()->back()->withErrors(trans('Something Went Wrong, Please Try Again'));
         }
  	}
 
@@ -259,9 +259,9 @@ class GeneralController extends Controller
            }
        }
        if($data) {
-           return redirect()->route('general')->withSuccess(trans('general.invoice information updated successfully'));
+           return redirect()->route('general')->withSuccess(trans('Invoice Information Updated Successfully'));
        } else {
-           return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
+           return redirect()->back()->withErrors(trans('Something Went Wrong, Please Try Again'));
        }
     }
 
@@ -324,9 +324,9 @@ class GeneralController extends Controller
         }
 
         if($data) {
-            return redirect()->route('general')->withSuccess(trans('general.default information updated successfully'));
+            return redirect()->route('general')->withSuccess(trans('Default Information Updated Successfully'));
         } else {
-            return redirect()->back()->withErrors(trans('general.something went wrong, please try again.'));
+            return redirect()->back()->withErrors(trans('Something Went Wrong, Please Try Again'));
         }
     }
 }

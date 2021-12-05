@@ -9,8 +9,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('smtp.index') }}">{{ __('smtp.smtp list') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('smtp.add new smtp') }}</li>
+                        <a href="{{ route('smtp.index') }}">{{ __('Smtp List') }}</a></li>
+                    <li class="breadcrumb-item active">{{ __('Add New Smtp') }}</li>
                 </ol>
             </div>
         </div>
@@ -21,7 +21,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('smtp.add new smtp') }}</h3>
+                <h3 class="card-title">{{ __('Add New Smtp') }}</h3>
             </div>
             <div class="card-body">
                 <form class="form-material form-horizontal" action="{{ route('smtp.store') }}" method="POST" enctype="multipart/form-data">

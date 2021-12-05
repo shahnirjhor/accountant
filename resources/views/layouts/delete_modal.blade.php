@@ -7,14 +7,14 @@
                     <h4 class="modal-title">{{ $ApplicationSetting->item_name }}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <p class="my-0 font-weight-bold">{{ __('entire.are you sure you want to delete this data') }} ???</p>
+                    <p class="my-0 font-weight-bold">{{ __('Are You Sure You Want To Delete This Data') }} ???</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('entire.close') }}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
                     <form class="btn-ok" action="" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">{{ __('entire.delete') }}</button>
+                        <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
                     </form>
                 </div>
             </div>

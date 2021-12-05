@@ -214,6 +214,11 @@
     "Please Type Your Smtp User" : "অনুগ্রহ করে আপনার এসএমটিপি ব্যবহারকারী টাইপ করুন",
     "Please Type Your Smtp Password" : "আপনার এসএমটিপি পাসওয়ার্ড টাইপ করুন",
     "Edit SMTP" : "এসএমটিপি সম্পাদনা করুন",
+    "New Smtp Information Inserted Successfully" : "",
+    "Smtp Information Updated Successfully" : "",
+    "Oops Something Wrong" : "",
+    "This Feature Is Disabled In Demo Version" : "",
+    "Smtp Information Deleted Successfully" : "",
 
     "_COMMENT23" : "General Setting",
     "General Setting" : "সাধারণ বিন্যাস",

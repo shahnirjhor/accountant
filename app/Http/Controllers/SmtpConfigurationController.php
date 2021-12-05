@@ -70,10 +70,10 @@ class SmtpConfigurationController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('smtp.index')->withSuccess(trans('smtp.new smtp information inserted successfully'));
+            return redirect()->route('smtp.index')->withSuccess(trans('New Smtp Information Inserted Successfully'));
         } catch (Exception $e) {
             DB::rollback();
-            return redirect()->route('smtp.create')->withErrors([trans('smtp.oops something wrong')]);
+            return redirect()->route('smtp.create')->withErrors([trans('Oops Something Wrong')]);
         }
     }
 
@@ -124,7 +124,7 @@ class SmtpConfigurationController extends Controller
         $applicationSetting = ApplicationSetting::first();
         if($applicationSetting->is_demo == "1")
         {
-            session()->flash('demo_error', trans('smtp.this feature is disabled in demo version'));
+            session()->flash('demo_error', trans('This Feature Is Disabled In Demo Version'));
             return redirect()->back();
         }
 
@@ -148,10 +148,10 @@ class SmtpConfigurationController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('smtp.index')->withSuccess(trans('smtp.smtp information updated successfully'));
+            return redirect()->route('smtp.index')->withSuccess(trans('Smtp Information Updated Successfully'));
          } catch (Exception $e) {
             DB::rollback();
-            return redirect()->back()->withErrors([trans('smtp.oops something wrong')]);
+            return redirect()->back()->withErrors([trans('Oops Something Wrong')]);
          }
     }
 
@@ -182,8 +182,8 @@ class SmtpConfigurationController extends Controller
         }
 
         if($smtpConfiguration->delete())
-            return redirect()->route('smtp.index')->withSuccess(trans('smtp.smtp information deleted successfully'));
+            return redirect()->route('smtp.index')->withSuccess(trans('Smtp Information Deleted Successfully'));
         else
-            return redirect()->back()->withErrors(trans('smtp.oops something wrong'));
+            return redirect()->back()->withErrors(trans('Oops Something Wrong'));
     }
 }

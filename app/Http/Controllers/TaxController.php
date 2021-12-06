@@ -71,7 +71,7 @@ class TaxController extends Controller
             $data->save();
 
             DB::commit();
-            return redirect()->route('tax.index')->withSuccess(trans('tax.tax information inserted successfully'));
+            return redirect()->route('tax.index')->withSuccess(trans('Tax Information Inserted Successfully'));
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors($e->getMessage());
@@ -130,7 +130,7 @@ class TaxController extends Controller
             $data->save();
 
             DB::commit();
-            return redirect()->route('tax.index')->withSuccess(trans('tax.tax information updated successfully'));
+            return redirect()->route('tax.index')->withSuccess(trans('Tax Information Updated Successfully'));
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors($e->getMessage());
@@ -146,7 +146,7 @@ class TaxController extends Controller
     public function destroy(Tax $tax)
     {
         $tax->delete();
-        return redirect()->route('tax.index')->withSuccess(trans('tax.your tax info has been deleted successfully'));
+        return redirect()->route('tax.index')->withSuccess(trans('Your Tax Info Has Been Deleted Successfully'));
     }
 
     // TODO: 'items' => 'items',
@@ -160,12 +160,12 @@ class TaxController extends Controller
             //         'invoice_items' => 'invoices',
             //         'bill_items' => 'bills',
             //     ]);
-        
+
             //     if (empty($relationships)) {
             //         $tax->delete();
-        
+
             //         $message = trans('messages.success.deleted', ['type' => trans_choice('general.taxes', 1)]);
-        
+
             //         return response()->json([
             //             'success' => true,
             //             'error' => false,
@@ -174,7 +174,7 @@ class TaxController extends Controller
             //         ]);
             //     } else {
             //         $message = trans('messages.warning.deleted', ['name' => $tax->name, 'text' => implode(', ', $relationships)]);
-        
+
             //         return response()->json([
             //             'success' => false,
             //             'error' => true,

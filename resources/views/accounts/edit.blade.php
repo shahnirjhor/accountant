@@ -31,7 +31,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="name">{{ __('brand.name') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="name">{{ __('Name') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-file-signature"></i>
@@ -128,7 +128,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">                            
+                <div class="form-group row">
                     <div class="col-md-12">
                         <label class="col-md-12"><h4>{{ __('account.bank address') }}</h4></label>
                         <div class="col-md-12">
@@ -146,7 +146,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="enabled">{{ __('brand.status') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="enabled">{{ __('Status') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-thermometer-three-quarters"></i></span>
@@ -170,7 +170,7 @@
                         <input type="submit" value="@lang('Update')" class="btn btn-outline btn-info btn-lg"/>
                         <a href="{{ route('account.index') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                     </div>
-                </div> 
+                </div>
                 </form>
             </div>
         </div>
@@ -189,7 +189,7 @@
         $('#edit_input_address').on('keyup', function(){
             var edit_input_address = equill.container.firstChild.innerHTML;
             $("#bank_address").val(edit_input_address);
-        });  
+        });
     });
 </script>
 @endsection

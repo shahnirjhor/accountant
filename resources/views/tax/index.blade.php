@@ -5,12 +5,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('tax.create') }}" class="btn btn-outline btn-info">+ {{ __('tax.add new') }}</a></h3>
+                <h3><a href="{{ route('tax.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New') }}</a></h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('tax.tax rates') }}</li>
+                    <li class="breadcrumb-item active">{{ __('Tax Rates') }}</li>
                 </ol>
             </div>
         </div>
@@ -23,7 +23,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('tax.tax rates') }} </h3>
+                <h3 class="card-title">{{ __('Tax Rates') }} </h3>
                 <div class="card-tools">
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
@@ -44,7 +44,7 @@
                                     <div class="form-group">
                                         <label>@lang('Tax Type')</label>
                                         <select class="form-control" name="type">
-                                            <option value="">--Select--</option>
+                                            <option value="">--@lang('Select')--</option>
                                             <option value="normal" {{ old('type', request()->type) === 'normal' ? 'selected' : ''  }}>@lang('Normal')</option>
                                             <option value="inclusive" {{ old('type', request()->type) === 'inclusive' ? 'selected' : ''  }}>@lang('Inclusive')</option>
                                             <option value="compound" {{ old('type', request()->type) === 'compound' ? 'selected' : ''  }}>@lang('Compound')</option>
@@ -54,9 +54,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <button type="submit" class="btn btn-info">Submit</button>
+                                    <button type="submit" class="btn btn-info">@lang('Submit')</button>
                                     @if(request()->isFilterActive)
-                                        <a href="{{ route('tax.index') }}" class="btn btn-secondary">Clear</a>
+                                        <a href="{{ route('tax.index') }}" class="btn btn-secondary">@lang('Clear')</a>
                                     @endif
                                 </div>
                             </div>
@@ -66,11 +66,11 @@
                 <table id="laravel_datatable" class="table table-striped compact table-width">
                     <thead>
                         <tr>
-                            <th>{{ __('tax.tax name') }}</th>
-                            <th>{{ __('tax.tax rate(%)') }}</th>
-                            <th>{{ __('tax.type') }}</th>
-                            <th>{{ __('tax.status') }}</th>
-                            <th data-orderable="false">{{ __('tax.actions') }}</th>
+                            <th>{{ __('Tax Name') }}</th>
+                            <th>{{ __('Tax Rate(%)') }}</th>
+                            <th>{{ __('Type') }}</th>
+                            <th>{{ __('Status') }}</th>
+                            <th data-orderable="false">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,18 +80,18 @@
                                 <td>{{ $tax->rate }}</td>
                                 <td>
                                     @if($tax->type == 'inclusive')
-                                        <span class="badge badge-pill badge-primary">@lang('tax.inclusive')</span>
+                                        <span class="badge badge-pill badge-primary">@lang('Inclusive')</span>
                                     @elseif ($tax->type == 'compound')
-                                        <span class="badge badge-pill badge-info">@lang('tax.compound')</span>
+                                        <span class="badge badge-pill badge-info">@lang('Compound')</span>
                                     @else
-                                        <span class="badge badge-pill badge-secondary">@lang('tax.normal')</span>
+                                        <span class="badge badge-pill badge-secondary">@lang('Normal')</span>
                                     @endif
                                 </td>
                                 <td>
                                     @if($tax->enabled == '1')
-                                        <span class="badge badge-pill badge-success">@lang('tax.enabled')</span>
+                                        <span class="badge badge-pill badge-success">@lang('Enabled')</span>
                                     @else
-                                        <span class="badge badge-pill badge-danger">@lang('tax.disabled')</span>
+                                        <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                     @endif
                                 </td>
                                 <td>

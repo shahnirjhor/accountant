@@ -154,14 +154,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="enabled"><h4>{{ __('brand.enabled') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="enabled"><h4>{{ __('Enabled') }} <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" required="required" name="enabled" id="enabled">
-                                        <option value="1" {{ old('enabled', $item->enabled) == 1 ? 'selected' : '' }}>{{ __('tax.yes') }}</option>
-                                        <option value="0" {{ old('enabled', $item->enabled) == 0 ? 'selected' : '' }}>{{ __('tax.no') }}</option>
+                                        <option value="1" {{ old('enabled', $item->enabled) == 1 ? 'selected' : '' }}>{{ __('Yes') }}</option>
+                                        <option value="0" {{ old('enabled', $item->enabled) == 0 ? 'selected' : '' }}>{{ __('No') }}</option>
                                     </select>
                                     @error('enabled')
                                         <div class="invalid-feedback">

@@ -295,8 +295,6 @@
     "Your Currency Has Been Deleted Successfully" : "আপনার মুদ্রা সফলভাবে মুছে ফেলা হয়েছে",
     "Code" : "কোড",
     "Rate" : "হার",
-    "" : "",
-    "" : "",
 
     "_COMMENT26" : "Tax",
     "Add New" : "নতুন যোগ করুন",
@@ -309,6 +307,11 @@
     "Enter Rate" : "হার লিখুন",
     "Select Type" : "প্রকার নির্বাচন করুন",
     "Edit Tax Rate" : "ট্যাক্স হার সম্পাদনা করুন",
+    "Tax Information Inserted Successfully" : "ট্যাক্স তথ্য সফলভাবে সন্নিবেশ করা হয়েছে",
+    "Tax Information Updated Successfully" : "ট্যাক্স তথ্য সফলভাবে আপডেট করা হয়েছে",
+    "Your Tax Info Has Been Deleted Successfully" : "আপনার ট্যাক্স তথ্য সফলভাবে মুছে ফেলা হয়েছে",
+    "Normal" : "স্বাভাবিক",
+    "Compound" : "যৌগ",
 
     "_COMMENT27" : "Heder",
     "Manage Company" : "কোম্পানি পরিচালনা করুন",

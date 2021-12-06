@@ -293,8 +293,8 @@
     "Currency Information Updated Successfully" : "মুদ্রার তথ্য সফলভাবে আপডেট করা হয়েছে",
     "You Can Not Delete Default Currency" : "আপনি ডিফল্ট মুদ্রা মুছে ফেলতে পারবেন না",
     "Your Currency Has Been Deleted Successfully" : "আপনার মুদ্রা সফলভাবে মুছে ফেলা হয়েছে",
-    "" : "",
-    "" : "",
+    "Code" : "কোড",
+    "Rate" : "হার",
     "" : "",
     "" : "",
 

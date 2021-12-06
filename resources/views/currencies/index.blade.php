@@ -51,9 +51,9 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <button type="submit" class="btn btn-info">Submit</button>
+                                <button type="submit" class="btn btn-info">@lang('Submit')</button>
                                 @if(request()->isFilterActive)
-                                    <a href="{{ route('currency.index') }}" class="btn btn-secondary">Clear</a>
+                                    <a href="{{ route('currency.index') }}" class="btn btn-secondary">@lang('Clear')</a>
                                 @endif
                             </div>
                         </div>
@@ -82,9 +82,9 @@
                             </td>
                             <td>
                                 @if($currency->enabled == '1')
-                                    <span class="badge badge-pill badge-success">@lang('category.enabled')</span>
+                                    <span class="badge badge-pill badge-success">@lang('Enabled')</span>
                                 @else
-                                    <span class="badge badge-pill badge-danger">@lang('category.disabled')</span>
+                                    <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                 @endif
                             </td>
                             <td>

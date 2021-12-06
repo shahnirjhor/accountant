@@ -138,9 +138,9 @@
                                         </tr>
                                     </thead>
                                     <tbody id="invoice">
-                                        <tr>
+                                        <tr id="item-row-0">
                                             <td>
-                                                <select id="mySelect2" name="account_name[]" class="form-control select2" required>
+                                                <select id="mySelect2" name="item_name[]"  class="form-control select2" required>
                                                     <option value="">--@lang('Select')--</option>
                                                     @foreach ($items as $key => $value)
                                                         <option value="{{ $key }}">{{ $value }}</option>
@@ -148,10 +148,10 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="number" step=".01" name="quantity[]" class="form-control quantity" value="" placeholder="@lang('Quantity')" required>
+                                                <input type="number" step=".01" name="quantity[]" id="item-quantity-0" class="form-control quantity" value="" placeholder="@lang('Quantity')" required>
                                             </td>
                                             <td>
-                                                <input type="number" step=".01" name="price[]" class="form-control price" value="" placeholder="@lang('Price')" required>
+                                                <input type="number" step=".01" name="price[]" id="item-price-0" class="form-control price" value="" placeholder="@lang('Price')" required>
                                             </td>
                                             <td>
                                                 <input type="number" step=".01" name="tax[]" class="form-control tax" value="" placeholder="@lang('Tax')" required>
@@ -225,10 +225,38 @@
     </div>
 </div>
 <script>
+
+    $(document).ready(function () {
+        let invoice = $('#invoice').html();
+
+        $(document).on('click', '.m-add', function () {
+            alert("rr");
+            $('#invoice').append(invoice);
+        });
+
+        $(document).on('click', '.m-remove', function () {
+            $(this).parent().parent().remove();
+        });
+    });
+
+    
+
+
     $('#mySelect2').on('select2:select', function (e) {
-        let hh = $("#mySelect2").val();
-        $(this).parent().parent().find('.price').val(hh);
-        alert($("#mySelect2").val());
+        let applicationName = "{{ $ApplicationSetting->item_name  }}";
+        let itemId = $("#mySelect2").val();
+        if(itemId) {
+            $.post("{{ url('invoice/generateItemData') }}",{itemId},function(data,status) {
+                let iQuantity = data.quantity;
+
+                $('#item-quantity-0').val(iQuantity);
+                $('#item-price-0').val(10);
+
+                // item-quantity-0
+                // alert(iQuantity);
+                // $(this).parent().parent().find('.quantity').val(iQuantity);
+            });
+        }
     });
 </script>
 @endsection

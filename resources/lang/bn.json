@@ -364,5 +364,23 @@
     "Scheduled at" : "নির্ধারিত সময়ে",
     "Created at" : "এ নির্মিত",
     "Email Campaign Report" : "ইমেল প্রচারাভিযান রিপোর্ট",
-    "Email Campaign Report List" : "ইমেল প্রচারাভিযান রিপোর্ট তালিকা"
+    "Email Campaign Report List" : "ইমেল প্রচারাভিযান রিপোর্ট তালিকা",
+
+    "_COMMENT31" : "Offline Payment",
+    "Offline Payment Added Successfully" : "অফলাইন পেমেন্ট সফলভাবে যোগ করা হয়েছে",
+    "Offline Payment Update Successfully" : "অফলাইন পেমেন্ট আপডেট সফলভাবে",
+    "Offline Payment Deleted Successfully" : "অফলাইন পেমেন্ট সফলভাবে মুছে ফেলা হয়েছে",
+    "Add New Offline Payment" : "নতুন অফলাইন পেমেন্ট যোগ করুন",
+    "Offline Payments List" : "অফলাইন পেমেন্ট তালিকা",
+    "Offline Payment Methods" : "অফলাইন পেমেন্ট পদ্ধতি",
+    "Order" : "অর্ডার",
+    "Show to Customer" : "গ্রাহককে দেখান",
+    "Enter Code" : "কোড লিখুন",
+    "Enter Order" : "অর্ডার লিখুন",
+    "Edit Offline Payment" : "অফলাইন পেমেন্ট সম্পাদনা করুন",
+    "" : "",
+    "" : "",
+    "" : "",
+    "" : ""
+
 }

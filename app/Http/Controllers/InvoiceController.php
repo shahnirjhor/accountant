@@ -44,6 +44,24 @@ class InvoiceController extends Controller
         return view('invoices.create', compact('company','customers', 'currencies', 'currency', 'items', 'taxes', 'categories','number'));
     }
 
+    public function generateItemData(Request $request)
+    {
+        $this->validate($request,[
+            'itemId' => 'required'
+        ]);
+        $item = Item::where('company_id', Session::get('company_id'))->where('enabled', 1)->where('id', $request->itemId)->first();
+        if($item) {
+            $response['status']  = '1';
+            $response['quantity'] = 1;
+        } else {
+            $response['status']  = '0';
+            $response['quantity'] = 0;
+        }
+        return $response;
+    }
+
+    
+
         /**
      * Generate next invoice number
      *

@@ -70,6 +70,12 @@ Route::group(['middleware' => ['auth']], function() {
     ]);
 
     Route::get('patient-appointments/get-schedule/doctorwise', [App\Http\Controllers\PatientAppointmentController::class, 'getScheduleDoctorWise'])->name('patient-appointments.getScheduleDoctorWise');
+    
+    Route::post('/invoice/generateItemData',[
+        'uses' => 'App\Http\Controllers\InvoiceController@generateItemData',
+        'as' => 'invoice.generateItemData'
+    ]);
+    
     Route::post('/labreport/generateTemplateData',[
         'uses' => 'App\Http\Controllers\LabReportController@generateTemplateData',
         'as' => 'labreport.generateTemplateData'

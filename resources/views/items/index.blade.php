@@ -29,13 +29,13 @@
                     <thead>
                         <tr>
                             <th>{{ __('items.picture') }}</th>
-                            <th>{{ __('currency.name') }}</th>
+                            <th>{{ __('Name') }}</th>
                             <th>{{ __('items.category') }}</th>
                             <th>{{ __('items.quantity') }}</th>
                             <th>{{ __('items.sale price')}}</th>
                             <th>{{ __('items.purchase price')}}</th>
                             <th>{{ __('items.status') }}</th>
-                            <th data-orderable="false">{{ __('currency.actions') }}</th>
+                            <th data-orderable="false">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>

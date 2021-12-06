@@ -127,7 +127,7 @@ class CurrencyController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('currency.index')->withSuccess(trans('currency.currency information inserted successfully'));
+            return redirect()->route('currency.index')->withSuccess(trans('Currency Information Inserted Successfully'));
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors($e->getMessage());
@@ -198,7 +198,7 @@ class CurrencyController extends Controller
                 ->update(['value' => $data->code]);
             }
             DB::commit();
-            return redirect()->route('currency.index')->withSuccess(trans('currency.currency information updated successfully'));
+            return redirect()->route('currency.index')->withSuccess(trans('Currency Information Updated Successfully'));
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->withErrors($e->getMessage());
@@ -219,11 +219,11 @@ class CurrencyController extends Controller
         $company->setSettings();
 
         if($company->default_currency == $data->code) {
-            return redirect()->route('currency.index')->withErrors(trans('currency.you cant delete default currency'));
+            return redirect()->route('currency.index')->withErrors(trans('You Can Not Delete Default Currency'));
         }
 
        $data->delete();
 
-       return redirect()->route('currency.index')->withSuccess(trans('currency.your currency has been deleted successfully'));
+       return redirect()->route('currency.index')->withSuccess(trans('Your Currency Has Been Deleted Successfully'));
     }
 }

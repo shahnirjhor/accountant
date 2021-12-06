@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('currency.create') }}" class="btn btn-outline btn-info">+ {{ __('currency.add new currency') }}</a></h3>
+                <h3><a href="{{ route('currency.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New Currency') }}</a></h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('currency.currency list') }}</li>
+                    <li class="breadcrumb-item active">{{ __('Currency List') }}</li>
                 </ol>
             </div>
         </div>
@@ -19,7 +19,7 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ __('currency.currencies') }} </h3>
+            <h3 class="card-title">{{ __('Currencies') }} </h3>
             <div class="card-tools">
                 <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
             </div>
@@ -63,12 +63,12 @@
             <table id="laravel_datatable" class="table table-striped compact table-width">
                 <thead>
                     <tr>
-                        <th>{{ __('currency.name') }}</th>
-                        <th>{{ __('currency.code') }}</th>
-                        <th>{{ __('currency.rate') }}</th>
-                        <th class="text-center">{{ __('currency.symbol') }}</th>
-                        <th>{{ __('currency.enabled') }}</th>
-                        <th data-orderable="false">{{ __('currency.actions') }}</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Code') }}</th>
+                        <th>{{ __('Rate') }}</th>
+                        <th class="text-center">{{ __('Symbol') }}</th>
+                        <th>{{ __('Enabled') }}</th>
+                        <th data-orderable="false">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>

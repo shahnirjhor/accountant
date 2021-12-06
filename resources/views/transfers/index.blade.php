@@ -77,7 +77,7 @@
                             <th>@lang('From Account')</th>
                             <th>@lang('To Account')</th>
                             <th>@lang('Amount')</th>
-                            <th data-orderable="false">{{ __('currency.actions') }}</th>
+                            <th data-orderable="false">{{ __('Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,7 +86,7 @@
                             <td>{{ date($company->date_format, strtotime($transfer->payment->paid_at)) }}</td>
                             <td>{{ $transfer->payment->account->name }}</td>
                             <td>{{ $transfer->revenue->account->name }}</td>
-                            <td>@money($transfer->payment->amount, $transfer->payment->currency_code, true)</td>                            
+                            <td>@money($transfer->payment->amount, $transfer->payment->currency_code, true)</td>
                             <td>
                                 <a href="{{ route('transfer.edit', $transfer) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
                                 <a href="#" data-href="{{ route('transfer.destroy', $transfer) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
@@ -102,10 +102,6 @@
 </div>
 @include('layouts.delete_modal')
 <script>
-    $('#myModal').on('show.bs.modal', function(e) {
-        $(this).find('.btn-ok').attr('action', $(e.relatedTarget).data('href'));
-    });
-    
     "use strict";
     $(document).ready( function () {
         $('#laravel_datatable').DataTable({

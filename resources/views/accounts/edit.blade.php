@@ -11,8 +11,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('account.index') }}">{{ __('account.account list') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('account.edit account') }}</li>
+                        <a href="{{ route('account.index') }}">{{ __('Account List') }}</a></li>
+                    <li class="breadcrumb-item active">{{ __('Edit Account') }}</li>
                 </ol>
             </div>
         </div>
@@ -22,7 +22,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('account.edit account') }}</h3>
+                <h3 class="card-title">{{ __('Edit Account') }}</h3>
             </div>
             <div class="card-body">
                 <form class="form-material form-horizontal" action="{{ route('account.update', $account) }}" method="POST" enctype="multipart/form-data">
@@ -36,7 +36,7 @@
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-file-signature"></i>
                                 </div>
-                                <input type="text" name="name" value="{{ old('name', $account->name) }}" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('account.enter account name') }}" required>
+                                <input type="text" name="name" value="{{ old('name', $account->name) }}" id="name" class="form-control @error('name') is-invalid @enderror" placeholder="{{ __('Enter Account Name') }}" required>
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -45,12 +45,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="number">{{ __('account.number') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="number">{{ __('Number') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i>
                                 </div>
-                                <input type="text" name="number" value="{{ old('number', $account->number) }}" id="number" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('account.enter number code') }}">
+                                <input type="text" name="number" value="{{ old('number', $account->number) }}" id="number" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('Enter Number Code') }}">
                                 @error('number')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -63,7 +63,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="currency_code">{{ __('account.currency') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="currency_code">{{ __('Currency') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
@@ -81,12 +81,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="opening_balance">{{ __('account.opening balance') }} <b class="ambitious-crimson">*</b></label>
+                            <label for="opening_balance">{{ __('Opening Balance') }} <b class="ambitious-crimson">*</b></label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-hand-holding-usd"></i>
                                 </div>
-                                <input type="text" name="opening_balance" value="{{ old('opening_balance', $account->opening_balance) }}" id="opening_balance" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('account.enter balance') }}">
+                                <input type="text" name="opening_balance" value="{{ old('opening_balance', $account->opening_balance) }}" id="opening_balance" class="form-control @error('number') is-invalid @enderror" placeholder="{{ __('Enter Balance') }}">
                                 @error('opening_balance')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -99,12 +99,12 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="bank_name">{{ __('account.bank name') }}</label>
+                            <label for="bank_name">{{ __('Bank Name') }}</label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-university"></i>
                                 </div>
-                                <input type="text" name="bank_name" value="{{ old('bank_name', $account->bank_name) }}" id="bank_name" class="form-control @error('bank_name') is-invalid @enderror" placeholder="{{ __('account.enter bank name') }}">
+                                <input type="text" name="bank_name" value="{{ old('bank_name', $account->bank_name) }}" id="bank_name" class="form-control @error('bank_name') is-invalid @enderror" placeholder="{{ __('Enter Bank Name') }}">
                                 @error('bank_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -113,12 +113,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="bank_phone">{{ __('account.bank phone') }}</label>
+                            <label for="bank_phone">{{ __('Bank Phone') }}</label>
                             <div class="form-group input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-phone"></i>
                                 </div>
-                                <input type="text" name="bank_phone" value="{{ old('bank_phone', $account->bank_phone) }}" id="bank_phone" class="form-control @error('bank_phone') is-invalid @enderror" placeholder="{{ __('account.enter bank phone number') }}">
+                                <input type="text" name="bank_phone" value="{{ old('bank_phone', $account->bank_phone) }}" id="bank_phone" class="form-control @error('bank_phone') is-invalid @enderror" placeholder="{{ __('Enter Bank Phone Number') }}">
                                 @error('bank_phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -130,7 +130,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-md-12">
-                        <label class="col-md-12"><h4>{{ __('account.bank address') }}</h4></label>
+                        <label class="col-md-12"><h4>{{ __('Bank Address') }}</h4></label>
                         <div class="col-md-12">
                             <div id="edit_input_address" style="min-height: 55px;">
                             </div>

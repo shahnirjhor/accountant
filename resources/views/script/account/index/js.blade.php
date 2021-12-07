@@ -1,8 +1,4 @@
-<script>
-    $('#myModal').on('show.bs.modal', function(e) {
-        $(this).find('.btn-ok').attr('action', $(e.relatedTarget).data('href'));
-    });
-    
+<script>    
     "use strict";
     $(document).ready( function () {
         $('#laravel_datatable').DataTable({

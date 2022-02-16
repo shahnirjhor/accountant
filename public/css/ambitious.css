@@ -1,7 +1,7 @@
 body {
     font-family: Rubik,sans-serif !important;
     font-weight: 300 !important;
-    font-size: 14px;
+    font-size: 14px;s
 }
 
 /*h1, h2, h3, h4, h5, h6 {
@@ -57,9 +57,9 @@ input[type=checkbox], input[type=radio] {
 
 .table>tbody>tr>td{
 	vertical-align: middle;
-}
+	padding: 12px 8px !important;}
 
-.btn-circle{
+.btn-circle.btn-lg {
     width: 40px !important;
     height: 40px !important;
     padding: 6px 10px !important;
@@ -483,7 +483,7 @@ input[type=checkbox], input[type=radio] {
 label h4, .form-group label {
     color :black !important;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: normal;
 }
 
 .form-group input {
@@ -569,6 +569,10 @@ select {
     background-color: #F7F9F9;
 }
 
+label:not(.form-check-label):not(.custom-file-label) {
+     padding-top: 0;
+}
+
 .checkbox-m {
     margin-left : 8px ;
     height : 40px;
@@ -598,6 +602,15 @@ hr.product {
 .col-bar-box {
     padding : 5px;
 }
+
+.select2-container{
+   width: 100%!important;
+   height:35px !important;
+   margin-right: 30px;
+ }
+ .select2-search--dropdown .select2-search__field {
+ width: 98%;
+ }
 
 button .variant-add {
     padding : 4px 6px;
@@ -668,37 +681,6 @@ button .variant-add {
     display : none;
 }
 
-/* .magnify-modal {
-    box-shadow: 0 0 6px 2px rgba(0, 0, 0, .3);
-  }
-
-  .magnify-header .magnify-toolbar {
-    background-color: rgba(0, 0, 0, .5);
-  }
-
-  .magnify-stage {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-width: 0;
-  }
-
-  .magnify-footer .magnify-toolbar {
-    background-color: rgba(0, 0, 0, .5);
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-
-  .magnify-header,
-  .magnify-footer {
-    pointer-events: none;
-  }
-
-  .magnify-button {
-    pointer-events: auto;
-  } */
-
 #progress-bar{
     position:fixed;
     top:0px;
@@ -711,26 +693,4 @@ button .variant-add {
     background-position:center;
     z-index:10000000;
     opacity: 0.7;
-}
-
-@media (min-width: 1px) and (max-width: 370px) {
-
-    #ambitious-user-name-id {
-        display: none;
-    }
-
-    #ambitious-flag-name-id {
-        display: none;
-    }
-
-    #ambitious-company-user-name-id {
-        display: none;
-    }
-}
-
-@media (min-width: 1px) and (max-width: 510px) {
-
-    .dropdown-menu-lg{
-        min-width: auto !important;
-    }
 }

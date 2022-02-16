@@ -40,7 +40,7 @@ class InvoiceController extends Controller
         $taxes = Tax::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->get()->pluck('title', 'id');
         $categories = Category::where('company_id', Session::get('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
         $number = $this->getNextInvoiceNumber($company);
-        
+
         return view('invoices.create', compact('company','customers', 'currencies', 'currency', 'items', 'taxes', 'categories','number'));
     }
 
@@ -60,7 +60,23 @@ class InvoiceController extends Controller
         return $response;
     }
 
-    
+    public function getItems(Request $request)
+    {
+        $q = $request->q;
+        $q_a = explode('_', $request->combo_array);
+
+        $data = Item::where('company_id', Session::get('company_id'))
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', '%' . $q . '%')
+                      ->orWhere('sku', 'like', '%' . $q . '%');
+        })
+        ->whereNotIn('id', $q_a)
+        ->get(['id','name']);
+
+        return response()->json($data);
+    }
+
+
 
         /**
      * Generate next invoice number

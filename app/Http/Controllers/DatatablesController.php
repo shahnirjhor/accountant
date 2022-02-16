@@ -56,7 +56,7 @@ class DatatablesController extends Controller
 //                {
                     if (Auth::user()->hasPermissionTo('role-delete'))
                     {
-                        
+
                         $btn .= '<a href="#" data-href="'.route('roles.customDestroy',['id' => $row->id]).'" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>';
                     }
 //                }
@@ -73,7 +73,7 @@ class DatatablesController extends Controller
                 return $btn;
             })
             ->addColumn('price', function($row)
-            {   
+            {
                 if(is_null($row->price)) {
                     return 'N/A';
                 } else {
@@ -81,7 +81,7 @@ class DatatablesController extends Controller
                 }
             })
             ->addColumn('validity', function($row)
-            {   
+            {
                 if(is_null($row->validity)) {
                     return 'N/A';
                 } else {
@@ -216,7 +216,7 @@ class DatatablesController extends Controller
             ->make(true);
     }
 
-    
+
     /**
      * Display a listing of the currency resource
      *
@@ -236,13 +236,13 @@ class DatatablesController extends Controller
                 $btn = '';
                 // if (Auth::user()->hasPermissionTo('loan-edit'))
                 // {
-                    
+
                     $btn .= '<a href="'.route('currency.edit',['currency' => Crypt::encrypt($row->id)]).'" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp';
 
                 // }
                 // if (Auth::user()->hasPermissionTo('loan-delete'))
                 // {
-                
+
                     $btn .= '<a href="#" data-href="'.route('currency.delete',['id' => encrypt($row->id)]).'" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>';
 
 
@@ -269,9 +269,9 @@ class DatatablesController extends Controller
             {
                 if ($row->enabled == '1')
                 {
-                    $btn = '<span class="badge badge-pill badge-success">'.trans('category.enabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-success">'.trans('Enabled').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-danger">'.trans('category.disabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-danger">'.trans('Disabled').'</span>';
                 }
 
                 return $btn;
@@ -299,7 +299,7 @@ class DatatablesController extends Controller
                 $btn = '';
                 // if (Auth::user()->hasPermissionTo('loan-edit'))
                 // {
-                    
+
                     $btn .= '<a href="'.route('category.edit',['category' => encrypt($row->id)]).'" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp';
                 // }
                 // if (Auth::user()->hasPermissionTo('loan-delete'))
@@ -324,9 +324,9 @@ class DatatablesController extends Controller
             {
                 if ($row->enabled == '1')
                 {
-                    $btn = '<span class="badge badge-pill badge-success">'.trans('category.enabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-success">'.trans('Enabled').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-danger">'.trans('category.disabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-danger">'.trans('Disabled').'</span>';
                 }
                 return $btn;
             })
@@ -353,7 +353,7 @@ class DatatablesController extends Controller
                 $btn = '';
                 // if (Auth::user()->hasPermissionTo('loan-edit'))
                 // {
-                    
+
                     $btn .= '<a href="'.route('tax.edit',['tax' => encrypt($row->id)]).'" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp';
                 // }
                 // if (Auth::user()->hasPermissionTo('loan-delete'))
@@ -384,7 +384,7 @@ class DatatablesController extends Controller
                 }
                 return $btn;
             })
-            
+
             ->addColumn('enabled', function ($row)
             {
                 if ($row->enabled == '1')
@@ -434,15 +434,15 @@ class DatatablesController extends Controller
                 } else {
                     return number_format($balance);
                 }
-                
+
             })
             ->addColumn('enabled', function ($row)
             {
                 if ($row->enabled == '1')
                 {
-                    $btn = '<span class="badge badge-pill badge-success">'.trans('category.enabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-success">'.trans('Enabled').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-danger">'.trans('category.disabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-danger">'.trans('Disabled').'</span>';
                 }
                 return $btn;
             })
@@ -565,7 +565,7 @@ class DatatablesController extends Controller
         $data = Customer::with('price:id,name')->with('cgroups:id,name')->where('company_id', Session::get('company_id'))->orderBy('created_at', 'DESC')->get();
 
         $data->makeHidden(['company_id','created_at','updated_at','id','cgroups','cgroups_id','price_group_id']);
-        
+
         return datatables()
             ->of($data)
             ->addIndexColumn()
@@ -587,7 +587,7 @@ class DatatablesController extends Controller
                 return $row->name;
             })
             ->addColumn('price_group', function ($row)
-            {   
+            {
                 if($row->price()->exists()){
                     return $row->price->percent;
                 } else {
@@ -597,7 +597,7 @@ class DatatablesController extends Controller
                 // return  $price_name->name;
             })
             ->addColumn('customer_group', function ($row)
-            {   
+            {
                 if($row->cgroups()->exists()){
                     return $row->cgroups->name;
                 } else {

@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function() {
         'customer' => App\Http\Controllers\CustomerController::class,
         'revenue' => App\Http\Controllers\RevenueController::class,
         'vendor' => App\Http\Controllers\VendorController::class,
-        'payment' => App\Http\Controllers\PaymentController::class,        
+        'payment' => App\Http\Controllers\PaymentController::class,
         'currency' => App\Http\Controllers\CurrencyController::class,
         'category' => App\Http\Controllers\CategoryController::class,
         'tax' => App\Http\Controllers\TaxController::class,
@@ -69,13 +69,16 @@ Route::group(['middleware' => ['auth']], function() {
         'offline-payment' => App\Http\Controllers\OfflinePaymentController::class,
     ]);
 
+    Route::get('/getItems', 'App\Http\Controllers\InvoiceController@getItems')->name('invoice.getItems');
+    //Route::get('/getProduct', 'App\Http\Controllers\ProductController@getProduct')->name('product.getProduct');
+
     Route::get('patient-appointments/get-schedule/doctorwise', [App\Http\Controllers\PatientAppointmentController::class, 'getScheduleDoctorWise'])->name('patient-appointments.getScheduleDoctorWise');
-    
+
     Route::post('/invoice/generateItemData',[
         'uses' => 'App\Http\Controllers\InvoiceController@generateItemData',
         'as' => 'invoice.generateItemData'
     ]);
-    
+
     Route::post('/labreport/generateTemplateData',[
         'uses' => 'App\Http\Controllers\LabReportController@generateTemplateData',
         'as' => 'labreport.generateTemplateData'

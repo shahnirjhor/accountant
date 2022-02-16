@@ -1,5 +1,4 @@
 <script src="{{ asset('js/toastr.min.js') }}"></script>
-
 <script>
     @if(Session::has('demo_error'))
         toastr.options = {
@@ -31,7 +30,7 @@
     @endif
 
     @if(Session::has('warning'))
-        toastr.warning('{{ Session::get('warning') }}')
+        toastr.success('{{ Session::get('warning') }}')
     @endif
 
     @if(Session::has('error'))

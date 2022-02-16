@@ -143,10 +143,11 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
 
                     <div class="row">
                         <div class="col-md-12">
-                          <label for="js-example-data-ajax">{{ __('product.add product') }} </label>
+                          <label for="js-example-data-ajax">{{ __('Add Item') }} </label>
                             <div class="form-group input-group mb-3">
                                 <div class="barcode">
                                   <div class="row">
@@ -154,7 +155,7 @@
                                         <i class="fa fa-barcode fa-4x" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-sm-11 my-auto col-bar-box">
-                                        <select class="js-example-data-ajax     select2-container" id="js-example-data-ajax" name="combo_id[]"  multiple="multiple">
+                                        <select class="js-example-data-ajax select2-container" id="js-example-data-ajax" name="combo_id[]"  multiple="multiple">
                                             <option value="AL">...</option>
                                         </select>
                                     </div>
@@ -166,14 +167,90 @@
                             <label for="table-combo">{{ __('product.combo products') }} <b class="ambitious-crimson">*</b></label>
                             <table class="table" id="table-combo">
                               <thead>
-                                <tr class="bg-primary" style="width : 100%">
-                                  <th scope="col">{{ __('product.name') }}</th>
-                                  <th scope="col">{{ __('product.quantity') }}</th>
-                                  <th scope="col">{{ __('product.action') }}</th>
+                                <tr class="bg-info">
+                                    <th scope="col" style="white-space: nowrap;">@lang('Account Name')</th>
+                                    <th scope="col" style="width: 12%;">@lang('Quantity')</th>
+                                    <th scope="col" style="width: 15%;">@lang('Price')</th>
+                                    <th scope="col" style="width: 20%;">@lang('Tax')</th>
+                                    <th scope="col" style="width: 15%;">@lang('Total')</th>
+                                    <th scope="col" style="width: 10%;">@lang('Remove')</th>
                                 </tr>
                               </thead>
                               <tbody>
                               </tbody>
+                              <tbody id="invoice">
+                                <tr id="item-row-0">
+                                    <td>
+                                        <input type="number" step=".01" name="quantity[]" id="item-quantity-0" class="form-control quantity" value="" placeholder="@lang('Quantity')" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step=".01" name="quantity[]" id="item-quantity-0" class="form-control quantity" value="" placeholder="@lang('Quantity')" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step=".01" name="price[]" id="item-price-0" class="form-control price" value="" placeholder="@lang('Price')" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step=".01" name="tax[]" class="form-control tax" value="" placeholder="@lang('Tax')" required>
+                                    </td>
+                                    <td>
+                                        <input type="number" step=".01" name="total[]" class="form-control total" value="0.00" placeholder="@lang('Total')" readonly>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-info m-add"><i class="fas fa-plus"></i></button>
+                                        <button type="button" class="btn btn-info m-remove"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                              <tbody>
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <td style="text-align: right;">@lang('Sub Total')</td>
+                                    <td>
+                                        <input type="number" step=".01" name="sub_total" class="form-control sub_total" value="{{ old('sub_total', '0.00') }}" placeholder="@lang('Sub Total')" readonly>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td class="text-right">@lang('Discount')</td>
+                                    <td class="text-right">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <input type="number" step=".01" name="discount_percentage" value="{{ old('discount_percentage', '0.00') }}" class="form-control discount_percentage" placeholder="%">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="number" step=".01" name="total_discount" class="form-control discount" value="{{ old('total_discount', '0.00') }}" placeholder="@lang('Total Discount')">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td class="text-right">@lang('Tax')</td>
+                                    <td class="text-right">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                            <input type="number" step=".01" name="tax_percentage" value="{{ old('tax_percentage', '0.00') }}" class="form-control tax_percentage" placeholder="%">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="number" step=".01" name="total_tax" class="form-control tax" value="{{ old('total_tax', '0.00') }}" placeholder="@lang('Total Tax')">
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3"></td>
+                                    <td style="text-align: right;">@lang('Grand Total')</td>
+                                    <td>
+                                        <input type="number" step=".01" name="grand_total" class="form-control grand_total" value="{{ old('grand_total', '0.00') }}" placeholder="@lang('Grand Total')" readonly>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
                             </table>
                         </div>
                     </div>
@@ -184,11 +261,13 @@
     </div>
 </div>
 <script>
+    "use strict";
+    var combo_array = [];
+    var d = null;
 
     $('.js-example-data-ajax').on('select2:select', function (e) {
         var data = e.params.data;
-
-        $("#table-combo").append('<tr data-value="'+ data.id +'" class="table-info" id="tr-removed-id"> <th scope="row">' + data.name + '</th> <td><input type="number" id="bar" min="1" value="1" name="table_combo_quantity[]" style="width : 100px"><input type="hidden" name="table_combo_id[]" value="' + data.id + '" /></td> <td><span class="table-remove"><button type="button" id="table-remove" class="btn btn-danger btn-rounded btn-sm my-0"><i class="fas fa-trash"></i></button></span></td> </tr> ')
+        $("#table-combo").append('<tr data-value="'+ data.id +'" class="table-info" id="tr-removed-id"> <th scope="row">' + data.name + '</th> <td><input type="number" id="bar" min="1" value="1" name="table_combo_quantity[]" style="width : 100px"><input type="hidden" name="table_combo_id[]" value="' + data.id + '" /></td> <td><span class="table-remove"><button type="button" id="table-remove" class="btn btn-info btn-sm my-0"><i class="fas fa-trash"></i></button></span></td> </tr> ')
         // push
         combo_array.push(data.id);
         // blank
@@ -206,7 +285,7 @@
 
     $(".js-example-data-ajax").select2({
       ajax: {
-        url: "/getProduct",
+        url: "/getItems",
         dataType: 'json',
         delay: 250,
         data: function (params) {
@@ -234,7 +313,7 @@
         },
         cache: true
       },
-      placeholder: '{{ __('product.search or scan barcode') }}',
+      placeholder: '{{ __('Search Your Item') }}',
       minimumInputLength: 1,
       templateResult: formatRepo,
       templateSelection: formatRepoSelection

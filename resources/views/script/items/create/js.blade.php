@@ -1,6 +1,9 @@
 <script>
     "use strict";
     $(document).ready(function() {
+
+        $('.dropify').dropify();
+
         var quill = new Quill('#input_description', {
             theme: 'snow'
         });
@@ -14,4 +17,3 @@
         $(".select2").select2();
     });
 </script>
-    

@@ -63,16 +63,15 @@ class InvoiceController extends Controller
     public function getItems(Request $request)
     {
         $q = $request->q;
-        $q_a = explode('_', $request->combo_array);
+        $q_a = explode('_', $request->item_array);
 
-        $data = Item::where('company_id', Session::get('company_id'))
+        $data = Item::with('tax:id,rate,type')->where('company_id', Session::get('company_id'))
             ->where(function ($query) use ($q) {
                 $query->where('name', 'like', '%' . $q . '%')
                       ->orWhere('sku', 'like', '%' . $q . '%');
         })
         ->whereNotIn('id', $q_a)
-        ->get(['id','name']);
-
+        ->get();
         return response()->json($data);
     }
 

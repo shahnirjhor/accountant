@@ -79,9 +79,8 @@
                                 </div>
                                 <select class="form-control @error('type') is-invalid @enderror" required="required" id="type" name="type">
                                     <option value="">- {{ __('Select Type') }} -</option>
-                                    <option value="normal" @if(old('type', $data->type) == 'normal') selected="selected" @endif>{{ __('Normal') }}</option>
                                     <option value="inclusive" @if(old('type', $data->type) == 'inclusive') selected="selected" @endif>{{ __('Inclusive') }}</option>
-                                    <option value="compound" @if(old('type', $data->type) == 'compound') selected="selected" @endif>{{ __('Compound') }}</option>
+                                    <option value="exclusive" @if(old('type', $data->type) == 'exclusive') selected="selected" @endif>{{ __('Exclusive') }}</option>
                                 </select>
                                 @error('type')
                                     <div class="invalid-feedback">

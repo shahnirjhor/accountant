@@ -78,9 +78,8 @@
                                     </div>
                                     <select class="form-control @error('type') is-invalid @enderror" required="required" id="type" name="type">
                                         <option value="">- {{ __('Select Type') }} -</option>
-                                        <option value="normal" {{ old('type') == "normal" ? 'selected' : '' }}>{{ __('Normal') }}</option>
-                                        <option value="inclusive" {{ old('type') == "inclusive" ? 'selected' : '' }}>{{ __('Inclusive') }}</option>
-                                        <option value="compound" {{ old('type') == "compound" ? 'selected' : '' }}>{{ __('Compound') }}</option>
+                                        <option value="inclusive" selected="selected">{{ __('Inclusive') }}</option>
+                                        <option value="exclusive">{{ __('Exclusive') }}</option></select>
                                     </select>
                                     @error('type')
                                         <div class="invalid-feedback">

@@ -168,7 +168,7 @@
                             <table class="table" id="table-combo">
                               <thead>
                                 <tr class="bg-info">
-                                    <th scope="col" style="white-space: nowrap;">@lang('Account Name')</th>
+                                    <th scope="col" style="white-space: nowrap;">@lang('Item Name')</th>
                                     <th scope="col" style="width: 12%;">@lang('Quantity')</th>
                                     <th scope="col" style="width: 15%;">@lang('Price')</th>
                                     <th scope="col" style="width: 20%;">@lang('Tax')</th>
@@ -178,51 +178,19 @@
                               </thead>
                               <tbody>
                               </tbody>
-                              <tbody id="invoice">
-                                <tr id="item-row-0">
-                                    <td>
-                                        <input type="number" step=".01" name="quantity[]" id="item-quantity-0" class="form-control quantity" value="" placeholder="@lang('Quantity')" required>
-                                    </td>
-                                    <td>
-                                        <input type="number" step=".01" name="quantity[]" id="item-quantity-0" class="form-control quantity" value="" placeholder="@lang('Quantity')" required>
-                                    </td>
-                                    <td>
-                                        <input type="number" step=".01" name="price[]" id="item-price-0" class="form-control price" value="" placeholder="@lang('Price')" required>
-                                    </td>
-                                    <td>
-                                        <input type="number" step=".01" name="tax[]" class="form-control tax" value="" placeholder="@lang('Tax')" required>
-                                    </td>
-                                    <td>
-                                        <input type="number" step=".01" name="total[]" class="form-control total" value="0.00" placeholder="@lang('Total')" readonly>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-info m-add"><i class="fas fa-plus"></i></button>
-                                        <button type="button" class="btn btn-info m-remove"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
                               <tbody>
                                 <tr>
                                     <td colspan="3"></td>
-                                    <td style="text-align: right;">@lang('Sub Total')</td>
+                                    <th style="text-align: right;vertical-align: inherit;">@lang('Sub Total')</th>
                                     <td>
-                                        <input type="number" step=".01" name="sub_total" class="form-control sub_total" value="{{ old('sub_total', '0.00') }}" placeholder="@lang('Sub Total')" readonly>
+                                        <input type="number" step=".01" name="sub_total[]" class="form-control sub_total" value="0.00" placeholder="@lang('Sub Total')" readonly>
                                     </td>
-                                    <td></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
+                                    <td colspan="3"></td>
                                     <td class="text-right">@lang('Discount')</td>
-                                    <td class="text-right">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                            <input type="number" step=".01" name="discount_percentage" value="{{ old('discount_percentage', '0.00') }}" class="form-control discount_percentage" placeholder="%">
-                                        </div>
-                                    </td>
                                     <td>
-                                        <input type="number" step=".01" name="total_discount" class="form-control discount" value="{{ old('total_discount', '0.00') }}" placeholder="@lang('Total Discount')">
+                                        <input type="number" step=".01" name="total_discount" class="form-control total_discount" value="{{ old('total_discount', '0.00') }}" placeholder="@lang('Total Discount')">
                                     </td>
                                     <td></td>
                                 </tr>
@@ -238,7 +206,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <input type="number" step=".01" name="total_tax" class="form-control tax" value="{{ old('total_tax', '0.00') }}" placeholder="@lang('Total Tax')">
+                                        <input type="number" step=".01" name="total_tax" class="form-control total_tax" value="{{ old('total_tax', '0.00') }}" placeholder="@lang('Total Tax')" readonly>
                                     </td>
                                     <td></td>
                                 </tr>
@@ -254,7 +222,43 @@
                             </table>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Description') }}</h4></label>
+                                <div class="col-md-12">
+                                    <div id="input_description" class="@error('description') is-invalid @enderror" style="min-height: 55px;">
+                                    </div>
+                                    <input type="hidden" name="description" value="{{ old('description') }}" id="description">
+                                    @error('description')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-md-12 col-form-label"><h4>{{ __('Picture') }}</h4></label>
+                                <div class="col-md-12">
+                                    <input id="picture" class="dropify" name="picture" value="{{ old('picture') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="2024K" />
+                                    <p>{{ __('Max Size: 2mb, Allowed Format: png, jpg, jpeg') }}</p>
+                                </div>
+                                @if ($errors->has('picture'))
+                                    <div class="error ambitious-red">{{ $errors->first('picture') }}</div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                            <a href="{{ route('invoice.index') }}" class="btn btn-outline btn-warning btn-lg" style="float: right;">{{ __('Cancel') }}</a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -262,84 +266,214 @@
 </div>
 <script>
     "use strict";
-    var combo_array = [];
+    let grand_total = 0;
+    var item_array = [];
     var d = null;
+
+    $('.dropify').dropify();
+
+    var quill = new Quill('#input_description', {
+        theme: 'snow'
+    });
+    var address = $("#description").val();
+    quill.clipboard.dangerouslyPasteHTML(address);
+    quill.root.blur();
+    $('#input_description').on('keyup', function(){
+        var input_description = quill.container.firstChild.innerHTML;
+        $("#description").val(input_description);
+    });
+    $(".select2").select2();
 
     $('.js-example-data-ajax').on('select2:select', function (e) {
         var data = e.params.data;
-        $("#table-combo").append('<tr data-value="'+ data.id +'" class="table-info" id="tr-removed-id"> <th scope="row">' + data.name + '</th> <td><input type="number" id="bar" min="1" value="1" name="table_combo_quantity[]" style="width : 100px"><input type="hidden" name="table_combo_id[]" value="' + data.id + '" /></td> <td><span class="table-remove"><button type="button" id="table-remove" class="btn btn-info btn-sm my-0"><i class="fas fa-trash"></i></button></span></td> </tr> ')
+        var discount = 0;
+        var taxType = 0;
+        var taxRate = 0;
+        var pr_tax_val = 0;
+        var pr_tax_rate = 0;
+        var order_subtotal = data.sale_price;
+        var order_net_sale = data.sale_price;
+        if(data.tax_id != null) {
+            taxType = data.tax.type;
+            taxRate = data.tax.rate;
+            if (taxRate !== null && taxRate != 0) {
+                if (taxType == "inclusive") {
+                    pr_tax_val = Number((((order_net_sale) * parseFloat(taxRate)) / (100 + parseFloat(taxRate))), 4).toFixed(2);
+                    pr_tax_rate = Number(taxRate).toFixed(2) + '%';
+                    order_net_sale -= pr_tax_val;
+                } else if (taxType == "exclusive") {
+                    pr_tax_val = Number((((order_net_sale) * parseFloat(taxRate)) / 100), 4).toFixed(2);
+                    pr_tax_rate = Number(taxRate).toFixed(2) + '%';
+                } else {
+                    pr_tax_val = parseFloat(taxRate);
+                    pr_tax_rate = taxRate;
+                }
+            }
+            order_subtotal = Number(order_net_sale) + Number(pr_tax_val);
+        }
+        var taxTypeRate = taxType+"_"+taxRate;
+
+        $("#table-combo").append('<tr id="'+ data.id +'" class="table-info"> <th scope="row"><input type="hidden" class="order_row_id" value="'+data.id+'" name="product[order_row_id][]"><input type="hidden" class="order_name" value="'+data.name+'" name="product[order_name][]">' + data.name + '</th><td><input type="number" step="any" class="form-control order_quantity" min="1" value="1" name="product[order_quantity][]"></td><td><input type="hidden" class="order_net_sale" value="'+data.sale_price+'" name="product[order_net_sale][]"><input type="hidden" class="order_sale" value="'+order_net_sale+'" name="product[order_sale][]"><span class="order_cost_text">'+order_net_sale+'</span></td><td><input type="hidden" class="order_tax_type_rate" value="'+taxTypeRate+'" name="product[order_tax_type_rate][]"><input type="hidden" class="order_product_tax" value="'+pr_tax_val+'" name="product[order_product_tax][]"><span class="order_product_tax_text">'+pr_tax_val+'</span></td><td><input type="hidden" class="order_subtotal" value="'+order_subtotal+'" name="product[order_subtotal][]"><span class="order_subtotal_text">'+order_subtotal+'</span></td><td><a href="javascript:void(0)" class="btn btn-info btn-outline table-remove" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a></td> </tr>')
+
+        /*** Start Total Quantity ***/
+        var tbQuantity = $("input[name='product[order_quantity][]']").map(function(){return $(this).val();}).get();
+        var tbTotalQuantity=0;
+        for(var i in tbQuantity) {
+            tbTotalQuantity += Number(tbQuantity[i]);
+        }
+        $('#tbTotalQuantityShow').text(tbTotalQuantity);
+        /*** End Total Quantity ***/
+
+        /*** Start Total Product ***/
+        var tbProductTax = $("input[name='product[order_product_tax][]']").map(function(){return $(this).val();}).get();
+        var tbTotalProductTax=0;
+        for(var i in tbProductTax) {
+            tbTotalProductTax += Number(tbProductTax[i]);
+        }
+        $('#tbTotalProductTaxShow').text(tbTotalProductTax);
+        /*** End Total Product ***/
+
+        /*** Start Total ***/
+        var tbSubTotal = $("input[name='product[order_subtotal][]']").map(function(){return $(this).val();}).get();
+        var tbTotalSubTotal=0;
+        for(var i in tbSubTotal) {
+            tbTotalSubTotal += Number(tbSubTotal[i]);
+        }
+        $('.sub_total').val(tbTotalSubTotal.toFixed(2));
+        /*** End Total ***/
+
+        /*** Start Grand Total ***/
+        let mydiscount = $('.total_discount').val();
+        mydiscount = (!mydiscount.length || isNaN(mydiscount)) ? 0 : parseFloat(mydiscount);
+
+        let mytax = $('.total_tax').val();
+        mytax = (!mytax.length || isNaN(mytax)) ? 0 : parseFloat(mytax);
+
+        grand_total = tbTotalSubTotal - mydiscount;
+        grand_total += mytax;
+        $('.grand_total').val(grand_total.toFixed(2));
+        /*** End Grand Total ***/
+
+
         // push
-        combo_array.push(data.id);
+        item_array.push(data.id);
         // blank
         $('.js-example-data-ajax').val(null).trigger('change');
         // array to string
-        var b = combo_array.toString();
+        var b = item_array.toString();
         var c = b;
         // comma replace to underscore
         window.d = c.replace(/,/g, '_');
     });
+
+
+    $(document).on('change keyup', '.total_discount', function () {
+        calculateDiscount();
+    });
+
+    $(document).on('change keyup', '.tax_percentage', function () {
+        calculateVatPercentage();
+    });
+
+    function calculateDiscount() {
+        let total_discount = $('.total_discount').val();
+        calculateTax();
+    }
+
+    function calculateVatPercentage() {
+        let discount = $('.total_discount').val();
+        discount = (!discount.length || isNaN(discount)) ? 0 : parseFloat(discount);
+
+        let tax_percentage = $('.tax_percentage').val();
+        tax_percentage = (!tax_percentage.length || isNaN(tax_percentage)) ? 0 : parseFloat(tax_percentage);
+        tax_percentage = parseFloat(tax_percentage.toFixed(2));
+
+        var tbSubTotal = $("input[name='product[order_subtotal][]']").map(function(){return $(this).val();}).get();
+        var total=0;
+        for(var i in tbSubTotal) {
+            total += Number(tbSubTotal[i]);
+        }
+        total = parseFloat(total.toFixed(2));
+        grand_total = total - discount;
+        let tax = (tax_percentage / 100) * (grand_total);
+        grand_total += tax;
+        $('.total_tax').val(tax.toFixed(2));
+        $('.grand_total').val(grand_total.toFixed(2));
+
+        // calculatePaid();
+    }
+
+    function calculateTax() {
+        let discount = $('.total_discount').val();
+        discount = (!discount.length || isNaN(discount)) ? 0 : parseFloat(discount);
+
+        let tax = $('.total_tax').val();
+        tax = (!tax.length || isNaN(tax)) ? 0 : parseFloat(tax);
+
+        var tbSubTotal = $("input[name='product[order_subtotal][]']").map(function(){return $(this).val();}).get();
+        var total=0;
+        for(var i in tbSubTotal) {
+            total += Number(tbSubTotal[i]);
+        }
+
+        total = parseFloat(total.toFixed(2));
+        grand_total = total - discount;
+        grand_total += tax;
+        $('.grand_total').val(grand_total.toFixed(2));
+
+        // calculatePaid();
+    }
 </script>
 
 <script type="text/javascript" class="js-code-placeholder">
 
-
     $(".js-example-data-ajax").select2({
-      ajax: {
-        url: "/getItems",
-        dataType: 'json',
-        delay: 250,
-        data: function (params) {
-          return {
-            q: params.term,
-            combo_array: d,
-            page: params.page
-
-          };
+        ajax: {
+            url: "/getItems",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term,
+                    item_array: d,
+                    page: params.page
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                return {
+                    results: data,
+                    pagination: {
+                        more: (params.page * 30) < data.total_count
+                    }
+                };
+            },
+            cache: true
         },
-        processResults: function (data, params) {
-          // parse the results into the format expected by Select2
-
-          // since we are using custom formatting functions we do not need to
-          // alter the remote JSON data, except to indicate that infinite
-          // scrolling can be used
-          params.page = params.page || 1;
-
-          return {
-            results: data,
-            pagination: {
-              more: (params.page * 30) < data.total_count
-            }
-          };
-        },
-        cache: true
-      },
-      placeholder: '{{ __('Search Your Item') }}',
-      minimumInputLength: 1,
-      templateResult: formatRepo,
-      templateSelection: formatRepoSelection
+        placeholder: '{{ __('Search Your Item') }}',
+        minimumInputLength: 1,
+        templateResult: formatRepo,
+        templateSelection: formatRepoSelection
     });
 
     function formatRepo (repo) {
-      if (repo.loading) {
-        return repo.text;
-      }
-
-      var $container = $(
-        "<div class='select2-result-repository clearfix'>" +
-
-          "<div class='select2-result-repository__meta'>" +
+        if (repo.loading) {
+            return repo.text;
+        }
+        var $container = $(
+            "<div class='select2-result-repository clearfix'>" +
+            "<div class='select2-result-repository__meta'>" +
             "<div class='select2-result-repository__title'></div>" +
             "</div>" +
-          "</div>" +
-        "</div>"
-      );
-
-      $container.find(".select2-result-repository__title").text(repo.name);
-      return $container;
+            "</div>" +
+            "</div>"
+        );
+        $container.find(".select2-result-repository__title").text(repo.name);
+        return $container;
     }
 
     function formatRepoSelection (repo) {
-      return repo.name || repo.sku;
+        return repo.name || repo.sku;
     }
 
     </script>

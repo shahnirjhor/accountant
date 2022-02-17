@@ -80,11 +80,9 @@
                                 <td>{{ $tax->rate }}</td>
                                 <td>
                                     @if($tax->type == 'inclusive')
-                                        <span class="badge badge-pill badge-primary">@lang('Inclusive')</span>
-                                    @elseif ($tax->type == 'compound')
-                                        <span class="badge badge-pill badge-info">@lang('Compound')</span>
+                                        <span class="badge badge-pill badge-info">@lang('Inclusive')</span>
                                     @else
-                                        <span class="badge badge-pill badge-secondary">@lang('Normal')</span>
+                                        <span class="badge badge-pill badge-warning">@lang('Exclusive')</span>
                                     @endif
                                 </td>
                                 <td>

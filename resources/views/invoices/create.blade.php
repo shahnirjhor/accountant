@@ -188,25 +188,17 @@
                                 </tr>
                                 <tr>
                                     <td colspan="3"></td>
-                                    <td class="text-right">@lang('Discount')</td>
+                                    <td class="text-right">@lang('Tax')</td>
                                     <td>
-                                        <input type="number" step=".01" name="total_discount" class="form-control total_discount" value="{{ old('total_discount', '0.00') }}" placeholder="@lang('Total Discount')">
+                                        <input type="number" step=".01" name="total_tax" class="form-control total_tax" value="{{ old('total_tax', '0.00') }}" placeholder="@lang('Total Tax')" readonly>
                                     </td>
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"></td>
-                                    <td class="text-right">@lang('Tax')</td>
-                                    <td class="text-right">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                            <input type="number" step=".01" name="tax_percentage" value="{{ old('tax_percentage', '0.00') }}" class="form-control tax_percentage" placeholder="%">
-                                        </div>
-                                    </td>
+                                    <td colspan="3"></td>
+                                    <td class="text-right">@lang('Discount')</td>
                                     <td>
-                                        <input type="number" step=".01" name="total_tax" class="form-control total_tax" value="{{ old('total_tax', '0.00') }}" placeholder="@lang('Total Tax')" readonly>
+                                        <input type="number" step=".01" name="total_discount" class="form-control total_discount" value="{{ old('total_discount', '0.00') }}" placeholder="@lang('Total Discount')">
                                     </td>
                                     <td></td>
                                 </tr>
@@ -266,6 +258,7 @@
 </div>
 <script>
     "use strict";
+    var old_row_qty;
     let grand_total = 0;
     var item_array = [];
     var d = null;
@@ -289,8 +282,10 @@
         var discount = 0;
         var taxType = 0;
         var taxRate = 0;
+        var taxTypeRate = 0
         var pr_tax_val = 0;
         var pr_tax_rate = 0;
+        var showTaxTypeRate = 'No Tax';
         var order_subtotal = data.sale_price;
         var order_net_sale = data.sale_price;
         if(data.tax_id != null) {
@@ -309,20 +304,15 @@
                     pr_tax_rate = taxRate;
                 }
             }
-            order_subtotal = Number(order_net_sale) + Number(pr_tax_val);
-        }
-        var taxTypeRate = taxType+"_"+taxRate;
+            // order_subtotal = Number(order_net_sale) + Number(pr_tax_val);
+            order_subtotal = Number(order_net_sale).toFixed(2);
 
-        $("#table-combo").append('<tr id="'+ data.id +'" class="table-info"> <th scope="row"><input type="hidden" class="order_row_id" value="'+data.id+'" name="product[order_row_id][]"><input type="hidden" class="order_name" value="'+data.name+'" name="product[order_name][]">' + data.name + '</th><td><input type="number" step="any" class="form-control order_quantity" min="1" value="1" name="product[order_quantity][]"></td><td><input type="hidden" class="order_net_sale" value="'+data.sale_price+'" name="product[order_net_sale][]"><input type="hidden" class="order_sale" value="'+order_net_sale+'" name="product[order_sale][]"><span class="order_cost_text">'+order_net_sale+'</span></td><td><input type="hidden" class="order_tax_type_rate" value="'+taxTypeRate+'" name="product[order_tax_type_rate][]"><input type="hidden" class="order_product_tax" value="'+pr_tax_val+'" name="product[order_product_tax][]"><span class="order_product_tax_text">'+pr_tax_val+'</span></td><td><input type="hidden" class="order_subtotal" value="'+order_subtotal+'" name="product[order_subtotal][]"><span class="order_subtotal_text">'+order_subtotal+'</span></td><td><a href="javascript:void(0)" class="btn btn-info btn-outline table-remove" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a></td> </tr>')
-
-        /*** Start Total Quantity ***/
-        var tbQuantity = $("input[name='product[order_quantity][]']").map(function(){return $(this).val();}).get();
-        var tbTotalQuantity=0;
-        for(var i in tbQuantity) {
-            tbTotalQuantity += Number(tbQuantity[i]);
+            taxTypeRate = taxType+"_"+taxRate;
+            showTaxTypeRate = taxRate+"%"+" "+capitalizeFirstLetter(taxType);
         }
-        $('#tbTotalQuantityShow').text(tbTotalQuantity);
-        /*** End Total Quantity ***/
+
+
+        $("#table-combo").append('<tr id="'+ data.id +'" class="table-info"><th scope="row"><input type="hidden" class="order_row_id" value="'+data.id+'" name="product[order_row_id][]"><input type="hidden" class="order_name" value="'+data.name+'" name="product[order_name][]">' + data.name + '</th><td><input type="number" step="any" class="form-control order_quantity" min="1" value="1" name="product[order_quantity][]"></td><td><input type="hidden" class="order_price" value="'+data.sale_price+'" name="product[order_price][]"><span>'+data.sale_price+'</span></td><td><input type="hidden" class="order_tax_type_rate" value="'+taxTypeRate+'" name="product[order_tax_type_rate][]"><input type="hidden" class="order_product_tax" value="'+pr_tax_val+'" name="product[order_product_tax][]"><span class="order_product_tax_text">'+showTaxTypeRate+'</span></td><td><input type="hidden" class="order_subtotal" value="'+order_subtotal+'" name="product[order_subtotal][]"><span class="order_subtotal_text">'+order_subtotal+'</span></td><td><a href="javascript:void(0)" class="btn btn-info btn-outline table-remove" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a></td></tr>')
 
         /*** Start Total Product ***/
         var tbProductTax = $("input[name='product[order_product_tax][]']").map(function(){return $(this).val();}).get();
@@ -330,7 +320,7 @@
         for(var i in tbProductTax) {
             tbTotalProductTax += Number(tbProductTax[i]);
         }
-        $('#tbTotalProductTaxShow').text(tbTotalProductTax);
+        $('.total_tax').val(tbTotalProductTax.toFixed(2));
         /*** End Total Product ***/
 
         /*** Start Total ***/
@@ -354,7 +344,6 @@
         $('.grand_total').val(grand_total.toFixed(2));
         /*** End Grand Total ***/
 
-
         // push
         item_array.push(data.id);
         // blank
@@ -366,41 +355,131 @@
         window.d = c.replace(/,/g, '_');
     });
 
+    $(document).on("focus", '.order_quantity', function () {
+        old_row_qty = $(this).val();
+    }).on('change keyup', '.order_quantity', function () {
+        var row = $(this).closest('tr');
+        var pr_tax_val = 0;
+        var prs_tax_val = 0;
+        if (!Number($(this).val()) || parseFloat($(this).val()) < 0) {
+            $(this).val(old_row_qty);
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning !',
+                text: 'Unexpected value provided!',
+            });
+            row.children().children('.order_quantity').val(old_row_qty);
+            return;
+        }
+        var new_order_subtotal = 0;
+        var new_qty = parseFloat($(this).val());
+        var item_id = row.attr('id');
+        var order_price = row.children().children('.order_price').val();
+        var order_tax_type_rate = row.children().children('.order_tax_type_rate').val();
+        var order_price_number = Number(order_price);
+        var new_qty_number = Number(new_qty);
+        if(order_tax_type_rate != '0'){
+            var strData = order_tax_type_rate.split("_");
+            var taxType = strData[0];
+            var taxRate = strData[1];
+            if (taxRate !== null && taxRate != 0) {
+                if (taxType == "inclusive") {
+                    pr_tax_val = Number((((order_price) * parseFloat(taxRate)) / (100 + parseFloat(taxRate))), 4).toFixed(2);
+                    prs_tax_val = Number(pr_tax_val*new_qty_number).toFixed(2);
+                    new_order_subtotal = new_qty_number * order_price_number-prs_tax_val;
+                } else {
+                    pr_tax_val = Number((((order_price) * parseFloat(taxRate)) / 100), 4).toFixed(2);
+                    prs_tax_val = Number(pr_tax_val*new_qty_number).toFixed(2);
+                    new_order_subtotal = new_qty_number * order_price_number;
+                }
+            }
+        } else {
+            new_order_subtotal = new_qty_number * order_price_number;
+        }
+        row.children().children('.order_subtotal').val(new_order_subtotal);
+        row.children().children('.order_subtotal_text').text(new_order_subtotal);
+        row.children().children('.order_product_tax').val(prs_tax_val);
+
+        /*** Start Total Sub Total ***/
+        var tbSubTotal = $("input[name='product[order_subtotal][]']").map(function(){return $(this).val();}).get();
+        var tbTotalSubTotal=0;
+        for(var i in tbSubTotal) {
+            tbTotalSubTotal += Number(tbSubTotal[i]);
+        }
+        $('.sub_total').val(tbTotalSubTotal.toFixed(2));
+        /*** End Total Sub Total***/
+
+        /*** Start Total Product Tax***/
+        var tbProductTax = $("input[name='product[order_product_tax][]']").map(function(){return $(this).val();}).get();
+        var tbTotalProductTax=0;
+        for(var i in tbProductTax) {
+            tbTotalProductTax += Number(tbProductTax[i]);
+        }
+        $('.total_tax').val(tbTotalProductTax.toFixed(2));
+        /*** End Total Product Tax***/
+
+        /*** Start Grand Total ***/
+        let mydiscount = $('.total_discount').val();
+        mydiscount = (!mydiscount.length || isNaN(mydiscount)) ? 0 : parseFloat(mydiscount);
+
+        let mytax = tbTotalProductTax.toFixed(2);
+        mytax = (!mytax.length || isNaN(mytax)) ? 0 : parseFloat(mytax);
+
+        grand_total = tbTotalSubTotal - mydiscount;
+        grand_total += mytax;
+        $('.grand_total').val(grand_total.toFixed(2));
+        /*** End Grand Total ***/
+    });
+
+    // tr remove item
+    $("#table-combo").on('click', '.table-remove', function () {
+        var row = $(this).closest('tr').remove();
+        window.item_array = [];
+        var tbRowId = $("input[name='product[order_row_id][]']").map(function(){return $(this).val();}).get();
+        window.item_array.push(tbRowId);
+        var b = tbRowId.toString();
+        var c = b;
+        window.d = c.replace(/,/g, '_');
+        /*** Start Total ***/
+        var tbSubTotal = $("input[name='product[order_subtotal][]']").map(function(){return $(this).val();}).get();
+        var tbTotalSubTotal=0;
+        for(var i in tbSubTotal) {
+            tbTotalSubTotal += Number(tbSubTotal[i]);
+        }
+        $('.sub_total').val(tbTotalSubTotal.toFixed(2));
+        /*** End Total ***/
+        /*** Start Total Product ***/
+        var tbProductTax = $("input[name='product[order_product_tax][]']").map(function(){return $(this).val();}).get();
+        var tbTotalProductTax=0;
+        for(var i in tbProductTax) {
+            tbTotalProductTax += Number(tbProductTax[i]);
+        }
+        $('.total_tax').val(tbTotalProductTax.toFixed(2));
+        /*** End Total Product ***/
+        /*** Start Grand Total ***/
+        let mydiscount = $('.total_discount').val();
+        mydiscount = (!mydiscount.length || isNaN(mydiscount)) ? 0 : parseFloat(mydiscount);
+
+        let mytax = tbTotalProductTax.toFixed(2);
+        mytax = (!mytax.length || isNaN(mytax)) ? 0 : parseFloat(mytax);
+
+        grand_total = tbTotalSubTotal - mydiscount;
+        grand_total += mytax;
+        $('.grand_total').val(grand_total.toFixed(2));
+        /*** End Grand Total ***/
+    });
+
+    function capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 
     $(document).on('change keyup', '.total_discount', function () {
         calculateDiscount();
     });
 
-    $(document).on('change keyup', '.tax_percentage', function () {
-        calculateVatPercentage();
-    });
-
     function calculateDiscount() {
         let total_discount = $('.total_discount').val();
         calculateTax();
-    }
-
-    function calculateVatPercentage() {
-        let discount = $('.total_discount').val();
-        discount = (!discount.length || isNaN(discount)) ? 0 : parseFloat(discount);
-
-        let tax_percentage = $('.tax_percentage').val();
-        tax_percentage = (!tax_percentage.length || isNaN(tax_percentage)) ? 0 : parseFloat(tax_percentage);
-        tax_percentage = parseFloat(tax_percentage.toFixed(2));
-
-        var tbSubTotal = $("input[name='product[order_subtotal][]']").map(function(){return $(this).val();}).get();
-        var total=0;
-        for(var i in tbSubTotal) {
-            total += Number(tbSubTotal[i]);
-        }
-        total = parseFloat(total.toFixed(2));
-        grand_total = total - discount;
-        let tax = (tax_percentage / 100) * (grand_total);
-        grand_total += tax;
-        $('.total_tax').val(tax.toFixed(2));
-        $('.grand_total').val(grand_total.toFixed(2));
-
-        // calculatePaid();
     }
 
     function calculateTax() {
@@ -420,8 +499,6 @@
         grand_total = total - discount;
         grand_total += tax;
         $('.grand_total').val(grand_total.toFixed(2));
-
-        // calculatePaid();
     }
 </script>
 

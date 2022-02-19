@@ -143,6 +143,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="category_id">@lang('Category')</label>
+                                <div class="form-group input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-code-branch"></i>
+                                    </div>
+                                    <select class="form-control ambitious-form-loading" name="category_id" id="category_id" required>
+                                        <option value="">Select Category</option>
+                                        @foreach ($categories as $key => $value)
+                                            <option value="{{ $key }}" {{ old('category_id') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
 
                     <div class="row">

@@ -99,7 +99,29 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // $validatedData = $request->validate([
+        //     'customer_id' => 'required|integer',
+        //     'currency_code' => 'required|string',
+        //     'invoiced_at' => 'required|date',
+        //     'due_at' => 'required|date',
+        //     'invoice_number' => 'required|string',
+        //     'order_number' => 'nullable|string',
+        //     'category_id' => 'nullable|integer',
+        //     'total_discount' => 'nullable|numeric',
+        //     'description' => 'nullable|string|max:1000',
+        //     'picture' => 'nullable|mimes:pdf,jpeg,png,jpg|max:4096'
+        // ]);
+
+        $validatedData = $request->validate([
+            "product"    => "required|array",
+            "product.*"  => "required",
+            "product.order_row_id.*"  => "required",
+            "product.order_quantity.*"  => "required",
+        ]);
+
+        $items = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->whereIn('id', $request->product['order_row_id'])->get();
+
+        dd($items);
     }
 
     /**

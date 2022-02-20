@@ -300,10 +300,17 @@
                     </div>
                     <br>
                     <hr>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('invoice.index') }}" class="btn btn-outline btn-warning btn-lg" style="float: right;">{{ __('Cancel') }}</a>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg btn-block"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <a href="{{ route('invoice.index') }}" class="btn btn-outline btn-warning btn-lg btn-block" style="float: right;">{{ __('Cancel') }}</a>
+                            </div>
                         </div>
                     </div>
                 </form>

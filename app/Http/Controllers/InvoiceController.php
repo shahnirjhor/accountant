@@ -11,6 +11,7 @@ use App\Models\Item;
 use App\Models\Tax;
 use Illuminate\Http\Request;
 use Session;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -99,18 +100,21 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = $request->validate([
-        //     'customer_id' => 'required|integer',
-        //     'currency_code' => 'required|string',
-        //     'invoiced_at' => 'required|date',
-        //     'due_at' => 'required|date',
-        //     'invoice_number' => 'required|string',
-        //     'order_number' => 'nullable|string',
-        //     'category_id' => 'nullable|integer',
-        //     'total_discount' => 'nullable|numeric',
-        //     'description' => 'nullable|string|max:1000',
-        //     'picture' => 'nullable|mimes:pdf,jpeg,png,jpg|max:4096'
-        // ]);
+        $request->validate([
+            'customer_id' => ['required', 'integer'],
+            'currency_code' => ['required', 'string'],
+            'invoiced_at' => ['required', 'date'],
+            'due_at' => ['required', 'date'],
+            'invoice_number' => ['required', 'string'],
+            'order_number' => ['nullable', 'string'],
+            'category_id' => ['nullable', 'integer'],
+            'grand_total' => ['required', 'numeric'],
+            'total_discount' => ['nullable', 'numeric'],
+            'total_tax' => ['nullable', 'numeric'],
+            'description' => ['nullable', 'string', 'max:1000'],
+            'picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ]);
+
 
         $validatedData = $request->validate([
             "product"    => "required|array",
@@ -119,9 +123,32 @@ class InvoiceController extends Controller
             "product.order_quantity.*"  => "required",
         ]);
 
-        $items = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->whereIn('id', $request->product['order_row_id'])->get();
+        $customerInfo = Customer::findOrFail($request->customer_id);
+        $currencyInfo = Currency::where('company_id', Session::get('company_id'))->where('code', $request->currency_code)->first();
 
-        dd($items);
+        $data = $request->only(['invoice_number','order_number','invoiced_at','due_at','currency_code','category_id']);
+        $data['company_id'] = session('company_id');
+        $data['invoice_status_code'] = 'draft';
+        $data['amount'] = $request->grand_total;
+        $data['currency_rate'] = $currencyInfo->rate;
+        $data['customer_id'] = $request->customer_id;
+        $data['customer_name'] = $customerInfo->name;
+        $data['customer_email'] = $customerInfo->email;
+        $data['customer_tax_number'] = $customerInfo->tax_number;
+        $data['customer_phone'] = $customerInfo->phone;
+        $data['customer_adress'] = $customerInfo->address;
+        $data['notes'] = $request->description;
+        if ($request->picture) {
+            $data['attachment'] = $request->picture->store('invoice');
+        }
+
+        DB::transaction(function () use ($data) {
+            $invoice = Invoice::create($data);
+        });
+
+        //$items = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->whereIn('id', $request->product['order_row_id'])->get();
+
+
     }
 
     /**

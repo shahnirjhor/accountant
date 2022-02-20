@@ -49,7 +49,7 @@
                 <h3 class="card-title">@lang('Add Invoice')</h3>
             </div>
             <div class="card-body">
-                <form class="form-material form-horizontal" action="{{ route('invoice.store') }}" method="POST">
+                <form class="form-material form-horizontal" action="{{ route('invoice.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -151,7 +151,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-code-branch"></i>
                                     </div>
-                                    <select class="form-control ambitious-form-loading" name="category_id" id="category_id" required>
+                                    <select class="form-control ambitious-form-loading" name="category_id" id="category_id">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $key => $value)
                                             <option value="{{ $key }}" {{ old('category_id') == $key ? 'selected' : '' }}>{{ $value }}</option>
@@ -165,24 +165,23 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                          <label for="js-example-data-ajax">{{ __('Add Item') }} </label>
-                            <div class="form-group input-group mb-3">
+                            <label for="js-example-data-ajax">{{ __('Add Item') }} </label>
+                            <div class="form-group input-group" style="margin-bottom: unset;">
                                 <div class="barcode">
-                                  <div class="row">
-                                    <div class="col-bar-icon d-none d-xl-block">
-                                        <i class="fa fa-barcode fa-4x" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="col-sm-11 my-auto col-bar-box">
-                                        <select class="js-example-data-ajax select2-container" id="js-example-data-ajax" name="combo_id[]"  multiple="multiple">
-                                            <option value="AL">...</option>
-                                        </select>
-                                    </div>
+                                    <div class="row">
+                                        <div class="col-bar-icon d-none d-xl-block">
+                                            <i class="fa fa-barcode fa-4x" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="col-sm-11 my-auto col-bar-box">
+                                            <select class="js-example-data-ajax select2-container" id="js-example-data-ajax" name="combo_id[]"  multiple="multiple">
+                                                <option value="AL">...</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="table-combo">{{ __('product.combo products') }} <b class="ambitious-crimson">*</b></label>
                             <table class="table" id="table-combo">
                               <thead>
                                 <tr class="bg-info">
@@ -195,6 +194,44 @@
                                 </tr>
                               </thead>
                               <tbody>
+                                    @if (old('product.order_row_id'))
+                                        @foreach (old('product.order_row_id') as $key => $value)
+                                        @php
+                                            $showTaxTypeRate = "";
+                                            if(old('product.order_tax_type_rate')[$key] == '0') {
+                                                $showTaxTypeRate = "No Tax";
+                                            } else {
+                                                $taxTypeRate = old('product.order_tax_type_rate')[$key];
+                                                $taxTypeRate = explode("_",$taxTypeRate);
+                                                $showTaxTypeRate = $taxTypeRate[1]."% ".ucfirst($taxTypeRate[0]);
+                                            }
+                                        @endphp
+                                        <tr id="{{ old('product.order_row_id')[$key] }}" class="table-info">
+                                            <th scope="row">
+                                                <input type="hidden" class="order_row_id" value="{{ old('product.order_row_id')[$key] }}" name="product[order_row_id][]">
+                                                <input type="hidden" class="order_name" value="{{ old('product.order_name')[$key] }}" name="product[order_name][]">{{ old('product.order_name')[$key] }}
+                                            </th>
+                                            <td>
+                                                <input type="number" step="any" class="form-control order_quantity" min="1" value="{{ old('product.order_quantity')[$key] }}" name="product[order_quantity][]">
+                                            </td>
+                                            <td>
+                                                <input type="hidden" class="order_price" value="{{ old('product.order_price')[$key] }}" name="product[order_price][]"><span>{{ old('product.order_price')[$key] }}</span>
+                                            </td>
+                                            <td>
+                                                <input type="hidden" class="order_tax_type_rate" value="{{ old('product.order_tax_type_rate')[$key] }}" name="product[order_tax_type_rate][]">
+                                                <input type="hidden" class="order_product_tax" value="{{ old('product.order_product_tax')[$key] }}" name="product[order_product_tax][]"><span class="order_product_tax_text">{{ $showTaxTypeRate }}</span>
+                                            </td>
+                                            <td>
+                                                <input type="hidden" class="order_subtotal" value="{{ old('product.order_subtotal')[$key] }}" name="product[order_subtotal][]"><span class="order_subtotal_text">{{ old('product.order_subtotal')[$key] }}</span>
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0)" class="btn btn-info btn-outline table-remove" data-toggle="modal" data-target="#myModal" title="Delete">
+                                                  <i class="fa fa-trash ambitious-padding-btn"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endif
                               </tbody>
                               <tbody>
                                 <tr>
@@ -570,6 +607,15 @@
     function formatRepoSelection (repo) {
         return repo.name || repo.sku;
     }
+
+    $(".today-flatpickr").flatpickr({
+        enableTime: false,
+        defaultDate: "today"
+    });
+
+    $(".flatpickr").flatpickr({
+        enableTime: false
+    });
 
     </script>
 @endsection

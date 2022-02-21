@@ -9,6 +9,15 @@ class InvoiceTotal extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'company_id',
+        'invoice_id',
+        'code',
+        'name',
+        'amount',
+        'sort_order'
+    ];
+
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);

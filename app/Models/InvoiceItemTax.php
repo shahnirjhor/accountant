@@ -9,6 +9,15 @@ class InvoiceItemTax extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'company_id',
+        'invoice_id',
+        'invoice_item_id',
+        'tax_id',
+        'name',
+        'amount'
+    ];
+
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);

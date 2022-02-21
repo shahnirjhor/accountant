@@ -9,6 +9,14 @@ class InvoiceHistory extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'company_id',
+        'invoice_id',
+        'status_code',
+        'notify',
+        'description'
+    ];
+
     public function invoice()
     {
         return $this->belongsTo(Invoice::class);

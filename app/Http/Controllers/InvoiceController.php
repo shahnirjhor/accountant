@@ -7,8 +7,10 @@ use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\InvoiceHistory;
 use App\Models\InvoiceItem;
 use App\Models\InvoiceItemTax;
+use App\Models\InvoiceTotal;
 use App\Models\Item;
 use App\Models\Tax;
 use Illuminate\Http\Request;
@@ -119,7 +121,7 @@ class InvoiceController extends Controller
         ]);
 
 
-        $validatedData = $request->validate([
+        $request->validate([
             "product"    => "required|array",
             "product.*"  => "required",
             "product.order_row_id.*"  => "required",
@@ -169,7 +171,6 @@ class InvoiceController extends Controller
                     }
                     $tax_amount = 0;
                     $item_taxes = [];
-                    $item_tax_total = 0;
                     if (!empty($item->tax_id)) {
                         $taxType = $item->tax->type;
                         $taxRate = $item->tax->rate;
@@ -263,6 +264,20 @@ class InvoiceController extends Controller
             $amount = $s_total + $tax_total;
             $invoiceData['amount'] = $amount;
             $invoice->update($invoiceData);
+
+            // Add invoice totals
+            $this->addTotals($invoice, $request, $taxes, $sub_total, $request->total_discount, $tax_total);
+            // Add invoice history
+            InvoiceHistory::create([
+                'company_id' => session('company_id'),
+                'invoice_id' => $invoice->id,
+                'status_code' => 'draft',
+                'notify' => 0,
+                'description' => $invoice->invoice_number." added!",
+            ]);
+
+            return redirect()->route('invoice.show', $invoice->id)->with('success', trans('Invoice Added Successfully'));
+
         });
 
         //$items = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->whereIn('id', $request->product['order_row_id'])->get();
@@ -270,9 +285,56 @@ class InvoiceController extends Controller
 
     }
 
-    public function addTotals()
+    public function addTotals($invoice, $request, $taxes, $sub_total, $discount_total, $tax_total)
     {
-
+        $sort_order = 1;
+        // Added invoice sub total
+        InvoiceTotal::create([
+            'company_id' => session('company_id'),
+            'invoice_id' => $invoice->id,
+            'code' => 'sub_total',
+            'name' => 'invoices.sub_total',
+            'amount' => $sub_total,
+            'sort_order' => $sort_order,
+        ]);
+        $sort_order++;
+        // Added invoice discount
+        if ($discount_total) {
+            InvoiceTotal::create([
+                'company_id' => session('company_id'),
+                'invoice_id' => $invoice->id,
+                'code' => 'discount',
+                'name' => 'invoices.discount',
+                'amount' => $discount_total,
+                'sort_order' => $sort_order,
+            ]);
+            // This is for total
+            $sub_total = $sub_total - $discount_total;
+            $sort_order++;
+        }
+        // Added invoice taxes
+        if (isset($taxes)) {
+            foreach ($taxes as $tax) {
+                InvoiceTotal::create([
+                    'company_id' => session('company_id'),
+                    'invoice_id' => $invoice->id,
+                    'code' => 'tax',
+                    'name' => $tax['name'],
+                    'amount' => $tax['amount'],
+                    'sort_order' => $sort_order,
+                ]);
+                $sort_order++;
+            }
+        }
+        // Added invoice total
+        InvoiceTotal::create([
+            'company_id' => session('company_id'),
+            'invoice_id' => $invoice->id,
+            'code' => 'total',
+            'name' => 'invoices.total',
+            'amount' => $sub_total + $tax_total,
+            'sort_order' => $sort_order,
+        ]);
     }
 
     /**

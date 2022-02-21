@@ -142,8 +142,35 @@ class InvoiceController extends Controller
             $data['attachment'] = $request->picture->store('invoice');
         }
 
-        DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($data , $request) {
             $invoice = Invoice::create($data);
+            $taxes = [];
+            $tax_total = 0;
+            $sub_total = 0;
+            $discount_total = 0;
+            if($request->product) {
+                $order_row_id = $keys = $request->product['order_row_id'];
+                $order_quantity = $request->product['order_quantity'];
+                foreach ($keys as $id => $key) {
+                    $item = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->where('id', $order_row_id[$id])->first();
+                    $item_sku = '';
+                    $item_id = !empty($item->id) ? $item->id : 0;
+                    $item_amount = (double) $item->sale_price * $order_quantity;
+                    if (!empty($item_id)) {
+                        $item_object = Item::find($item_id);
+                        // Decrease stock (item sold)
+                        $item_object->quantity -= (double) $this->data['quantity'];
+                        $item_object->save();
+                    }
+
+                    dd($item);
+                    $q[$key] = array(
+                        'company_id'  => session('company_id'),
+                        'invoice_id' => $invoice->id,
+                        'item_id' => $order_row_id[$id],
+                    );
+                }
+            }
         });
 
         //$items = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->whereIn('id', $request->product['order_row_id'])->get();

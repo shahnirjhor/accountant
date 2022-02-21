@@ -238,7 +238,7 @@
                                     <td colspan="3"></td>
                                     <th style="text-align: right;vertical-align: inherit;">@lang('Sub Total')</th>
                                     <td>
-                                        <input type="number" step=".01" name="sub_total[]" class="form-control sub_total" value="0.00" placeholder="@lang('Sub Total')" readonly>
+                                        <input type="number" step=".01" name="sub_total" class="form-control sub_total" value="{{ old('sub_total', '0.00') }}" placeholder="@lang('Sub Total')" readonly>
                                     </td>
                                 </tr>
                                 <tr>

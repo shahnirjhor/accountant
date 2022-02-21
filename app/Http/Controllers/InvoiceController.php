@@ -7,11 +7,14 @@ use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
+use App\Models\InvoiceItemTax;
 use App\Models\Item;
 use App\Models\Tax;
 use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class InvoiceController extends Controller
 {
@@ -147,7 +150,6 @@ class InvoiceController extends Controller
             $taxes = [];
             $tax_total = 0;
             $sub_total = 0;
-            $discount_total = 0;
             if($request->product) {
                 $order_row_id = $keys = $request->product['order_row_id'];
                 $order_quantity = $request->product['order_quantity'];
@@ -158,23 +160,118 @@ class InvoiceController extends Controller
                     $item_amount = (double) $item->sale_price * $order_quantity;
                     if (!empty($item_id)) {
                         $item_object = Item::find($item_id);
+                        $item_sku = $item_object->sku;
                         // Decrease stock (item sold)
-                        $item_object->quantity -= (double) $this->data['quantity'];
+                        $item_object->quantity -= (double) $order_quantity;
                         $item_object->save();
+                    } elseif ($item->sku) {
+                        $item_sku = $item->sku;
+                    }
+                    $tax_amount = 0;
+                    $item_taxes = [];
+                    $item_tax_total = 0;
+                    if (!empty($item->tax_id)) {
+                        $taxType = $item->tax->type;
+                        $taxRate = $item->tax->rate;
+                        if ($taxRate !== null && $taxRate != 0) {
+                            if ($taxType == "inclusive") {
+                                $tax_amount = (double) (($item->sale_price * $taxRate) / (100 + $taxRate));
+                                $tax_amounts = (double) ($tax_amount * $order_quantity);
+                                $item_amount -= $tax_amounts;
+                                $item_taxes[] = [
+                                    'company_id' => session('company_id'),
+                                    'invoice_id' => $invoice->id,
+                                    'tax_id' => $item->tax_id,
+                                    'name' => $item->tax->name,
+                                    'amount' => $tax_amounts,
+                                ];
+                            } else {
+                                $tax_amount = (double) (($item->sale_price * $taxRate) / 100);
+                                $tax_amounts = (double) ($tax_amount * $order_quantity);
+                                $item_taxes[] = [
+                                    'company_id' => session('company_id'),
+                                    'invoice_id' => $invoice->id,
+                                    'tax_id' => $item->tax_id,
+                                    'name' => $item->tax->name,
+                                    'amount' => $tax_amounts,
+                                ];
+                            }
+                        }
                     }
 
-                    dd($item);
-                    $q[$key] = array(
-                        'company_id'  => session('company_id'),
+                    $invoice_item = InvoiceItem::create([
+                        'company_id' => session('company_id'),
                         'invoice_id' => $invoice->id,
-                        'item_id' => $order_row_id[$id],
-                    );
+                        'item_id' => $item_id,
+                        'name' => Str::limit($item->name, 180, ''),
+                        'sku' => $item_sku,
+                        'quantity' => (double) $order_quantity,
+                        'price' => (double) $item->sale_price,
+                        'tax' => $tax_amounts,
+                        'total' => $item_amount,
+                    ]);
+
+                    $invoice_item->item_taxes = false;
+
+                    // set item_taxes for
+                    if (!empty($item->tax_id)) {
+                        $invoice_item->item_taxes = $item_taxes;
+                    }
+
+                    if ($item_taxes) {
+                        foreach ($item_taxes as $item_tax) {
+                            $item_tax['invoice_item_id'] = $invoice_item->id;
+                            InvoiceItemTax::create($item_tax);
+
+                            // Set taxes
+                            if (isset($taxes) && array_key_exists($item_tax['tax_id'], $taxes)) {
+                                $taxes[$item_tax['tax_id']]['amount'] += $item_tax['amount'];
+                            } else {
+                                $taxes[$item_tax['tax_id']] = [
+                                    'name' => $item_tax['name'],
+                                    'amount' => $item_tax['amount']
+                                ];
+                            }
+                        }
+                    }
+
+                    // Calculate totals
+                    $tax_total += $invoice_item->tax;
+                    $sub_total += $invoice_item->total;
+
+                    if ($invoice_item->item_taxes) {
+                        foreach ($invoice_item->item_taxes as $item_tax) {
+                            if (isset($taxes) && array_key_exists($item_tax['tax_id'], $taxes)) {
+                                $taxes[$item_tax['tax_id']]['amount'] += $item_tax['amount'];
+                            } else {
+                                $taxes[$item_tax['tax_id']] = [
+                                    'name' => $item_tax['name'],
+                                    'amount' => $item_tax['amount']
+                                ];
+                            }
+                        }
+                    }
                 }
             }
+
+            $s_total = $sub_total;
+            // Apply discount to total
+            if ($request->total_discount) {
+                $s_discount = $request->total_discount;
+                $s_total = $s_total - $s_discount;
+            }
+            $amount = $s_total + $tax_total;
+            $invoiceData['amount'] = $amount;
+            $invoice->update($invoiceData);
         });
 
         //$items = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->whereIn('id', $request->product['order_row_id'])->get();
 
+
+    }
+
+    public function addTotals()
+    {
 
     }
 

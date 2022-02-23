@@ -25,9 +25,18 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->create();
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $invoices = $this->filter($request)->paginate(10)->withQueryString();
+        return view('invoices.index',compact('company','invoices'));
+    }
+
+    private function filter(Request $request)
+    {
+        $query = Invoice::with('customer:id,name')->where('company_id', session('company_id'))->latest();
+        return $query;
     }
 
     /**
@@ -98,6 +107,19 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Increase the next invoice number
+     */
+    public function increaseNextInvoiceNumber($company)
+    {
+        $currentInvoice = $company->invoice_number_next;
+        $next = $currentInvoice + 1;
+
+        DB::table('settings')->where('company_id', $company->id)
+                ->where('key', 'general.invoice_number_next')
+                ->update(['value' => $next]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -148,18 +170,22 @@ class InvoiceController extends Controller
         }
 
         DB::transaction(function () use ($data , $request) {
+            $company = Company::findOrFail(Session::get('company_id'));
+            $company->setSettings();
             $invoice = Invoice::create($data);
             $taxes = [];
             $tax_total = 0;
             $sub_total = 0;
+            $discount_total = 0;
             if($request->product) {
                 $order_row_id = $keys = $request->product['order_row_id'];
-                $order_quantity = $request->product['order_quantity'];
+                $oquantity = $request->product['order_quantity'];
                 foreach ($keys as $id => $key) {
-                    $item = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->where('id', $order_row_id[$id])->first();
+                    $order_quantity = (double) $oquantity[$id];
+                    $item = Item::with('tax:id,rate,type,name')->where('company_id', session('company_id'))->where('id', $order_row_id[$id])->first();
                     $item_sku = '';
                     $item_id = !empty($item->id) ? $item->id : 0;
-                    $item_amount = (double) $item->sale_price * $order_quantity;
+                    $item_amount = (double) $item->sale_price * (double) $order_quantity;
                     if (!empty($item_id)) {
                         $item_object = Item::find($item_id);
                         $item_sku = $item_object->sku;
@@ -170,6 +196,7 @@ class InvoiceController extends Controller
                         $item_sku = $item->sku;
                     }
                     $tax_amount = 0;
+                    $tax_amounts = 0;
                     $item_taxes = [];
                     if (!empty($item->tax_id)) {
                         $taxType = $item->tax->type;
@@ -239,19 +266,6 @@ class InvoiceController extends Controller
                     // Calculate totals
                     $tax_total += $invoice_item->tax;
                     $sub_total += $invoice_item->total;
-
-                    if ($invoice_item->item_taxes) {
-                        foreach ($invoice_item->item_taxes as $item_tax) {
-                            if (isset($taxes) && array_key_exists($item_tax['tax_id'], $taxes)) {
-                                $taxes[$item_tax['tax_id']]['amount'] += $item_tax['amount'];
-                            } else {
-                                $taxes[$item_tax['tax_id']] = [
-                                    'name' => $item_tax['name'],
-                                    'amount' => $item_tax['amount']
-                                ];
-                            }
-                        }
-                    }
                 }
             }
 
@@ -276,11 +290,12 @@ class InvoiceController extends Controller
                 'description' => $invoice->invoice_number." added!",
             ]);
 
-            return redirect()->route('invoice.show', $invoice->id)->with('success', trans('Invoice Added Successfully'));
+            // Update next invoice number
+            $this->increaseNextInvoiceNumber($company);
 
         });
 
-        //$items = Item::with('tax:id,rate,type')->where('company_id', session('company_id'))->whereIn('id', $request->product['order_row_id'])->get();
+        return redirect()->route('invoice.show', '1')->with('success', trans('Invoice Added Successfully'));
 
 
     }
@@ -299,7 +314,7 @@ class InvoiceController extends Controller
         ]);
         $sort_order++;
         // Added invoice discount
-        if ($discount_total) {
+        if ($discount_total > 0) {
             InvoiceTotal::create([
                 'company_id' => session('company_id'),
                 'invoice_id' => $invoice->id,
@@ -345,7 +360,10 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        //
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        // dd($company);
+        return view('invoices.show', compact('company'));
     }
 
     /**

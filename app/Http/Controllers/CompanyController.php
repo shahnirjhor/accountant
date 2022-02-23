@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Company;
 use App\Models\Category;
 use App\Models\Account;
+use App\Models\InvoiceStatus;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -114,6 +115,43 @@ class CompanyController extends Controller
             'bank_name' => 'Cash',
             'enabled' => '1',
         ]);
+        $invoiceStatusRows = [
+            [
+                'company_id' => $company->id,
+                'name' => 'Draft',
+                'code' => 'draft'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Sent',
+                'code' => 'sent'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Viewed',
+                'code' => 'viewed'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Approved',
+                'code' => 'approved'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Partial',
+                'code' => 'partial'
+            ],
+            [
+                'company_id' => $company->id,
+                'name' => 'Paid',
+                'code' => 'paid'
+            ],
+        ];
+
+        foreach ($invoiceStatusRows as $row) {
+            InvoiceStatus::create($row);
+        }
+
         $categoriesRows = [
             [
                 'company_id' => $company->id,

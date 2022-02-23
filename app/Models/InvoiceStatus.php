@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class InvoiceStatus extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'company_id',
+        'name',
+        'code'
+    ];
 }

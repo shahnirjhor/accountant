@@ -17,93 +17,78 @@
 </section>
 <div class="row">
     <div class="col-12">
-      <div class="invoice p-3 mb-3">
-        <div class="row">
-          <div class="col-12">
-            <h4>
-              <i class="fas fa-globe"></i> {{ $company->company_name ?? '' }}
-              <small class="float-right">Date: 2/10/2014</small>
-            </h4>
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- info row -->
-        <div class="row invoice-info">
-          <div class="col-sm-4 invoice-col">
-            From
-            <address>
-              <strong>Admin, Inc.</strong><br>
-              795 Folsom Ave, Suite 600<br>
-              San Francisco, CA 94107<br>
-              Phone: (804) 123-5432<br>
-              Email: info@almasaeedstudio.com
-            </address>
-          </div>
-          <!-- /.col -->
-          <div class="col-sm-4 invoice-col">
-            To
-            <address>
-              <strong>John Doe</strong><br>
-              795 Folsom Ave, Suite 600<br>
-              San Francisco, CA 94107<br>
-              Phone: (555) 539-1037<br>
-              Email: john.doe@example.com
-            </address>
-          </div>
-          <!-- /.col -->
-          <div class="col-sm-4 invoice-col">
-            <b>Invoice #007612</b><br>
-            <br>
-            <b>Order ID:</b> 4F3S8J<br>
-            <b>Payment Due:</b> 2/22/2014<br>
-            <b>Account:</b> 968-34567
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
-
-        <!-- Table row -->
-        <div class="row">
-          <div class="col-12 table-responsive">
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>1</td>
-                <td>Call of Duty</td>
-                <td>455-981-221</td>
-                <td>$64.50</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Need for Speed IV</td>
-                <td>247-925-726</td>
-                <td>$50.00</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Monsters DVD</td>
-                <td>735-845-642</td>
-                <td>$10.70</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Grown Ups Blue Ray</td>
-                <td>422-568-642</td>
-                <td style="float: right">$25.99</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- /.col -->
-        </div>
+        <div class="invoice p-3 mb-3 card card-warning card-outline">
+            <div class="row">
+                <div class="col-12 ">
+                    <h4>
+                        <i class="fas fa-globe"></i> {{ $company->company_name ?? '' }}
+                        <strong><span class="float-right badge badge-warning" style="padding: 10px;">Status: Draft</span></strong>
+                    </h4>
+                </div>
+            </div>
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    From
+                    <address>
+                        <strong>{{ $salesMan->name}}</strong><br>
+                        @if ($company->company_address)
+                        {{ strip_tags($company->company_address) }}<br>
+                        @endif
+                        @if ($company->company_phone)
+                        Phone: {{ $company->company_phone }}<br>
+                        @endif
+                        @if ($company->company_phone)
+                        Email: {{ $company->company_email }}
+                        @endif
+                    </address>
+                </div>
+                <div class="col-sm-4 invoice-col">
+                    To
+                    <address>
+                        <strong>{{ $invoice->customer_name}}</strong><br>
+                        @if ($invoice->customer_address)
+                        {{ strip_tags($invoice->customer_address) }}<br>
+                        @endif
+                        @if ($invoice->customer_phone)
+                        Phone: {{ $invoice->customer_phone }}<br>
+                        @endif
+                        @if ($invoice->customer_email)
+                        Email: {{ $invoice->customer_email }}
+                        @endif
+                    </address>
+                </div>
+                <div class="col-sm-4 invoice-col">
+                    <b>Invoice #{{$invoice->invoice_number}}</b><br>
+                    <br>
+                    <b>Order Number:</b> {{$invoice->order_number}}<br>
+                    <b>Invoice Date:</b> {{ date($company->date_format, strtotime($invoice->invoiced_at)) }}<br>
+                    <b>Payment Due:</b> {{ date($company->date_format, strtotime($invoice->due_at)) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($invoice->items as $item)
+                            <tr>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>@money($item->price, $invoice->currency_code, true)</td>
+                                <td>@money($item->total, $invoice->currency_code, true)</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         <!-- /.row -->
 
         <div class="row">
@@ -114,22 +99,35 @@
           <div class="col-6">
             <div class="table-responsive">
               <table class="table">
-                <tr>
-                  <th style="width:75%">Subtotal:</th>
-                  <td style="float: right">$250.30</td>
-                </tr>
-                <tr>
-                  <th>Tax (9.3%)</th>
-                  <td style="float: right">$10.34</td>
-                </tr>
-                <tr>
-                  <th>Shipping:</th>
-                  <td style="float: right">$5.80</td>
-                </tr>
-                <tr>
-                  <th>Total:</th>
-                  <td style="float: right">$265.24</td>
-                </tr>
+                @foreach ($invoice->totals as $total)
+                    @php
+                        $totalName = explode(".",$total->name);
+                        $countNameArray = count($totalName);
+                        if($countNameArray == '1') {
+                            $name = $totalName[0];
+                        } else {
+                            $explodeWithunder = explode("_",$totalName[1]);
+                            $name = ucwords(implode(" ",$explodeWithunder));
+                        }
+                    @endphp
+                    @if ($total->code != 'total')
+                    <tr>
+                        <th style="width:50%">{{ $name }}:</th>
+                        <td>@money($total->amount, $invoice->currency_code, true)</td>
+                    </tr>
+                    @else
+                        @if ($invoice->paid)
+                            <tr>
+                                <th style="width:50%">{{ $name }}:</th>
+                                <td>@money($invoice->paid, $invoice->currency_code, true)</td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <th style="width:50%">{{ $name }}:</th>
+                            <td>@money($total->amount - $invoice->paid, $invoice->currency_code, true)</td>
+                        </tr>
+                    @endif
+                @endforeach
               </table>
             </div>
           </div>

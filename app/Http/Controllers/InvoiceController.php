@@ -13,6 +13,7 @@ use App\Models\InvoiceItemTax;
 use App\Models\InvoiceTotal;
 use App\Models\Item;
 use App\Models\Tax;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\DB;
@@ -164,6 +165,7 @@ class InvoiceController extends Controller
         $data['customer_tax_number'] = $customerInfo->tax_number;
         $data['customer_phone'] = $customerInfo->phone;
         $data['customer_adress'] = $customerInfo->address;
+        $data['parent_id'] = auth()->user()->id;
         $data['notes'] = $request->description;
         if ($request->picture) {
             $data['attachment'] = $request->picture->store('invoice');
@@ -362,8 +364,10 @@ class InvoiceController extends Controller
     {
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
+
+        $salesMan = User::find(auth()->user()->id);
         // dd($company);
-        return view('invoices.show', compact('company'));
+        return view('invoices.show', compact('company','salesMan','invoice'));
     }
 
     /**

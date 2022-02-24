@@ -120,6 +120,11 @@ class InvoiceController extends Controller
                 ->update(['value' => $next]);
     }
 
+    public function getAddPaymentDetails(Request $request)
+    {
+            return response()->json(['status' => 0]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

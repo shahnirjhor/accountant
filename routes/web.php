@@ -49,6 +49,11 @@ Route::group(['middleware' => ['auth']], function() {
         'as' => 'company.companyAccountSwitch'
     ]);
 
+    Route::get('/invoice/getAddPaymentDetails',[
+        'uses' => 'App\Http\Controllers\InvoiceController@getAddPaymentDetails',
+        'as' => 'invoice.getAddPaymentDetails'
+    ]);
+
     Route::resources([
         'roles' => App\Http\Controllers\RoleController::class,
         'users' => App\Http\Controllers\UserController::class,

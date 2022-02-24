@@ -15,15 +15,17 @@
         </div>
     </div>
 </section>
+<img class="d-none" src="/pre-loader/loading.gif" alt="hidden-img">
+<div class="progress-bar" id="progress-bar"></div>
 <div class="row">
     <div class="col-12">
         <div class="invoice p-3 mb-3 card card-warning card-outline">
             <div class="row">
+                <div class="ribbon-wrapper ribbon-lg">
+                    <div class="ribbon bg-warning">Draft</div>
+                </div>
                 <div class="col-12 ">
-                    <h4>
-                        <i class="fas fa-globe"></i> {{ $company->company_name ?? '' }}
-                        <strong><span class="float-right badge badge-warning" style="padding: 10px;">Status: Draft</span></strong>
-                    </h4>
+                    <h4><i class="fas fa-globe"></i> {{ $company->company_name ?? '' }}</h4>
                 </div>
             </div>
             <div class="row invoice-info">
@@ -153,15 +155,57 @@
             <button type="button" class="btn btn-lg btn-outline-info float-right" style="margin-right: 5px;">
                 <i class="fas fa-print"></i> Print
             </button>
-
-
-            <button type="button" class="btn btn-lg btn-success"><i class="far fa-credit-card"></i> Submit
-              Payment
-            </button>
+            <a class="btn btn-lg btn-success" id="addPaymentModel" i_id="{{$invoice->id}}" href="javascript:void(0)"> <i class="fas fa-money-check-alt mr-2"></i>Add Payment</a>
           </div>
         </div>
       </div>
       <!-- /.invoice -->
     </div><!-- /.col -->
   </div><!-- /.row -->
+
+    <div class="modal fade modal-print" id="addPaymentModalView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title d-inline">Add Payment</h5>
+                    <button type="button" class="close no-print" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $(document.body).on('click','#addPaymentModel',function(){
+                var i_id = $(this).attr('i_id');
+                $("#progress-bar").show();
+                $.ajax({
+                    url: '{{ url('invoice/getAddPaymentDetails') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    dataType : 'JSON',
+                    data:{i_id:i_id},
+                    success:function(response){
+                        $("#progress-bar").hide();
+                        if(response.status == 0) {
+                            // Swal.fire({
+                            //     icon: 'error',
+                            //     title: 'Oops...',
+                            //     text: 'Something went wrong!'
+                            // })
+                            alert("yy")
+                        } else {
+                            $("#purchase_id").val(response.p_id);
+                            $("#currency_id").val(response.currency_id);
+                            $("#payment_amount").val(response.balance);
+                            $("#addPaymentModalView").modal('show');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

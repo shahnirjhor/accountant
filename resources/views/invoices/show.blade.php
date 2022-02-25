@@ -28,10 +28,27 @@
 <div class="progress-bar" id="progress-bar"></div>
 <div class="row">
     <div class="col-12">
-        <div class="invoice p-3 mb-3 card card-warning card-outline">
+        @php
+            switch ($invoice->invoice_status_code) {
+                case 'paid':
+                    $badge = 'success';
+                    break;
+                case 'delete':
+                    $badge = 'danger';
+                    break;
+                case 'partial':
+                case 'sent':
+                    $badge = 'warning';
+                    break;
+                default:
+                    $badge = 'primary';
+                    break;
+            }
+        @endphp
+        <div class="invoice p-3 mb-3 card card-{{$badge}} card-outline">
             <div class="row">
                 <div class="ribbon-wrapper ribbon-lg">
-                    <div class="ribbon bg-warning">Draft</div>
+                    <div class="ribbon bg-{{$badge}}">{{Str::ucfirst($invoice->invoice_status_code) }}</div>
                 </div>
                 <div class="col-12 ">
                     <h4><i class="fas fa-globe"></i> {{ $company->company_name ?? '' }}</h4>
@@ -122,15 +139,15 @@
                         }
                     @endphp
                     @if ($total->code != 'total')
-                    <tr>
-                        <th style="width:50%">{{ $name }}:</th>
-                        <td>@money($total->amount, $invoice->currency_code, true)</td>
-                    </tr>
+                        <tr>
+                            <th style="width:50%">{{ $name }}:</th>
+                            <td>@money($total->amount, $invoice->currency_code, true)</td>
+                        </tr>
                     @else
                         @if ($invoice->paid)
                             <tr>
-                                <th style="width:50%">{{ $name }}:</th>
-                                <td>@money($invoice->paid, $invoice->currency_code, true)</td>
+                                <th class="text-success" style="width:50%">@lang('Paid')</th>
+                                <td>- @money($invoice->paid, $invoice->currency_code, true)</td>
                             </tr>
                         @endif
                         <tr>
@@ -391,6 +408,7 @@
                                 'success'
                             ).then(function() {
                                 $('#addPaymentModalView').modal('hide');
+                                window.location.reload();
                             });
                         }
                     }

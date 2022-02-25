@@ -127,8 +127,9 @@ class InvoiceController extends Controller
     public function getAddPaymentDetails(Request $request)
     {
         $invoice = Invoice::find($request->i_id);
+        $amount = $invoice->amount - $invoice->paid;
         if($invoice) {
-            $output = array('payment_amount' =>  $invoice->amount);
+            $output = array('payment_amount' =>  $amount);
             return json_encode($output);
         } else {
             return response()->json(['status' => 0]);
@@ -159,17 +160,53 @@ class InvoiceController extends Controller
             $data['description'] = $request->description;
             $data['payment_method'] = $request->payment_method;
             $invoicePayment = InvoicePayment::create($data);
+            $myInvoiceStatus = $this->invoiceStatusUpdate($request, $currencyInfo);
             $desc_amount = money((float) $invoicePayment->amount, (string) $invoicePayment->currency_code, true)->format();
             $historyData = [
                 'company_id' => $invoicePayment->company_id,
                 'invoice_id' => $invoicePayment->invoice_id,
-                'status_code' => $invoicePayment->invoice->invoice_status_code,
+                'status_code' => $myInvoiceStatus,
                 'notify' => '0',
                 'description' => $desc_amount . ' ' . "payments",
             ];
             InvoiceHistory::create($historyData);
         });
         return response()->json(['status' => 1]);
+    }
+
+    public function invoiceStatusUpdate($request, $currencyInfo)
+    {
+        $request['currency_code'] = $currencyInfo->code;
+        $request['currency_rate'] = $currencyInfo->rate;
+        $request['invoice_id'] = $request->invoice_id;
+        $invoice = Invoice::find($request->invoice_id);
+        if ($request['currency_code'] == $invoice->currency_code) {
+            if ($request['payment_amount'] > $invoice->amount) {
+                $invoice->invoice_status_code = 'paid';
+            } elseif ($request['payment_amount'] == $invoice->amount) {
+                $invoice->invoice_status_code = 'paid';
+            } else {
+                $invoice->invoice_status_code = 'partial';
+            }
+        } else {
+            $request_invoice = new Invoice();
+
+            $request_invoice->amount = (float) $request['payment_amount'];
+            $request_invoice->currency_code = $currencyInfo->code;
+            $request_invoice->currency_rate = $currencyInfo->rate;
+
+            $amount = $request_invoice->getConvertedAmount();
+            if ($amount > $invoice->amount) {
+                $invoice->invoice_status_code = 'paid';
+            } elseif ($amount == $invoice->amount) {
+                $invoice->invoice_status_code = 'paid';
+            } else {
+                $invoice->invoice_status_code = 'partial';
+            }
+        }
+        $invoice->save();
+
+        return $invoice->invoice_status_code;
     }
 
     /**

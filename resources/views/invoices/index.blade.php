@@ -45,7 +45,28 @@
                             <td>{{ $invoice->amount }}</td>
                             <td>{{ date($company->date_format, strtotime($invoice->invoiced_at)) }}</td>
                             <td>{{ date($company->date_format, strtotime($invoice->due_at)) }}</td>
-                            <td>{{ $invoice->invoice_status_code }}</td>
+                            <td>
+                                @php
+                                    switch ($invoice->invoice_status_code) {
+                                        case 'paid':
+                                            $badge = 'badge badge-success';
+                                            break;
+                                        case 'delete':
+                                            $badge = 'badge badge-danger';
+                                            break;
+                                        case 'partial':
+                                        case 'sent':
+                                            $badge = 'badge badge-warning';
+                                            break;
+                                        default:
+                                            $badge = 'badge badge-primary';
+                                            break;
+                                    }
+                                @endphp
+                                <h3>
+                                    <span class="{{$badge}}">{{Str::ucfirst($invoice->invoice_status_code) }}</span>
+                                </h3>
+                            </td>
                             <td>
                                 <a href="{{ route('invoice.show', $invoice) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="View"><i class="fa fa-eye ambitious-padding-btn"></i></a>&nbsp;&nbsp;
                                 <a href="{{ route('invoice.edit', $invoice) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;

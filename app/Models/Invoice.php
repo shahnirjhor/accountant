@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use Akaunting\Money\Money;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
     use HasFactory;
+
+    protected $appends = ['paid'];
 
     protected $fillable = [
         'company_id',
@@ -135,5 +139,49 @@ class Invoice extends Model
         });
 
         return $amount;
+    }
+
+    public function getPaidAttribute()
+    {
+        $paid = 0;
+        if ($this->payments->count()) {
+            $currencies = Currency::where('enabled', 1)->pluck('name', 'code');
+            foreach ($this->payments as $item) {
+                if ($this->currency_code == $item->currency_code) {
+                    $amount = (double) $item->amount;
+                } else {
+                    $default_model = new InvoicePayment();
+                    $default_model->default_currency_code = $this->currency_code;
+                    $default_model->amount = $item->amount;
+                    $default_model->currency_code = $item->currency_code;
+                    $default_model->currency_rate = $currencies[$item->currency_code];
+                    $default_amount = (double) $default_model->getDivideConvertedAmount();
+
+                    $convert_model = new InvoicePayment();
+                    $convert_model->default_currency_code = $item->currency_code;
+                    $convert_model->amount = $default_amount;
+                    $convert_model->currency_code = $this->currency_code;
+                    $convert_model->currency_rate = $currencies[$this->currency_code];
+                    $amount = (double) $convert_model->getDynamicConvertedAmount();
+                }
+                $paid += $amount;
+            }
+        }
+        return $paid;
+    }
+
+    public function getConvertedAmount($format = false)
+    {
+        return $this->convert($this->amount, $this->currency_code, $this->currency_rate, $format);
+    }
+
+    public function divide($amount, $code, $rate, $format = false)
+    {
+        if ($format) {
+            $money = Money::$code($amount, true)->divide((double) $rate)->format();
+        } else {
+            $money = Money::$code($amount)->divide((double) $rate)->getAmount();
+        }
+        return $money;
     }
 }

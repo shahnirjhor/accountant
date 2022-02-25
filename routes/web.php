@@ -54,6 +54,11 @@ Route::group(['middleware' => ['auth']], function() {
         'as' => 'invoice.getAddPaymentDetails'
     ]);
 
+    Route::post('/invoice/addPaymentStore',[
+        'uses' => 'App\Http\Controllers\InvoiceController@addPaymentStore',
+        'as' => 'invoice.addPaymentStore'
+    ]);
+
     Route::resources([
         'roles' => App\Http\Controllers\RoleController::class,
         'users' => App\Http\Controllers\UserController::class,

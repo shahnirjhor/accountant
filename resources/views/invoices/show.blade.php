@@ -1,4 +1,13 @@
 @extends('layouts.layout')
+@section('one_page_js')
+    <script src="{{ asset('js/quill.js') }}"></script>
+    <script src="{{ asset('plugins/sweetalert2/swal.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@endsection
+@section('one_page_css')
+    <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
@@ -167,10 +176,85 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title d-inline">Add Payment</h5>
+                    <h5 class="modal-title d-inline">New Payment</h5>
                     <button type="button" class="close no-print" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-material form-horizontal" action="#" method="POST" enctype="multipart/form-data">
+                        @method('PATCH')
+                        <input type="hidden" name="invoice_id" id="invoice_id" value="{{ $invoice->id }}">
+                        <input type="hidden" name="currency_code" id="currency_code" value="{{ $invoice->currency_code }}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="payment_date">{{ __('Date') }} <b class="ambitious-crimson">*</b></label>
+                                <div class="form-group input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-calendar"></i>
+                                    </div>
+                                    <input type="text" name="payment_date" id="payment_date" class="form-control" autofocus required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="payment_amount">{{ __('Amount') }} <b class="ambitious-crimson">*</b></label>
+                                <div class="form-group input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <input type="text" name="payment_amount" id="payment_amount" class="form-control" autofocus required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="payment_account">{{ __('Account') }} <b class="ambitious-crimson">*</b></label>
+                                <div class="form-group input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fa fa-university"></i></span>
+                                    </div>
+                                    <select class="form-control" id="payment_account" name="payment_account" required>
+                                        <option value="">@lang('Select Account')</option>
+                                        @foreach ($accounts as $key => $value)
+                                            <option value="{{ $key }}" {{ old('account_id') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="payment_method">{{ __('Payment Method') }} <b class="ambitious-crimson">*</b></label>
+                                <div class="form-group input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                                    </div>
+                                    <select class="form-control" id="payment_method" name="payment_method" required>
+                                        <option value="">@lang('Select Method')</option>
+                                        @foreach ($payment_methods as $key => $value)
+                                            <option value="{{ $key }}" {{ old('payment_method') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="col-md-12"><h4>{{ __('Description') }}</h4></label>
+                                <div class="col-md-12">
+                                    <div id="payment_description" style="min-height: 55px;">
+                                    </div>
+                                    <input type="hidden" name="description" id="description">
+                                </div>
+                                @if ($errors->has('description'))
+                                    {{ Session::flash('error',$errors->first('description')) }}
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer no-print">
+                    <input id="add_payment_button" type="submit" value="{{ __('Submit') }}" class="btn btn-primary"/>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-times"></i> @lang('Close')</button>
                 </div>
             </div>
         </div>
@@ -191,20 +275,143 @@
                     success:function(response){
                         $("#progress-bar").hide();
                         if(response.status == 0) {
-                            // Swal.fire({
-                            //     icon: 'error',
-                            //     title: 'Oops...',
-                            //     text: 'Something went wrong!'
-                            // })
-                            alert("yy")
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong!'
+                            })
                         } else {
-                            $("#purchase_id").val(response.p_id);
-                            $("#currency_id").val(response.currency_id);
-                            $("#payment_amount").val(response.balance);
+                            $("#payment_amount").val(response.payment_amount);
                             $("#addPaymentModalView").modal('show');
                         }
                     }
                 });
+            });
+
+            $(document.body).on('click','#add_payment_button',function(){
+                $("#progress-bar").show();
+                var itemName = "{{ $ApplicationSetting->item_name  }}";
+                var invoice_id = $("#invoice_id").val();
+                var currency_code = $("#currency_code").val();
+                var payment_date = $("#payment_date").val();
+                var payment_amount = $("#payment_amount").val();
+                var payment_account = $("#payment_account").val();
+                var payment_method = $("#payment_method").val();
+                var description = $("#description").val();
+                if(invoice_id=="") {
+                    $("#progress-bar").hide();
+                    Swal.fire(
+                        itemName,
+                        '{{ __('Iurchase Id Required') }}',
+                        'warning'
+                    );
+                    return;
+                }
+
+                if(currency_code=="") {
+                    $("#progress-bar").hide();
+                    Swal.fire(
+                        itemName,
+                        '{{ __('Currency Code Required') }}',
+                        'warning'
+                    );
+                    return;
+                }
+
+                if(payment_date=="") {
+                    $("#progress-bar").hide();
+                    Swal.fire(
+                        itemName,
+                        '{{ __('Payment Date Required') }}',
+                        'warning'
+                    );
+                    return;
+                }
+
+                if(payment_amount=="") {
+                    $("#progress-bar").hide();
+                    Swal.fire(
+                        itemName,
+                        '{{ __('Payment Amount Required') }}',
+                        'warning'
+                    );
+                    return;
+                }
+
+                if(payment_account=="") {
+                    $("#progress-bar").hide();
+                    Swal.fire(
+                        itemName,
+                        '{{ __('Payment Account Required') }}',
+                        'warning'
+                    );
+                    return;
+                }
+
+                if(payment_method=="") {
+                    $("#progress-bar").hide();
+                    Swal.fire(
+                        itemName,
+                        '{{ __('Payment Method Required') }}',
+                        'warning'
+                    );
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ url('invoice/addPaymentStore') }}',
+                    type:'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    },
+                    data: {
+                        invoice_id: invoice_id,
+                        currency_code: currency_code,
+                        payment_date: payment_date,
+                        payment_amount: payment_amount,
+                        payment_account: payment_account,
+                        payment_method: payment_method,
+                        description: description
+                    },
+                    dataType:'json',
+                    success:function(response){
+                        $("#progress-bar").hide();
+                        if(response.status==0){
+                            Swal.fire(
+                                itemName,
+                                '{{ __('Oops Something Wrong') }}',
+                                'warning'
+                            ).then(function() {
+                                $('#addPaymentModalView').modal('hide');
+                            });
+                        } else {
+                            Swal.fire(
+                                itemName,
+                                '{{ __('Payment Succussfully Added') }}',
+                                'success'
+                            ).then(function() {
+                                $('#addPaymentModalView').modal('hide');
+                            });
+                        }
+                    }
+                });
+            });
+
+            $("#payment_date").flatpickr({
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                defaultDate: ["{{ date('Y-m-d H:i') }}"]
+            });
+
+            var equill = new Quill('#payment_description', {
+                theme: 'snow'
+            });
+            var description = $("#description").val();
+            equill.clipboard.dangerouslyPasteHTML(description);
+            equill.root.blur();
+            $('#payment_description').on('keyup', function(){
+                var payment_description = equill.container.firstChild.innerHTML;
+                $("#description").val(payment_description);
             });
         });
     </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Currency;
@@ -10,10 +11,13 @@ use App\Models\Invoice;
 use App\Models\InvoiceHistory;
 use App\Models\InvoiceItem;
 use App\Models\InvoiceItemTax;
+use App\Models\InvoicePayment;
 use App\Models\InvoiceTotal;
 use App\Models\Item;
+use App\Models\OfflinePayment;
 use App\Models\Tax;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\DB;
@@ -122,7 +126,50 @@ class InvoiceController extends Controller
 
     public function getAddPaymentDetails(Request $request)
     {
+        $invoice = Invoice::find($request->i_id);
+        if($invoice) {
+            $output = array('payment_amount' =>  $invoice->amount);
+            return json_encode($output);
+        } else {
             return response()->json(['status' => 0]);
+        }
+    }
+
+    public function addPaymentStore(Request $request)
+    {
+        $request->validate([
+            'invoice_id' => ['required', 'integer'],
+            'currency_code' => ['required', 'string'],
+            'payment_date' => ['required', 'date'],
+            'payment_amount' => ['required', 'numeric'],
+            'payment_account' => ['required', 'integer'],
+            'payment_method' => ['required', 'string'],
+            'description' => ['nullable', 'string', 'max:1000']
+        ]);
+
+        DB::transaction(function () use ($request) {
+            $currencyInfo = Currency::where('company_id', Session::get('company_id'))->where('code', $request->currency_code)->first();
+            $data['company_id'] = session('company_id');
+            $data['invoice_id'] = $request->invoice_id;
+            $data['account_id'] = $request->payment_account;
+            $data['paid_at'] = $request->payment_date;
+            $data['amount'] = $request->payment_amount;
+            $data['currency_code'] = $request->currency_code;
+            $data['currency_rate'] = $currencyInfo->rate;
+            $data['description'] = $request->description;
+            $data['payment_method'] = $request->payment_method;
+            $invoicePayment = InvoicePayment::create($data);
+            $desc_amount = money((float) $invoicePayment->amount, (string) $invoicePayment->currency_code, true)->format();
+            $historyData = [
+                'company_id' => $invoicePayment->company_id,
+                'invoice_id' => $invoicePayment->invoice_id,
+                'status_code' => $invoicePayment->invoice->invoice_status_code,
+                'notify' => '0',
+                'description' => $desc_amount . ' ' . "payments",
+            ];
+            InvoiceHistory::create($historyData);
+        });
+        return response()->json(['status' => 1]);
     }
 
     /**
@@ -369,10 +416,10 @@ class InvoiceController extends Controller
     {
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
-
         $salesMan = User::find(auth()->user()->id);
-        // dd($company);
-        return view('invoices.show', compact('company','salesMan','invoice'));
+        $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $payment_methods = OfflinePayment::where('company_id', session('company_id'))->orderBy('name')->pluck('name', 'code');
+        return view('invoices.show', compact('company','salesMan','invoice','accounts','payment_methods'));
     }
 
     /**

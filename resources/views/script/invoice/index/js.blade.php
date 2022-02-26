@@ -10,5 +10,9 @@
             "autoWidth": false,
             "responsive": true,
         });
+
+        $(".flatpickr").flatpickr({
+            enableTime: false
+        });
     });
 </script>

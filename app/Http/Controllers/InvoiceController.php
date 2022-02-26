@@ -41,6 +41,13 @@ class InvoiceController extends Controller
     private function filter(Request $request)
     {
         $query = Invoice::with('customer:id,name')->where('company_id', session('company_id'))->latest();
+        if ($request->invoice_number)
+            $query->where('invoice_number', 'like', $request->invoice_number.'%');
+        if($request->amount)
+            $query->where('amount', 'like', $request->amount.'%');
+        if($request->invoiced_at)
+            $query->where('invoiced_at', 'like', $request->invoiced_at.'%');
+
         return $query;
     }
 

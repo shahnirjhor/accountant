@@ -1,4 +1,11 @@
 @extends('layouts.layout')
+@section('one_page_js')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@endsection
+
+@section('one_page_css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
@@ -25,10 +32,45 @@
                 </div>
             </div>
             <div class="card-body">
+                <div id="filter" class="collapse @if(request()->isFilterActive) show @endif">
+                    <div class="card-body border">
+                        <form action="" method="get" role="form" autocomplete="off">
+                            <input type="hidden" name="isFilterActive" value="true">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('Invoice Number')</label>
+                                        <input type="text" name="invoice_number" class="form-control" value="{{ request()->invoice_number }}" placeholder="@lang('Invoice Number')">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('Invoice Date')</label>
+                                        <input type="text" name="invoiced_at" class="form-control flatpickr" value="{{ request()->invoiced_at }}" placeholder="@lang('Invoice Date')">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@lang('Amount')</label>
+                                        <input type="text" name="amount" class="form-control" value="{{ request()->amount }}" placeholder="@lang('Amount')">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-info">@lang('Submit')</button>
+                                    @if(request()->isFilterActive)
+                                        <a href="{{ route('invoice.index') }}" class="btn btn-secondary">@lang('Clear')</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <table id="laravel_datatable" class="table table-striped compact table-width">
                     <thead>
                         <tr>
-                            <th>{{ __('Number') }}</th>
+                            <th>{{ __('Invoice No') }}</th>
                             <th>{{ __('Customer') }}</th>
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Invoice Date') }}</th>
@@ -42,7 +84,7 @@
                         <tr>
                             <td>{{ $invoice->invoice_number }}</td>
                             <td>{{ $invoice->customer->name }}</td>
-                            <td>{{ $invoice->amount }}</td>
+                            <td>@money($invoice->amount, $invoice->currency_code, true)</td>
                             <td>{{ date($company->date_format, strtotime($invoice->invoiced_at)) }}</td>
                             <td>{{ date($company->date_format, strtotime($invoice->due_at)) }}</td>
                             <td>
@@ -63,9 +105,8 @@
                                             break;
                                     }
                                 @endphp
-                                <h3>
                                     <span class="{{$badge}}">{{Str::ucfirst($invoice->invoice_status_code) }}</span>
-                                </h3>
+
                             </td>
                             <td>
                                 <a href="{{ route('invoice.show', $invoice) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="View"><i class="fa fa-eye ambitious-padding-btn"></i></a>&nbsp;&nbsp;
@@ -76,6 +117,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $invoices->links() }}
             </div>
         </div>
     </div>

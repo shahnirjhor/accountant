@@ -117,73 +117,66 @@
                     </table>
                 </div>
             </div>
-        <!-- /.row -->
-
-        <div class="row">
-          <!-- accepted payments column -->
-          <div class="col-6">
-          </div>
-          <!-- /.col -->
-          <div class="col-6">
-            <div class="table-responsive">
-              <table class="table">
-                @foreach ($invoice->totals as $total)
-                    @php
-                        $totalName = explode(".",$total->name);
-                        $countNameArray = count($totalName);
-                        if($countNameArray == '1') {
-                            $name = $totalName[0];
-                        } else {
-                            $explodeWithunder = explode("_",$totalName[1]);
-                            $name = ucwords(implode(" ",$explodeWithunder));
-                        }
-                    @endphp
-                    @if ($total->code != 'total')
-                        <tr>
-                            <th style="width:50%">{{ $name }}:</th>
-                            <td>@money($total->amount, $invoice->currency_code, true)</td>
-                        </tr>
-                    @else
-                        @if ($invoice->paid)
-                            <tr>
-                                <th class="text-success" style="width:50%">@lang('Paid')</th>
-                                <td>- @money($invoice->paid, $invoice->currency_code, true)</td>
-                            </tr>
-                        @endif
-                        <tr>
-                            <th style="width:50%">{{ $name }}:</th>
-                            <td>@money($total->amount - $invoice->paid, $invoice->currency_code, true)</td>
-                        </tr>
-                    @endif
-                @endforeach
-              </table>
+            <div class="row">
+                <div class="col-6">
+                </div>
+                <div class="col-6">
+                    <div class="table-responsive">
+                        <table class="table">
+                            @foreach ($invoice->totals as $total)
+                                @php
+                                    $totalName = explode(".",$total->name);
+                                    $countNameArray = count($totalName);
+                                    if($countNameArray == '1') {
+                                        $name = $totalName[0];
+                                    } else {
+                                        $explodeWithunder = explode("_",$totalName[1]);
+                                        $name = ucwords(implode(" ",$explodeWithunder));
+                                    }
+                                @endphp
+                                @if ($total->code != 'total')
+                                    <tr>
+                                        <th style="width:50%">{{ $name }}:</th>
+                                        <td>@money($total->amount, $invoice->currency_code, true)</td>
+                                    </tr>
+                                @else
+                                    @if ($invoice->paid)
+                                        <tr>
+                                            <th class="text-success" style="width:50%">@lang('Paid')</th>
+                                            <td>- @money($invoice->paid, $invoice->currency_code, true)</td>
+                                        </tr>
+                                    @endif
+                                    <tr>
+                                        <th style="width:50%">{{ $name }}:</th>
+                                        <td>@money($total->amount - $invoice->paid, $invoice->currency_code, true)</td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </table>
+                    </div>
+                </div>
             </div>
-          </div>
-          <!-- /.col -->
-        </div>
-        <!-- /.row -->
+            <div class="row no-print">
+                <div class="col-12">
+                    <button type="button" class="btn btn-lg btn-outline-danger float-right" style="margin-right: 5px;">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                    <button type="button" class="btn btn-outline-warning btn-lg float-right" style="margin-right: 5px;">
+                        <i class="fas fa-ban"></i> Cancel
+                    </button>
+                    <a class="btn btn-lg btn-success" id="addPaymentModel" i_id="{{$invoice->id}}" href="javascript:void(0)"> <i class="fas fa-money-check-alt mr-2"></i>Add Payment</a>
 
-        <!-- this row will not appear when printing -->
-        <div class="row no-print">
-          <div class="col-12">
-            <button type="button" class="btn btn-lg btn-outline-danger float-right" style="margin-right: 5px;">
-                <i class="fas fa-trash"></i> Delete
-            </button>
-            <button type="button" class="btn btn-outline-warning btn-lg float-right" style="margin-right: 5px;">
-                <i class="fas fa-ban"></i> Cancel
-            </button>
-            <button type="button" class="btn btn-outline-dark btn-lg float-right" style="margin-right: 5px;">
-                <i class="fas fa-pen"></i> Edit
-            </button>
-            <button type="button" class="btn btn-lg btn-outline-primary float-right" style="margin-right: 5px;">
-                <i class="fas fa-download"></i> Generate PDF
-            </button>
-            <button type="button" class="btn btn-lg btn-outline-info float-right" style="margin-right: 5px;">
-                <i class="fas fa-print"></i> Print
-            </button>
-            <a class="btn btn-lg btn-success" id="addPaymentModel" i_id="{{$invoice->id}}" href="javascript:void(0)"> <i class="fas fa-money-check-alt mr-2"></i>Add Payment</a>
-          </div>
-        </div>
+                    <button type="button" class="btn btn-lg btn-outline-primary" style="margin-right: 5px;">
+                        <i class="fas fa-download"></i> Generate PDF
+                    </button>
+                    <button type="button" class="btn btn-lg btn-outline-info" style="margin-right: 5px;">
+                        <i class="fas fa-print"></i> Print
+                    </button>
+                    <button type="button" class="btn btn-outline-dark btn-lg" style="margin-right: 5px;">
+                        <i class="fas fa-pen"></i> Edit
+                    </button>
+                </div>
+            </div>
       </div>
       <!-- /.invoice -->
     </div><!-- /.col -->

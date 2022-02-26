@@ -27,6 +27,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
 {
+    private $invoiceId;
     /**
      * Display a listing of the resource.
      *
@@ -286,10 +287,10 @@ class InvoiceController extends Controller
             $company = Company::findOrFail(Session::get('company_id'));
             $company->setSettings();
             $invoice = Invoice::create($data);
+            $this->invoiceId = $invoice->id;
             $taxes = [];
             $tax_total = 0;
             $sub_total = 0;
-            $discount_total = 0;
             if($request->product) {
                 $order_row_id = $keys = $request->product['order_row_id'];
                 $oquantity = $request->product['order_quantity'];
@@ -408,7 +409,7 @@ class InvoiceController extends Controller
 
         });
 
-        return redirect()->route('invoice.show', '1')->with('success', trans('Invoice Added Successfully'));
+        return redirect()->route('invoice.show', $this->invoiceId)->with('success', trans('Invoice Added Successfully'));
 
 
     }
@@ -489,7 +490,17 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        //
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $customers = Customer::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $currencies = Currency::where('company_id', Session::get('company_id'))->where('enabled', 1)->pluck('name', 'code');
+        $currency = Currency::where('company_id', Session::get('company_id'))->where('code', '=', $company->default_currency)->first();
+        $items = Item::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $taxes = Tax::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->get()->pluck('title', 'id');
+        $categories = Category::where('company_id', Session::get('company_id'))->where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id');
+        $number = $this->getNextInvoiceNumber($company);
+
+        return view('invoices.edit', compact('company','customers', 'currencies', 'currency', 'items', 'invoice', 'taxes', 'categories','number'));
     }
 
     /**
@@ -512,6 +523,20 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        //
+        // Increase stock
+        $invoice->items()->each(function ($invoice_item) {
+            $item = Item::find($invoice_item->item_id);
+
+            if (empty($item)) {
+                return;
+            }
+
+            $item->quantity += (double) $invoice_item->quantity;
+            $item->save();
+        });
+
+        $this->deleteRelationships($invoice, ['items', 'item_taxes', 'histories', 'payments', 'totals']);
+        $invoice->delete();
+        return redirect()->route('invoice.index')->with('success', trans('Invoice Deleted Successfully'));
     }
 }

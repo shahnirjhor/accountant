@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Akaunting\Money\Money;
 use Akaunting\Money\Currency;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class InvoicePayment extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'company_id',

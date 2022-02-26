@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -16,7 +17,7 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-	
+
 	/**
      * Method to get week data
      *
@@ -341,5 +342,24 @@ class Controller extends BaseController
             'ZM' => 'Zambia',
             'ZW' => 'Zimbabwe',
         );
+    }
+
+    public function deleteRelationships($model, $relationships)
+    {
+        foreach ((array) $relationships as $relationship) {
+            if (empty($model->$relationship)) {
+                continue;
+            }
+
+            $items = $model->$relationship->all();
+
+            if ($items instanceof Collection) {
+                $items = $items->all();
+            }
+
+            foreach ((array) $items as $item) {
+                $item->delete();
+            }
+        }
     }
 }

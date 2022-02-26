@@ -45,7 +45,7 @@
                     break;
             }
         @endphp
-        <div class="invoice p-3 mb-3 card card-{{$badge}} card-outline">
+        <div id="print-area" class="invoice p-3 mb-3 card card-{{$badge}} card-outline">
             <div class="row">
                 <div class="ribbon-wrapper ribbon-lg">
                     <div class="ribbon bg-{{$badge}}">{{Str::ucfirst($invoice->invoice_status_code) }}</div>
@@ -156,20 +156,22 @@
                     </div>
                 </div>
             </div>
+            <br>
             <div class="row no-print">
                 <div class="col-12">
-                    <button type="button" class="btn btn-lg btn-outline-danger float-right" style="margin-right: 5px;">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                    <button type="button" class="btn btn-outline-warning btn-lg float-right" style="margin-right: 5px;">
-                        <i class="fas fa-ban"></i> Cancel
-                    </button>
-                    <a class="btn btn-lg btn-success" id="addPaymentModel" i_id="{{$invoice->id}}" href="javascript:void(0)"> <i class="fas fa-money-check-alt mr-2"></i>Add Payment</a>
+                    <a href="#" data-href="{{ route('invoice.destroy', $invoice) }}" class="btn btn-outline-danger btn-lg float-right btn-lg" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-trash ambitious-padding-btn"></i> Delete
+                    </a>
 
-                    <button type="button" class="btn btn-lg btn-outline-primary" style="margin-right: 5px;">
-                        <i class="fas fa-download"></i> Generate PDF
-                    </button>
-                    <button type="button" class="btn btn-lg btn-outline-info" style="margin-right: 5px;">
+                    <a class="btn btn-outline-warning btn-lg float-right" style="margin-right: 5px;" href="{{ route('invoice.index') }}">
+                        <i class="fas fa-ban"></i> Cancel
+                    </a>
+
+                    @if ($invoice->invoice_status_code != 'paid')
+                        <a class="btn btn-lg btn-outline-success" id="addPaymentModel" i_id="{{$invoice->id}}" href="javascript:void(0)"> <i class="fas fa-money-check-alt mr-2"></i>Add Payment</a>
+                    @endif
+
+                    <button type="button" id="doPrint" class="btn btn-lg btn-outline-info" style="margin-right: 5px;">
                         <i class="fas fa-print"></i> Print
                     </button>
                     <button type="button" class="btn btn-outline-dark btn-lg" style="margin-right: 5px;">
@@ -426,4 +428,5 @@
             });
         });
     </script>
+    @include('layouts.delete_modal')
 @endsection

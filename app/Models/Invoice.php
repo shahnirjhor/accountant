@@ -6,10 +6,12 @@ use Akaunting\Money\Money;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $appends = ['paid'];
 

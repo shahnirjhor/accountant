@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InvoicesExport;
 use App\Models\Account;
 use App\Models\Category;
 use App\Models\Company;
@@ -22,6 +23,7 @@ use Illuminate\Http\Request;
 use Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
 {
@@ -32,10 +34,23 @@ class InvoiceController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $invoices = $this->filter($request)->paginate(10)->withQueryString();
         return view('invoices.index',compact('company','invoices'));
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new InvoicesExport($request), 'invoices.xlsx');
     }
 
     private function filter(Request $request)

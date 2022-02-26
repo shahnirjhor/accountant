@@ -28,7 +28,12 @@
             <div class="card-header">
                 <h3 class="card-title">{{ __('Invoices') }} </h3>
                 <div class="card-tools">
-                    <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
+                    <a class="btn btn-primary" target="_blank" href="{{ route('invoice.index') }}?export=1">
+                        <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                    </a>
+                    <button class="btn btn-default" data-toggle="collapse" href="#filter">
+                        <i class="fas fa-filter"></i> @lang('Filter')
+                    </button>
                 </div>
             </div>
             <div class="card-body">

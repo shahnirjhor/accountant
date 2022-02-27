@@ -19,7 +19,8 @@ class InvoiceItem extends Model
         'quantity',
         'price',
         'total',
-        'tax'
+        'tax',
+        'tax_id'
     ];
 
     public function invoice()

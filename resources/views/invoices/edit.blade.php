@@ -155,7 +155,7 @@
                                     <select class="form-control ambitious-form-loading" name="category_id" id="category_id">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $key => $value)
-                                            <option value="{{ $key }}" {{ old('category_id') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                            <option value="{{ $key }}" {{ old('category_id', $invoice->category_id) == $key ? 'selected' : '' }}>{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -231,6 +231,44 @@
                                                 </a>
                                             </td>
                                         </tr>
+                                        @endforeach
+                                    @else
+                                        @foreach ($invoice->items as $item)
+                                        @php
+                                            $showTaxTypeRate = "No Tax";
+                                            $tax_type_rate = "0";
+                                            if($item->tax_id) {
+                                                $cTax = $item->item->tax;
+                                                $showTaxTypeRate = $cTax->name;
+                                                $tax_type_rate = $cTax->type."_".$cTax->rate;
+                                                // inclusive_10
+                                            }
+                                        @endphp
+                                        {{-- {{ $item->item->tax }} --}}
+                                            <tr id="{{ $item->item_id }}" class="table-info">
+                                                <th scope="row">
+                                                    <input type="hidden" class="order_row_id" value="{{ $item->item_id }}" name="product[order_row_id][]">
+                                                    <input type="hidden" class="order_name" value="{{ $item->name }}" name="product[order_name][]">{{ $item->name }}
+                                                </th>
+                                                <td>
+                                                    <input type="number" step="any" class="form-control order_quantity" min="1" value="{{ $item->quantity }}" name="product[order_quantity][]">
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" class="order_price" value="{{ $item->price }}" name="product[order_price][]"><span>{{ $item->price }}</span>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" class="order_tax_type_rate" value="{{ $tax_type_rate }}" name="product[order_tax_type_rate][]">
+                                                    <input type="hidden" class="order_product_tax" value="{{ $item->tax }}" name="product[order_product_tax][]"><span class="order_product_tax_text">{{ $showTaxTypeRate }}</span>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" class="order_subtotal" value="{{ $item->total }}" name="product[order_subtotal][]"><span class="order_subtotal_text">{{ number_format($item->total, 2) }}</span>
+                                                </td>
+                                                <td>
+                                                    <a href="javascript:void(0)" class="btn btn-info btn-outline table-remove" data-toggle="modal" data-target="#myModal" title="Delete">
+                                                      <i class="fa fa-trash ambitious-padding-btn"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     @endif
                               </tbody>

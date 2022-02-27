@@ -341,6 +341,12 @@ class InvoiceController extends Controller
                         }
                     }
 
+                    if(!empty($item->tax_id)){
+                        $myItemTaxId = $item->tax_id;
+                    } else {
+                        $myItemTaxId = null;
+                    }
+
                     $invoice_item = InvoiceItem::create([
                         'company_id' => session('company_id'),
                         'invoice_id' => $invoice->id,
@@ -350,6 +356,7 @@ class InvoiceController extends Controller
                         'quantity' => (double) $order_quantity,
                         'price' => (double) $item->sale_price,
                         'tax' => $tax_amounts,
+                        'tax_id' => $myItemTaxId,
                         'total' => $item_amount,
                     ]);
 

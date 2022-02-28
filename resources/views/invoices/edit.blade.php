@@ -271,40 +271,68 @@
                                             </tr>
                                         @endforeach
                                     @endif
-                              </tbody>
-                              <tbody>
-                                <tr>
-                                    <td colspan="3"></td>
-                                    <th style="text-align: right;vertical-align: inherit;">@lang('Sub Total')</th>
-                                    <td>
-                                        <input type="number" step=".01" name="sub_total" class="form-control sub_total" value="{{ old('sub_total', '0.00') }}" placeholder="@lang('Sub Total')" readonly>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"></td>
-                                    <td class="text-right">@lang('Tax')</td>
-                                    <td>
-                                        <input type="number" step=".01" name="total_tax" class="form-control total_tax" value="{{ old('total_tax', '0.00') }}" placeholder="@lang('Total Tax')" readonly>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"></td>
-                                    <td class="text-right">@lang('Discount')</td>
-                                    <td>
-                                        <input type="number" step=".01" name="total_discount" class="form-control total_discount" value="{{ old('total_discount', '0.00') }}" placeholder="@lang('Total Discount')">
-                                    </td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"></td>
-                                    <td style="text-align: right;">@lang('Grand Total')</td>
-                                    <td>
-                                        <input type="number" step=".01" name="grand_total" class="form-control grand_total" value="{{ old('grand_total', '0.00') }}" placeholder="@lang('Grand Total')" readonly>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
+                                </tbody>
+                                @php
+                                    $cSubTotal = 0.00;
+                                    $cTaxAmount = 0.00;
+                                    $cDiscount = 0.00;
+                                    $cTotal = 0.00;
+                                @endphp
+                                @foreach ($invoice->totals as $total)
+                                    @if ($total->code == 'sub_total')
+                                        @php
+                                            $cSubTotal = $total->amount;
+                                        @endphp
+                                    @endif
+                                    @if ($total->code == 'tax')
+                                        @php
+                                            $cTaxAmount = $cTaxAmount + $total->amount;
+                                        @endphp
+                                    @endif
+                                    @if ($total->code == 'discount')
+                                        @php
+                                            $cDiscount = $total->amount;
+                                        @endphp
+                                    @endif
+                                    @if ($total->code == 'total')
+                                        @php
+                                            $cTotal = $total->amount;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <th style="text-align: right;vertical-align: inherit;">@lang('Sub Total')</th>
+                                        <td>
+                                            <input type="number" step=".01" name="sub_total" class="form-control sub_total" value="{{ number_format($cSubTotal, 2) }}" placeholder="@lang('Sub Total')" readonly>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td class="text-right">@lang('Tax')</td>
+                                        <td>
+                                            <input type="number" step=".01" name="total_tax" class="form-control total_tax" value="{{ number_format($cTaxAmount, 2) }}" placeholder="@lang('Total Tax')" readonly>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td class="text-right">@lang('Discount')</td>
+                                        <td>
+                                            <input type="number" step=".01" name="total_discount" class="form-control total_discount" value="{{ number_format($cDiscount, 2) }}" placeholder="@lang('Total Discount')">
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"></td>
+                                        <td style="text-align: right;">@lang('Grand Total')</td>
+                                        <td>
+                                            <input type="number" step=".01" name="grand_total" class="form-control grand_total" value="{{ number_format($cTotal, 2) }}" placeholder="@lang('Grand Total')" readonly>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

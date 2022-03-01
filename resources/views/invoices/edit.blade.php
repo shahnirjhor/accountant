@@ -241,10 +241,8 @@
                                                 $cTax = $item->item->tax;
                                                 $showTaxTypeRate = $cTax->name;
                                                 $tax_type_rate = $cTax->type."_".$cTax->rate;
-                                                // inclusive_10
                                             }
                                         @endphp
-                                        {{-- {{ $item->item->tax }} --}}
                                             <tr id="{{ $item->item_id }}" class="table-info">
                                                 <th scope="row">
                                                     <input type="hidden" class="order_row_id" value="{{ $item->item_id }}" name="product[order_row_id][]">
@@ -343,7 +341,7 @@
                                 <div class="col-md-12">
                                     <div id="input_description" class="@error('description') is-invalid @enderror" style="min-height: 55px;">
                                     </div>
-                                    <input type="hidden" name="description" value="{{ old('description') }}" id="description">
+                                    <input type="hidden" name="description" value="{{ old('description', $invoice->notes) }}" id="description">
                                     @error('description')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -357,6 +355,7 @@
                                 <label class="col-md-12 col-form-label"><h4>{{ __('Picture') }}</h4></label>
                                 <div class="col-md-12">
                                     <input id="picture" class="dropify" name="picture" value="{{ old('picture') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="2024K" />
+                                    <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
                                     <p>{{ __('Max Size: 2mb, Allowed Format: png, jpg, jpeg') }}</p>
                                 </div>
                                 @if ($errors->has('picture'))
@@ -370,7 +369,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg btn-block"/>
+                                <input type="submit" value="{{ __('Update') }}" class="btn btn-outline btn-info btn-lg btn-block"/>
                             </div>
                         </div>
                         <div class="col-md-4"></div>
@@ -689,6 +688,10 @@
 
     $(".flatpickr").flatpickr({
         enableTime: false
+    });
+
+    $(document).ready(function(){
+        $(window).scrollTop(0);
     });
 
     </script>

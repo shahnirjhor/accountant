@@ -624,5 +624,9 @@
         enableTime: false
     });
 
+    $(document).ready(function(){
+        $(window).scrollTop(0);
+    });
+
     </script>
 @endsection

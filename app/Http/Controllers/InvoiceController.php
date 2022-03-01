@@ -204,9 +204,9 @@ class InvoiceController extends Controller
         $request['invoice_id'] = $request->invoice_id;
         $invoice = Invoice::find($request->invoice_id);
         if ($request['currency_code'] == $invoice->currency_code) {
-            if ($request['payment_amount'] > $invoice->amount) {
+            if ($request['payment_amount'] > $invoice->amount - $invoice->paid) {
                 $invoice->invoice_status_code = 'paid';
-            } elseif ($request['payment_amount'] == $invoice->amount) {
+            } elseif ($request['payment_amount'] == $invoice->amount - $invoice->paid) {
                 $invoice->invoice_status_code = 'paid';
             } else {
                 $invoice->invoice_status_code = 'partial';
@@ -219,9 +219,9 @@ class InvoiceController extends Controller
             $request_invoice->currency_rate = $currencyInfo->rate;
 
             $amount = $request_invoice->getConvertedAmount();
-            if ($amount > $invoice->amount) {
+            if ($amount > $invoice->amount - $invoice->paid) {
                 $invoice->invoice_status_code = 'paid';
-            } elseif ($amount == $invoice->amount) {
+            } elseif ($amount == $invoice->amount - $invoice->paid) {
                 $invoice->invoice_status_code = 'paid';
             } else {
                 $invoice->invoice_status_code = 'partial';

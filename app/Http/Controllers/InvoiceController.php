@@ -240,28 +240,7 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'customer_id' => ['required', 'integer'],
-            'currency_code' => ['required', 'string'],
-            'invoiced_at' => ['required', 'date'],
-            'due_at' => ['required', 'date'],
-            'invoice_number' => ['required', 'string'],
-            'order_number' => ['nullable', 'string'],
-            'category_id' => ['nullable', 'integer'],
-            'grand_total' => ['required', 'numeric'],
-            'total_discount' => ['nullable', 'numeric'],
-            'total_tax' => ['nullable', 'numeric'],
-            'description' => ['nullable', 'string', 'max:1000'],
-            'picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-        ]);
-
-
-        $request->validate([
-            "product"    => "required|array",
-            "product.*"  => "required",
-            "product.order_row_id.*"  => "required",
-            "product.order_quantity.*"  => "required",
-        ]);
+        $this->validation($request);
 
         $customerInfo = Customer::findOrFail($request->customer_id);
         $currencyInfo = Currency::where('company_id', Session::get('company_id'))->where('code', $request->currency_code)->first();
@@ -519,7 +498,13 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        $this->validation($request, $invoice->id);
+
+        $customerInfo = Customer::findOrFail($request->customer_id);
+        $currencyInfo = Currency::where('company_id', Session::get('company_id'))->where('code', $request->currency_code)->first();
+
+        $data = $request->only(['invoice_number','order_number','invoiced_at','due_at','currency_code','category_id']);
+        dd($request->all());
     }
 
     /**
@@ -545,5 +530,30 @@ class InvoiceController extends Controller
         $this->deleteRelationships($invoice, ['items', 'item_taxes', 'histories', 'payments', 'totals']);
         $invoice->delete();
         return redirect()->route('invoice.index')->with('success', trans('Invoice Deleted Successfully'));
+    }
+
+    private function validation(Request $request, $id = 0)
+    {
+        $request->validate([
+            'customer_id' => ['required', 'integer'],
+            'currency_code' => ['required', 'string'],
+            'invoiced_at' => ['required', 'date'],
+            'due_at' => ['required', 'date'],
+            'invoice_number' => ['required', 'string'],
+            'order_number' => ['nullable', 'string'],
+            'category_id' => ['nullable', 'integer'],
+            'grand_total' => ['required', 'numeric'],
+            'total_discount' => ['nullable', 'numeric'],
+            'total_tax' => ['nullable', 'numeric'],
+            'description' => ['nullable', 'string', 'max:1000'],
+            'picture' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ]);
+
+        $request->validate([
+            "product"    => "required|array",
+            "product.*"  => "required",
+            "product.order_row_id.*"  => "required",
+            "product.order_quantity.*"  => "required",
+        ]);
     }
 }

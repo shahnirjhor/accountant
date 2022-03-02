@@ -46,13 +46,13 @@ $RoleName = Auth::user()->getRoleNames();
 
                 <li class="nav-item">
                     <a href="{{ route('item.index') }}" class="nav-link @if($c == 'item') active @endif ">
-                        <i class="fas fa-code-branch nav-icon"></i>
+                        <i class="fas fa-layer-group nav-icon"></i>
                         <p>@lang('Items')</p>
                     </a>
                 </li>
 
-                <li class="nav-item has-treeview @if($c == 'customer') menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'customer') active @endif">
+                <li class="nav-item has-treeview @if($c == 'customer' || $c == 'invoice' || $c == 'revenue') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'customer' || $c == 'invoice' || $c == 'revenue') active @endif">
                         <i class="nav-icon fas fa-plus"></i>
                         <p>
                             @lang('Incomes')
@@ -61,22 +61,28 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('invoice.index') }}" class="nav-link @if($c == 'invoice') active @endif ">
+                                <i class="fas fa-file-invoice-dollar nav-icon"></i>
+                                <p>@lang('Invoice')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('revenue.index') }}" class="nav-link @if($c == 'revenue') active @endif ">
-                                <i class="fas fa-coins"></i>
+                                <i class="fas fa-hand-holding-usd nav-icon"></i>
                                 <p>@lang('Revenue')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('customer.index') }}" class="nav-link @if($c == 'customer') active @endif ">
-                                <i class="fas fa-user-plus"></i>
+                                <i class="fas fa-user-tag nav-icon"></i>
                                 <p>@lang('Customer')</p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview @if($c == 'vendor') menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'vendor') active @endif">
+                <li class="nav-item has-treeview @if($c == 'vendor' || $c == 'payment' || $c == 'bill') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'vendor' || $c == 'payment' || $c == 'bill') active @endif">
                         <i class="nav-icon fas fa-minus"></i>
                         <p>
                             @lang('Expenses')
@@ -85,50 +91,56 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{ route('bill.index') }}" class="nav-link @if($c == 'bill') active @endif ">
+                                <i class="fas fa-file-invoice nav-icon"></i>
+                                <p>@lang('Bill')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('payment.index') }}" class="nav-link @if($c == 'payment') active @endif ">
-                                <i class="fab fa-ethereum"></i>
+                                <i class="fab fa-ethereum nav-icon"></i>
                                 <p>@lang('Payment')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('vendor.index') }}" class="nav-link @if($c == 'vendor') active @endif ">
-                                <i class="fas fa-user-minus"></i>
+                                <i class="fas fa-user-minus nav-icon"></i>
                                 <p>@lang('Vendor')</p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview @if($c == 'account' || $c == 'transfers' || $c == 'transactions') menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfers' || $c == 'transactions' ) active @endif">
+                <li class="nav-item has-treeview @if($c == 'account' || $c == 'transfer' || $c == 'transaction') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfer' || $c == 'transaction' ) active @endif">
                         <i class="nav-icon fas fa-university"></i>
                         <p>
                             @lang('Banking')
-                            <i class="right fas fa-angle-left"></i>
+                            <i class="right fas fa-angle-left nav-icon"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('account.index') }}" class="nav-link @if($c == 'account') active @endif ">
-                                <i class="fas fa-user-circle"></i>
+                                <i class="fas fa-user-circle nav-icon"></i>
                                 <p>@lang('Accounts')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('transfer.index') }}" class="nav-link @if($c == 'transfer') active @endif ">
-                                <i class="fas fa-exchange-alt"></i>
+                                <i class="fas fa-exchange-alt nav-icon"></i>
                                 <p>@lang('Transfers')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('transaction.index') }}" class="nav-link @if($c == 'transactions') active @endif ">
-                                <i class="fas fa-handshake"></i>
+                                <i class="fas fa-handshake nav-icon"></i>
                                 <p>@lang('Transactions')</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link @if($c == 'reconciliations') active @endif ">
-                                <i class="fab fa-creative-commons-sampling-plus"></i>
+                                <i class="fab fa-creative-commons-sampling-plus nav-icon"></i>
                                 <p>@lang('Reconciliations')</p>
                             </a>
                         </li>

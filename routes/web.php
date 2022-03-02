@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth']], function() {
         'smtp' => App\Http\Controllers\SmtpConfigurationController::class,
         'company' => App\Http\Controllers\CompanyController::class,
         'invoice' => App\Http\Controllers\InvoiceController::class,
+        'bill' => App\Http\Controllers\BillController::class,
         'item' => App\Http\Controllers\ItemController::class,
         'account' => App\Http\Controllers\AccountController::class,
         'transfer' => App\Http\Controllers\TransferController::class,

@@ -118,7 +118,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-file-signature"></i>
                                     </div>
-                                    <input type="text" name="invoice_number" value="{{ old('invoice_number', $invoice->invoice_number) }}" id="invoice_number" class="form-control @error('invoice_number') is-invalid @enderror" required>
+                                    <input type="text" name="invoice_number" value="{{ old('invoice_number', $invoice->invoice_number) }}" id="invoice_number" class="form-control @error('invoice_number') is-invalid @enderror" required readonly>
                                     @error('invoice_number')
                                         <div class="invalid-feedback">
                                             {{ $message }}

@@ -452,6 +452,48 @@ class InvoiceController extends Controller
         ]);
     }
 
+    public function checkStatusUpdate($invoice, $currencyInfo)
+    {
+        $request['currency_code'] = $currencyInfo->code;
+        $request['currency_rate'] = $currencyInfo->rate;
+        $request['invoice_id'] = $invoice->id;
+        $invoice = Invoice::findOrFail($invoice->id);
+        if ($request['currency_code'] == $invoice->currency_code) {
+            if($invoice->amount == $invoice->paid) {
+                $invoice->invoice_status_code = 'paid';
+            } elseif ($invoice->amount > $invoice->paid) {
+                $invoice->invoice_status_code = 'partial';
+            } elseif ($invoice->amount < $invoice->paid) {
+                $invoice->invoice_status_code = 'paid';
+            } elseif($invoice->paid == '0') {
+                $invoice->invoice_status_code = 'draft';
+            } else {
+                $invoice->invoice_status_code = 'draft';
+            }
+        } else {
+            $request_invoice = new Invoice();
+
+            $request_invoice->amount = (float) $invoice->paid;
+            $request_invoice->currency_code = $currencyInfo->code;
+            $request_invoice->currency_rate = $currencyInfo->rate;
+
+            $amount = $request_invoice->getConvertedAmount();
+            if($invoice->amount == $invoice->paid) {
+                $invoice->invoice_status_code = 'paid';
+            } elseif ($invoice->amount > $invoice->paid) {
+                $invoice->invoice_status_code = 'partial';
+            } elseif ($invoice->amount < $invoice->paid) {
+                $invoice->invoice_status_code = 'paid';
+            } elseif($invoice->paid == '0') {
+                $invoice->invoice_status_code = 'draft';
+            } else {
+                $invoice->invoice_status_code = 'draft';
+            }
+        }
+        $invoice->save();
+        return $invoice->invoice_status_code;
+    }
+
     /**
      * Display the specified resource.
      *
@@ -489,6 +531,29 @@ class InvoiceController extends Controller
         return view('invoices.edit', compact('company','customers', 'currencies', 'currency', 'items', 'invoice', 'taxes', 'categories','number'));
     }
 
+    public function deforeUpdateDelete($id = 0)
+    {
+        $invoice = Invoice::findOrFail($id);
+        DB::table('invoice_items')->where('invoice_id', $id)->delete();
+        DB::table('invoice_item_taxes')->where('invoice_id', $id)->delete();
+
+        foreach ($invoice->totals as $total) {
+            if($total->code == 'sub_total')
+                DB::table('invoice_totals')->where('invoice_id', $id)->where('code', 'sub_total')->delete();
+
+            if($total->code == 'tax')
+                DB::table('invoice_totals')->where('invoice_id', $id)->where('code', 'tax')->delete();
+
+            if($total->code == 'discount')
+                DB::table('invoice_totals')->where('invoice_id', $id)->where('code', 'discount')->delete();
+
+            if($total->code == 'total')
+                DB::table('invoice_totals')->where('invoice_id', $id)->where('code', 'total')->delete();
+        }
+
+        return $invoice->id;
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -499,12 +564,166 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $this->validation($request, $invoice->id);
+        $this->invoiceId = $invoice->id;
 
         $customerInfo = Customer::findOrFail($request->customer_id);
         $currencyInfo = Currency::where('company_id', Session::get('company_id'))->where('code', $request->currency_code)->first();
 
-        $data = $request->only(['invoice_number','order_number','invoiced_at','due_at','currency_code','category_id']);
-        dd($request->all());
+        $data = $request->only(['order_number','invoiced_at','due_at','currency_code','category_id']);
+        $data['company_id'] = session('company_id');
+        $data['invoice_status_code'] = 'draft';
+        $data['amount'] = $request->grand_total;
+        $data['currency_rate'] = $currencyInfo->rate;
+        $data['customer_id'] = $request->customer_id;
+        $data['customer_name'] = $customerInfo->name;
+        $data['customer_email'] = $customerInfo->email;
+        $data['customer_tax_number'] = $customerInfo->tax_number;
+        $data['customer_phone'] = $customerInfo->phone;
+        $data['customer_adress'] = $customerInfo->address;
+        $data['parent_id'] = auth()->user()->id;
+        $data['notes'] = $request->description;
+        if ($request->picture) {
+            $data['attachment'] = $request->picture->store('invoice');
+        }
+
+        DB::transaction(function () use ($data , $request, $invoice, $currencyInfo) {
+            $company = Company::findOrFail(Session::get('company_id'));
+            $company->setSettings();
+
+            // increase stock (item update)
+            foreach($invoice->items as $item) {
+                $itemIncreaseObject = Item::find($item->item_id);
+                $itemIncreaseObject->quantity += $item->quantity;
+                $itemIncreaseObject->save();
+            }
+
+            $this->deforeUpdateDelete($invoice->id);
+
+            $invoice = Invoice::findOrFail($invoice->id);
+            $invoice->update($data);
+
+            $taxes = [];
+            $tax_total = 0;
+            $sub_total = 0;
+            if($request->product) {
+                $order_row_id = $keys = $request->product['order_row_id'];
+                $oquantity = $request->product['order_quantity'];
+                foreach ($keys as $id => $key) {
+                    $order_quantity = (double) $oquantity[$id];
+                    $item = Item::with('tax:id,rate,type,name')->where('id', $order_row_id[$id])->first();
+                    $item_sku = '';
+                    $item_id = !empty($item->id) ? $item->id : 0;
+                    $item_amount = (double) $item->sale_price * (double) $order_quantity;
+
+                    if (!empty($item_id)) {
+                        $item_object = Item::find($item_id);
+                        $item_sku = $item_object->sku;
+                        // Decrease stock (item sold)
+                        $item_object->quantity -= (double) $order_quantity;
+                        $item_object->save();
+                    } elseif ($item->sku) {
+                        $item_sku = $item->sku;
+                    }
+
+                    $tax_amount = 0;
+                    $tax_amounts = 0;
+                    $item_taxes = [];
+                    if (!empty($item->tax_id)) {
+                        $taxType = $item->tax->type;
+                        $taxRate = $item->tax->rate;
+                        if ($taxRate !== null && $taxRate != 0) {
+                            if ($taxType == "inclusive") {
+                                $tax_amount = (double) (($item->sale_price * $taxRate) / (100 + $taxRate));
+                                $tax_amounts = (double) ($tax_amount * $order_quantity);
+                                $item_amount -= $tax_amounts;
+                                $item_taxes[] = [
+                                    'company_id' => session('company_id'),
+                                    'invoice_id' => $invoice->id,
+                                    'tax_id' => $item->tax_id,
+                                    'name' => $item->tax->name,
+                                    'amount' => $tax_amounts,
+                                ];
+                            } else {
+                                $tax_amount = (double) (($item->sale_price * $taxRate) / 100);
+                                $tax_amounts = (double) ($tax_amount * $order_quantity);
+                                $item_taxes[] = [
+                                    'company_id' => session('company_id'),
+                                    'invoice_id' => $invoice->id,
+                                    'tax_id' => $item->tax_id,
+                                    'name' => $item->tax->name,
+                                    'amount' => $tax_amounts,
+                                ];
+                            }
+                        }
+                    }
+
+                    if(!empty($item->tax_id)){
+                        $myItemTaxId = $item->tax_id;
+                    } else {
+                        $myItemTaxId = null;
+                    }
+
+                    $invoice_item = InvoiceItem::create([
+                        'company_id' => session('company_id'),
+                        'invoice_id' => $invoice->id,
+                        'item_id' => $item_id,
+                        'name' => Str::limit($item->name, 180, ''),
+                        'sku' => $item_sku,
+                        'quantity' => (double) $order_quantity,
+                        'price' => (double) $item->sale_price,
+                        'tax' => $tax_amounts,
+                        'tax_id' => $myItemTaxId,
+                        'total' => $item_amount,
+                    ]);
+
+                    $invoice_item->item_taxes = false;
+
+                    // set item_taxes for
+                    if (!empty($item->tax_id)) {
+                        $invoice_item->item_taxes = $item_taxes;
+                    }
+
+                    if ($item_taxes) {
+                        foreach ($item_taxes as $item_tax) {
+                            $item_tax['invoice_item_id'] = $invoice_item->id;
+                            InvoiceItemTax::create($item_tax);
+
+                            // Set taxes
+                            if (isset($taxes) && array_key_exists($item_tax['tax_id'], $taxes)) {
+                                $taxes[$item_tax['tax_id']]['amount'] += $item_tax['amount'];
+                            } else {
+                                $taxes[$item_tax['tax_id']] = [
+                                    'name' => $item_tax['name'],
+                                    'amount' => $item_tax['amount']
+                                ];
+                            }
+                        }
+                    }
+
+                    // Calculate totals
+                    $tax_total += $invoice_item->tax;
+                    $sub_total += $invoice_item->total;
+                }
+            }
+
+            $s_total = $sub_total;
+            // Apply discount to total
+            if ($request->total_discount) {
+                $s_discount = $request->total_discount;
+                $s_total = $s_total - $s_discount;
+            }
+            $amount = $s_total + $tax_total;
+            $invoiceData['amount'] = $amount;
+            $invoice->update($invoiceData);
+
+            // Add invoice totals
+            $this->addTotals($invoice, $request, $taxes, $sub_total, $request->total_discount, $tax_total);
+
+            $this->checkStatusUpdate($invoice, $currencyInfo);
+
+        });
+
+        return redirect()->route('invoice.show', $this->invoiceId)->with('success', trans('Invoice Updated Successfully'));
     }
 
     /**
@@ -539,7 +758,7 @@ class InvoiceController extends Controller
             'currency_code' => ['required', 'string'],
             'invoiced_at' => ['required', 'date'],
             'due_at' => ['required', 'date'],
-            'invoice_number' => ['required', 'string'],
+            'invoice_number' => ['required', 'string', 'unique:invoices,invoice_number,' . $id],
             'order_number' => ['nullable', 'string'],
             'category_id' => ['nullable', 'integer'],
             'grand_total' => ['required', 'numeric'],

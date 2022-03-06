@@ -192,7 +192,53 @@ class GeneralController extends Controller
         }
  	}
 
-      	/**
+    /**
+ 	* Method to check general bill section edit
+ 	*
+ 	* @access public
+ 	* @param Request $request
+    */
+    public function bill(Request $request) {
+        $id = Session::get('company_id');
+        $data = Setting::where('company_id', $id)->get();
+        $company = Company::findOrFail($id);
+        $company->setSettings();
+        // bill_number_prefix
+        if (array_key_exists("bill_number_prefix", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.bill_number_prefix')->update(['value' => $request->bill_number_prefix]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.bill_number_prefix', 'value' => $request->bill_number_prefix]);
+        }
+
+        // bill_number_digit
+        if (array_key_exists("bill_number_digit", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.bill_number_digit')->update(['value' => $request->bill_number_digit]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.bill_number_digit', 'value' => $request->bill_number_digit]);
+        }
+
+        // bill_number_next
+        if (array_key_exists("bill_number_next", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.bill_number_next')->update(['value' => $request->bill_number_next]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.bill_number_next', 'value' => $request->bill_number_next]);
+        }
+
+        // bill_item
+        if (array_key_exists("bill_item", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.bill_item')->update(['value' => $request->bill_item]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.bill_item', 'value' => $request->bill_item]);
+        }
+
+        if($data) {
+            return redirect()->route('general')->withSuccess(trans('Bill Information Updated Successfully'));
+        } else {
+            return redirect()->back()->withErrors(trans('Something Went Wrong, Please Try Again'));
+        }
+    }
+
+    /**
  	* Method to check general invoice section edit
  	*
  	* @access public

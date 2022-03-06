@@ -81,6 +81,7 @@ Route::group(['middleware' => ['auth']], function() {
     ]);
 
     Route::get('/getItems', 'App\Http\Controllers\InvoiceController@getItems')->name('invoice.getItems');
+    Route::get('/getBillItems', 'App\Http\Controllers\BillController@getBillItems')->name('bill.getBillItems');
     //Route::get('/getProduct', 'App\Http\Controllers\ProductController@getProduct')->name('product.getProduct');
 
     Route::get('patient-appointments/get-schedule/doctorwise', [App\Http\Controllers\PatientAppointmentController::class, 'getScheduleDoctorWise'])->name('patient-appointments.getScheduleDoctorWise');
@@ -164,6 +165,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/general/invoice',[
     'uses' => 'App\Http\Controllers\GeneralController@invoice',
     'as' => 'general.invoice'
+    ]);
+
+    Route::post('/general/bill',[
+        'uses' => 'App\Http\Controllers\GeneralController@bill',
+        'as' => 'general.bill'
     ]);
 
     Route::post('/general/defaults',[

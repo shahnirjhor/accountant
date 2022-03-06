@@ -39,6 +39,7 @@
             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">{{ __('Company') }}</a>
             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">{{ __('Localisation') }}</a>
             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">{{ __('Invoice') }}</a>
+            <a class="nav-item nav-link" id="nav-bill-tab" data-toggle="tab" href="#nav-bill" role="tab" aria-controls="nav-bill" aria-selected="false">{{ __('Bill') }}</a>
             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-defaults" role="tab" aria-controls="nav-defaults" aria-selected="false">{{ __('Defaults') }}</a>
         </div>
     </nav>
@@ -348,11 +349,73 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <label>{{ __('Logo') }}</label>
-                                              
+
                                                 <input id="photo1" class="dropify" name="invoice_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
                                                 <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
                                                 <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
-                                             
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 col-form-label"></label>
+                                        <div class="col-md-8">
+                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-bill" role="tabpanel" aria-labelledby="nav-bill-tab">
+                            <div class="card-body">
+                                <form class="form-material form-horizontal" action="{{ route('general.bill') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>{{ __('Number Prefix') }} </label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                    </div>
+                                                    <input type="text" name="bill_number_prefix" id="bill_number_prefix" class="form-control" placeholder="{{ __('Enter Number Prefix') }}" value="{{ $company->bill_number_prefix ?? null }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>{{ __('Number Digit') }}</label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-text-width"></i></span>
+                                                    </div>
+                                                    <input type="text" name="bill_number_digit" id="bill_number_digit" class="form-control" placeholder="{{ __('Enter Number Digit') }}" value="{{ $company->bill_number_digit ?? null }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>{{ __('Next Number') }}</label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-chevron-right"></i></span>
+                                                    </div>
+                                                    <input type="text" name="bill_number_next" id="bill_number_next" class="form-control" placeholder="{{ __('Enter Next Number') }}" value="{{ $company->bill_number_next ?? null }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>{{ __('Item Name') }}</label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-font"></i></span>
+                                                    </div>
+                                                    <select class="form-control @error('bill_item') is-invalid @enderror" autocomplete="off" id="bill_item" name="bill_item">
+                                                        @foreach($itemNames as $key => $value)
+                                                            <option value="{{ $key }}" {{ old('bill_item', $company->bill_item) == $key ? 'selected' : '' }}>{{ ucwords(str_replace('settings.bill.', '', $value ?? null)) }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -448,7 +511,7 @@
                                                     @endforeach
                                                 </select>
                                               </div>
-                                            </div>						                
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -24,6 +24,7 @@ class CreateBillsTable extends Migration
             $table->double('amount', 15, 4);
             $table->string('currency_code');
             $table->double('currency_rate', 15, 8);
+            $table->integer('parent_id')->default(0);
             $table->integer('vendor_id');
             $table->string('vendor_name');
             $table->string('vendor_email');

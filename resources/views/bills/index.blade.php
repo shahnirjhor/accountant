@@ -128,5 +128,5 @@
     </div>
 </div>
 @include('layouts.delete_modal')
-@include('script.invoice.index.js')
+@include('script.bill.index.js')
 @endsection

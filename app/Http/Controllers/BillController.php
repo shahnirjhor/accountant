@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use App\Models\Bill;
 use App\Models\BillHistory;
 use App\Models\BillItem;
@@ -11,7 +12,9 @@ use App\Models\Category;
 use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Item;
+use App\Models\OfflinePayment;
 use App\Models\Tax;
+use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -333,7 +336,12 @@ class BillController extends Controller
      */
     public function show(Bill $bill)
     {
-        //
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $salesMan = User::find(auth()->user()->id);
+        $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $payment_methods = OfflinePayment::where('company_id', session('company_id'))->orderBy('name')->pluck('name', 'code');
+        return view('bills.show', compact('company','salesMan','bill','accounts','payment_methods'));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Bill;
 use App\Models\BillHistory;
 use App\Models\BillItem;
 use App\Models\BillItemTax;
+use App\Models\BillTotal;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Currency;
@@ -36,12 +37,14 @@ class BillController extends Controller
     private function filter(Request $request)
     {
         $query = Bill::with('vendor:id,name')->where('company_id', session('company_id'))->latest();
-        // if ($request->invoice_number)
-        //     $query->where('invoice_number', 'like', $request->invoice_number.'%');
-        // if($request->amount)
-        //     $query->where('amount', 'like', $request->amount.'%');
-        // if($request->invoiced_at)
-        //     $query->where('invoiced_at', 'like', $request->invoiced_at.'%');
+        if ($request->bill_number)
+            $query->where('bill_number', 'like', $request->bill_number.'%');
+
+        if($request->amount)
+            $query->where('amount', 'like', $request->amount.'%');
+
+        if($request->billed_at)
+            $query->where('billed_at', 'like', $request->billed_at.'%');
 
         return $query;
     }
@@ -58,6 +61,16 @@ class BillController extends Controller
         $digit = $company->bill_number_digit;
         $number = $prefix . str_pad($next, $digit, '0', STR_PAD_LEFT);
         return $number;
+    }
+
+    /**
+     * Increase the next invoice number
+     */
+    public function increaseNextBillNumber($company)
+    {
+        $currentBill = $company->bill_number_next;
+        $next = $currentBill + 1;
+        DB::table('settings')->where('company_id', $company->id)->where('key', 'general.bill_number_next')->update(['value' => $next]);
     }
 
     /**
@@ -145,7 +158,7 @@ class BillController extends Controller
                     if (!empty($item_id)) {
                         $item_object = Item::find($item_id);
                         $item_sku = $item_object->sku;
-                        // Decrease stock (item sold)
+                        // Increase stock (item sold)
                         $item_object->quantity += (double) $order_quantity;
                         $item_object->save();
                     } elseif ($item->sku) {
@@ -260,17 +273,56 @@ class BillController extends Controller
         return redirect()->route('bill.show', $this->billId)->with('success', trans('Bill Added Successfully'));
     }
 
-    /**
-     * Increase the next bill number
-     */
-    public function increaseNextBillNumber($company)
+    public function addTotals($bill, $request, $taxes, $sub_total, $discount_total, $tax_total)
     {
-        $currentBill = $company->bill_number_next;
-        $next = $currentBill + 1;
-
-        DB::table('settings')->where('company_id', $company->id)
-                ->where('key', 'general.bill_number_next')
-                ->update(['value' => $next]);
+        $sort_order = 1;
+        // Added bill sub total
+        BillTotal::create([
+            'company_id' => session('company_id'),
+            'bill_id' => $bill->id,
+            'code' => 'sub_total',
+            'name' => 'bills.sub_total',
+            'amount' => $sub_total,
+            'sort_order' => $sort_order,
+        ]);
+        $sort_order++;
+        // Added bill discount
+        if ($discount_total > 0) {
+            BillTotal::create([
+                'company_id' => session('company_id'),
+                'bill_id' => $bill->id,
+                'code' => 'discount',
+                'name' => 'bills.discount',
+                'amount' => $discount_total,
+                'sort_order' => $sort_order,
+            ]);
+            // This is for total
+            $sub_total = $sub_total - $discount_total;
+            $sort_order++;
+        }
+        // Added bill taxes
+        if (isset($taxes)) {
+            foreach ($taxes as $tax) {
+                BillTotal::create([
+                    'company_id' => session('company_id'),
+                    'bill_id' => $bill->id,
+                    'code' => 'tax',
+                    'name' => $tax['name'],
+                    'amount' => $tax['amount'],
+                    'sort_order' => $sort_order,
+                ]);
+                $sort_order++;
+            }
+        }
+        // Added bill total
+        BillTotal::create([
+            'company_id' => session('company_id'),
+            'bill_id' => $bill->id,
+            'code' => 'total',
+            'name' => 'bills.total',
+            'amount' => $sub_total + $tax_total,
+            'sort_order' => $sort_order,
+        ]);
     }
 
     /**

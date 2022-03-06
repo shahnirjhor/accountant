@@ -16,6 +16,7 @@ class CreateBillsTable extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->integer('company_id');
+            $table->integer('category_id')->default();
             $table->string('bill_number');
             $table->string('order_number')->nullable();
             $table->string('bill_status_code');

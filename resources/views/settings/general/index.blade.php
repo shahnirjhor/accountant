@@ -412,7 +412,7 @@
                                                     </div>
                                                     <select class="form-control @error('bill_item') is-invalid @enderror" autocomplete="off" id="bill_item" name="bill_item">
                                                         @foreach($itemNames as $key => $value)
-                                                            <option value="{{ $key }}" {{ old('bill_item', $company->bill_item) == $key ? 'selected' : '' }}>{{ ucwords(str_replace('settings.bill.', '', $value ?? null)) }}</option>
+                                                            <option value="{{ $key }}" {{ old('bill_item', $company->bill_item) == $key ? 'selected' : '' }}>{{ ucwords(str_replace('settings.invoice.', '', $value ?? null)) }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

@@ -319,6 +319,26 @@ class CompanyController extends Controller
             ],
             [
                 'company_id' => $company->id,
+                'key' => 'general.bill_number_prefix',
+                'value' => 'BILL-',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.bill_number_digit',
+                'value' => '5',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.bill_number_next',
+                'value' => '1',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.bill_item',
+                'value' => 'settings.bill.item',
+            ],
+            [
+                'company_id' => $company->id,
                 'key' => 'general.invoice_number_prefix',
                 'value' => 'INV-',
             ],

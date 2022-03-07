@@ -174,9 +174,10 @@
                     <button type="button" id="doPrint" class="btn btn-lg btn-outline-info" style="margin-right: 5px;">
                         <i class="fas fa-print"></i> Print
                     </button>
-                    <button type="button" class="btn btn-outline-dark btn-lg" style="margin-right: 5px;">
+
+                    <a href="{{ route('invoice.edit', $invoice) }}" class="btn btn-outline-dark btn-lg">
                         <i class="fas fa-pen"></i> Edit
-                    </button>
+                    </a>
                 </div>
             </div>
       </div>

@@ -120,7 +120,7 @@ class InvoiceController extends Controller
 
 
 
-        /**
+    /**
      * Generate next invoice number
      *
      * @return string

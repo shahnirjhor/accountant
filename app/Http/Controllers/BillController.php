@@ -7,6 +7,7 @@ use App\Models\Bill;
 use App\Models\BillHistory;
 use App\Models\BillItem;
 use App\Models\BillItemTax;
+use App\Models\BillPayment;
 use App\Models\BillTotal;
 use App\Models\Category;
 use App\Models\Company;
@@ -74,6 +75,92 @@ class BillController extends Controller
         $currentBill = $company->bill_number_next;
         $next = $currentBill + 1;
         DB::table('settings')->where('company_id', $company->id)->where('key', 'general.bill_number_next')->update(['value' => $next]);
+    }
+
+    public function getAddPaymentDetails(Request $request)
+    {
+        $bill = Bill::find($request->i_id);
+        $amount = $bill->amount - $bill->paid;
+        if($bill) {
+            $output = array('payment_amount' =>  $amount);
+            return json_encode($output);
+        } else {
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function addPaymentStore(Request $request)
+    {
+        $request->validate([
+            'bill_id' => ['required', 'integer'],
+            'currency_code' => ['required', 'string'],
+            'payment_date' => ['required', 'date'],
+            'payment_amount' => ['required', 'numeric'],
+            'payment_account' => ['required', 'integer'],
+            'payment_method' => ['required', 'string'],
+            'description' => ['nullable', 'string', 'max:1000']
+        ]);
+
+        DB::transaction(function () use ($request) {
+            $currencyInfo = Currency::where('company_id', Session::get('company_id'))->where('code', $request->currency_code)->first();
+            $data['company_id'] = session('company_id');
+            $data['bill_id'] = $request->bill_id;
+            $data['account_id'] = $request->payment_account;
+            $data['paid_at'] = $request->payment_date;
+            $data['amount'] = $request->payment_amount;
+            $data['currency_code'] = $request->currency_code;
+            $data['currency_rate'] = $currencyInfo->rate;
+            $data['description'] = $request->description;
+            $data['payment_method'] = $request->payment_method;
+            $billPayment = BillPayment::create($data);
+            $myBillStatus = $this->billStatusUpdate($request, $currencyInfo);
+            $desc_amount = money((float) $billPayment->amount, (string) $billPayment->currency_code, true)->format();
+            $historyData = [
+                'company_id' => $billPayment->company_id,
+                'bill_id' => $billPayment->bill_id,
+                'status_code' => $myBillStatus,
+                'notify' => '0',
+                'description' => $desc_amount . ' ' . "payments",
+            ];
+            BillHistory::create($historyData);
+
+        });
+        return response()->json(['status' => 1]);
+    }
+
+    public function billStatusUpdate($request, $currencyInfo)
+    {
+        $request['currency_code'] = $currencyInfo->code;
+        $request['currency_rate'] = $currencyInfo->rate;
+        $request['bill_id'] = $request->bill_id;
+        $bill = Bill::find($request->bill_id);
+        if ($request['currency_code'] == $bill->currency_code) {
+            if ($request['payment_amount'] > $bill->amount - $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } elseif ($request['payment_amount'] == $bill->amount - $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } else {
+                $bill->bill_status_code = 'partial';
+            }
+        } else {
+            $request_bill = new Bill();
+
+            $request_bill->amount = (float) $request['payment_amount'];
+            $request_bill->currency_code = $currencyInfo->code;
+            $request_bill->currency_rate = $currencyInfo->rate;
+
+            $amount = $request_bill->getConvertedAmount();
+            if ($amount > $bill->amount - $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } elseif ($amount == $bill->amount - $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } else {
+                $bill->bill_status_code = 'partial';
+            }
+        }
+        $bill->save();
+
+        return $bill->bill_status_code;
     }
 
     /**
@@ -352,7 +439,17 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        //
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+        $vendors = Vendor::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $currencies = Currency::where('company_id', Session::get('company_id'))->where('enabled', 1)->pluck('name', 'code');
+        $currency = Currency::where('company_id', Session::get('company_id'))->where('code', '=', $company->default_currency)->first();
+        $items = Item::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        $taxes = Tax::where('company_id', Session::get('company_id'))->where('enabled', 1)->orderBy('name')->get()->pluck('title', 'id');
+        $categories = Category::where('company_id', Session::get('company_id'))->where('enabled', 1)->where('type', 'expense')->orderBy('name')->pluck('name', 'id');
+        $number = $this->getNextBillNumber($company);
+
+        return view('bills.edit', compact('company','vendors', 'currencies', 'currency', 'items', 'bill', 'taxes', 'categories','number'));
     }
 
     /**

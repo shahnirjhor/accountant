@@ -74,15 +74,15 @@
                 <div class="col-sm-4 bill-col">
                     To
                     <address>
-                        <strong>{{ $bill->customer_name}}</strong><br>
-                        @if ($bill->customer_address)
-                        {{ strip_tags($bill->customer_address) }}<br>
+                        <strong>{{ $bill->vendor_name}}</strong><br>
+                        @if ($bill->vendor_address)
+                        {{ strip_tags($bill->vendor_address) }}<br>
                         @endif
-                        @if ($bill->customer_phone)
-                        Phone: {{ $bill->customer_phone }}<br>
+                        @if ($bill->vendor_phone)
+                        Phone: {{ $bill->vendor_phone }}<br>
                         @endif
-                        @if ($bill->customer_email)
-                        Email: {{ $bill->customer_email }}
+                        @if ($bill->vendor_email)
+                        Email: {{ $bill->vendor_email }}
                         @endif
                     </address>
                 </div>
@@ -175,15 +175,16 @@
                     <button type="button" id="doPrint" class="btn btn-lg btn-outline-info" style="margin-right: 5px;">
                         <i class="fas fa-print"></i> Print
                     </button>
-                    <button type="button" class="btn btn-outline-dark btn-lg" style="margin-right: 5px;">
+
+                    <a href="{{ route('bill.edit', $bill) }}" class="btn btn-outline-dark btn-lg">
                         <i class="fas fa-pen"></i> Edit
-                    </button>
+                    </a>
+
                 </div>
             </div>
-      </div>
-      <!-- /.bill -->
-    </div><!-- /.col -->
-  </div><!-- /.row -->
+        </div>
+    </div>
+</div>
 
     <div class="modal fade modal-print" id="addPaymentModalView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">

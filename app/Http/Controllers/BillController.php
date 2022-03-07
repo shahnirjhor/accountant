@@ -461,7 +461,234 @@ class BillController extends Controller
      */
     public function update(Request $request, Bill $bill)
     {
-        //
+        $this->validation($request, $bill->id);
+        $this->billId = $bill->id;
+
+        $vendorInfo = Vendor::findOrFail($request->vendor_id);
+        $currencyInfo = Currency::where('company_id', Session::get('company_id'))->where('code', $request->currency_code)->first();
+
+        $data = $request->only(['order_number','billed_at','due_at','currency_code','category_id']);
+        $data['company_id'] = session('company_id');
+        $data['bill_status_code'] = 'draft';
+        $data['amount'] = $request->grand_total;
+        $data['currency_rate'] = $currencyInfo->rate;
+        $data['vendor_id'] = $request->vendor_id;
+        $data['vendor_name'] = $vendorInfo->name;
+        $data['vendor_email'] = $vendorInfo->email;
+        $data['vendor_tax_number'] = $vendorInfo->tax_number;
+        $data['vendor_phone'] = $vendorInfo->phone;
+        $data['vendor_adress'] = $vendorInfo->address;
+        $data['parent_id'] = auth()->user()->id;
+        $data['notes'] = $request->description;
+        if ($request->picture) {
+            $data['attachment'] = $request->picture->store('bill');
+        }
+
+        DB::transaction(function () use ($data , $request, $bill, $currencyInfo) {
+            $company = Company::findOrFail(Session::get('company_id'));
+            $company->setSettings();
+
+            // increase stock (item update)
+            foreach($bill->items as $item) {
+                $itemIncreaseObject = Item::find($item->item_id);
+                $itemIncreaseObject->quantity -= $item->quantity;
+                $itemIncreaseObject->save();
+            }
+
+            $this->deforeUpdateDelete($bill->id);
+
+            $bill = Bill::findOrFail($bill->id);
+            $bill->update($data);
+
+            $taxes = [];
+            $tax_total = 0;
+            $sub_total = 0;
+            if($request->product) {
+                $order_row_id = $keys = $request->product['order_row_id'];
+                $oquantity = $request->product['order_quantity'];
+                foreach ($keys as $id => $key) {
+                    $order_quantity = (double) $oquantity[$id];
+                    $item = Item::with('tax:id,rate,type,name')->where('id', $order_row_id[$id])->first();
+                    $item_sku = '';
+                    $item_id = !empty($item->id) ? $item->id : 0;
+                    $item_amount = (double) $item->purchase_price * (double) $order_quantity;
+
+                    if (!empty($item_id)) {
+                        $item_object = Item::find($item_id);
+                        $item_sku = $item_object->sku;
+                        // Decrease stock (item sold)
+                        $item_object->quantity += (double) $order_quantity;
+                        $item_object->save();
+                    } elseif ($item->sku) {
+                        $item_sku = $item->sku;
+                    }
+
+                    $tax_amount = 0;
+                    $tax_amounts = 0;
+                    $item_taxes = [];
+                    if (!empty($item->tax_id)) {
+                        $taxType = $item->tax->type;
+                        $taxRate = $item->tax->rate;
+                        if ($taxRate !== null && $taxRate != 0) {
+                            if ($taxType == "inclusive") {
+                                $tax_amount = (double) (($item->purchase_price * $taxRate) / (100 + $taxRate));
+                                $tax_amounts = (double) ($tax_amount * $order_quantity);
+                                $item_amount -= $tax_amounts;
+                                $item_taxes[] = [
+                                    'company_id' => session('company_id'),
+                                    'bill_id' => $bill->id,
+                                    'tax_id' => $item->tax_id,
+                                    'name' => $item->tax->name,
+                                    'amount' => $tax_amounts,
+                                ];
+                            } else {
+                                $tax_amount = (double) (($item->purchase_price * $taxRate) / 100);
+                                $tax_amounts = (double) ($tax_amount * $order_quantity);
+                                $item_taxes[] = [
+                                    'company_id' => session('company_id'),
+                                    'bill_id' => $bill->id,
+                                    'tax_id' => $item->tax_id,
+                                    'name' => $item->tax->name,
+                                    'amount' => $tax_amounts,
+                                ];
+                            }
+                        }
+                    }
+
+                    if(!empty($item->tax_id)){
+                        $myItemTaxId = $item->tax_id;
+                    } else {
+                        $myItemTaxId = null;
+                    }
+
+                    $bill_item = BillItem::create([
+                        'company_id' => session('company_id'),
+                        'bill_id' => $bill->id,
+                        'item_id' => $item_id,
+                        'name' => Str::limit($item->name, 180, ''),
+                        'sku' => $item_sku,
+                        'quantity' => (double) $order_quantity,
+                        'price' => (double) $item->purchase_price,
+                        'tax' => $tax_amounts,
+                        'tax_id' => $myItemTaxId,
+                        'total' => $item_amount,
+                    ]);
+
+                    $bill_item->item_taxes = false;
+
+                    // set item_taxes for
+                    if (!empty($item->tax_id)) {
+                        $bill_item->item_taxes = $item_taxes;
+                    }
+
+                    if ($item_taxes) {
+                        foreach ($item_taxes as $item_tax) {
+                            $item_tax['bill_item_id'] = $bill_item->id;
+                            BillItemTax::create($item_tax);
+
+                            // Set taxes
+                            if (isset($taxes) && array_key_exists($item_tax['tax_id'], $taxes)) {
+                                $taxes[$item_tax['tax_id']]['amount'] += $item_tax['amount'];
+                            } else {
+                                $taxes[$item_tax['tax_id']] = [
+                                    'name' => $item_tax['name'],
+                                    'amount' => $item_tax['amount']
+                                ];
+                            }
+                        }
+                    }
+
+                    // Calculate totals
+                    $tax_total += $bill_item->tax;
+                    $sub_total += $bill_item->total;
+
+                }
+            }
+
+            $s_total = $sub_total;
+            // Apply discount to total
+            if ($request->total_discount) {
+                $s_discount = $request->total_discount;
+                $s_total = $s_total - $s_discount;
+            }
+
+            $amount = $s_total + $tax_total;
+            $billData['amount'] = $amount;
+            $bill->update($billData);
+
+            // Add invoice totals
+            $this->addTotals($bill, $request, $taxes, $sub_total, $request->total_discount, $tax_total);
+
+            $this->checkStatusUpdate($bill, $currencyInfo);
+
+        });
+
+        return redirect()->route('bill.show', $this->billId)->with('success', trans('Bill Updated Successfully'));
+    }
+
+    public function checkStatusUpdate($bill, $currencyInfo)
+    {
+        $request['currency_code'] = $currencyInfo->code;
+        $request['currency_rate'] = $currencyInfo->rate;
+        $request['bill_id'] = $bill->id;
+        $bill = Bill::findOrFail($bill->id);
+        if ($request['currency_code'] == $bill->currency_code) {
+            if($bill->amount == $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } elseif ($bill->amount > $bill->paid) {
+                $bill->bill_status_code = 'partial';
+            } elseif ($bill->amount < $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } elseif($bill->paid == '0') {
+                $bill->bill_status_code = 'draft';
+            } else {
+                $bill->bill_status_code = 'draft';
+            }
+        } else {
+            $request_bill = new Bill();
+
+            $request_bill->amount = (float) $bill->paid;
+            $request_bill->currency_code = $currencyInfo->code;
+            $request_bill->currency_rate = $currencyInfo->rate;
+
+            $amount = $request_bill->getConvertedAmount();
+            if($bill->amount == $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } elseif ($bill->amount > $bill->paid) {
+                $bill->bill_status_code = 'partial';
+            } elseif ($bill->amount < $bill->paid) {
+                $bill->bill_status_code = 'paid';
+            } elseif($bill->paid == '0') {
+                $bill->bill_status_code = 'draft';
+            } else {
+                $bill->bill_status_code = 'draft';
+            }
+        }
+        $bill->save();
+        return $bill->bill_status_code;
+    }
+
+    public function deforeUpdateDelete($id = 0)
+    {
+        $invoice = Bill::findOrFail($id);
+        DB::table('bill_items')->where('bill_id', $id)->delete();
+        DB::table('bill_item_taxes')->where('bill_id', $id)->delete();
+
+        foreach ($invoice->totals as $total) {
+            if($total->code == 'sub_total')
+                DB::table('bill_totals')->where('bill_id', $id)->where('code', 'sub_total')->delete();
+
+            if($total->code == 'tax')
+                DB::table('bill_totals')->where('bill_id', $id)->where('code', 'tax')->delete();
+
+            if($total->code == 'discount')
+                DB::table('bill_totals')->where('bill_id', $id)->where('code', 'discount')->delete();
+
+            if($total->code == 'total')
+                DB::table('bill_totals')->where('bill_id', $id)->where('code', 'total')->delete();
+        }
+
+        return $invoice->id;
     }
 
     /**
@@ -472,7 +699,21 @@ class BillController extends Controller
      */
     public function destroy(Bill $bill)
     {
-        //
+        // Decrease stock
+        $bill->items()->each(function ($bill_item) {
+            $item = Item::find($bill_item->item_id);
+
+            if (empty($item)) {
+                return;
+            }
+
+            $item->quantity += (double) $bill_item->quantity;
+            $item->save();
+        });
+
+        $this->deleteRelationships($bill, ['items', 'item_taxes', 'histories', 'payments', 'totals']);
+        $bill->delete();
+        return redirect()->route('bill.index')->with('success', trans('Bill Deleted Successfully'));
     }
 
     private function validation(Request $request, $id = 0)

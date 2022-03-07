@@ -36,7 +36,7 @@
                         @csrf
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center">
-                                <h4>{{ __('entire.name') }} <b class="ambitious-crimson">*</b></h4>
+                                <h4>{{ __('Name') }} <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading" name="name" id="name" value="{{ $user->name }}" type="text" placeholder="{{ __('entire.type your name here') }}" required>
@@ -48,7 +48,7 @@
 
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center">
-                                <h4>{{ __('entire.email') }} <b class="ambitious-crimson">*</b></h4>
+                                <h4>{{ __('Email') }} <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading" name="email" id="email" value="{{ $user->email }}" type="email" placeholder="{{ __('entire.type your email here') }}" required>
@@ -59,7 +59,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 ambitious-center"><h4>{{ __('entire.photo') }} </h4></label>
+                            <label class="col-md-3 ambitious-center"><h4>{{ __('Photo') }} </h4></label>
                             <div class="col-md-9">
                                 {{ __('entire.max dimension: 200 x 200, max size: 100kb, allowed format: png') }}
                                 <input id="photo" class="dropify" name="photo" value="{{ old('photo') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="100K"/><small id="name" class="form-text text-muted">{{ __('entire.leave blank for remain unchanged') }}</small>
@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 ambitious-center"><h4>{{ __('entire.phone') }}</h4></label>
+                            <label class="col-md-3 ambitious-center"><h4>{{ __('Phone') }}</h4></label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading" name="phone" value="{{ $user->phone }}" id="phone" type="text" placeholder="{{ __('entire.type your phone here') }}">
                             </div>
@@ -98,7 +98,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label"></label>
                             <div class="col-md-8">
-                                <input type="submit" value="{{ __('entire.submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                                <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
                             </div>
                         </div>
                     </form>

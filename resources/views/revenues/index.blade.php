@@ -126,11 +126,11 @@
                     <p class="my-0 font-weight-bold">{{ __('entire.are you sure you want to delete this data') }} ???</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('entire.close') }}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>
                     <form class="btn-ok" action="" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">{{ __('entire.delete') }}</button>
+                        <button type="submit" class="btn btn-danger">{{ __('Delete') }}</button>
                     </form>
                 </div>
             </div>

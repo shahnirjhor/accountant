@@ -69,6 +69,31 @@ Route::group(['middleware' => ['auth']], function() {
         'as' => 'invoice.addPaymentStore'
     ]);
 
+    Route::get('/report/income',[
+        'uses' => 'App\Http\Controllers\ReportController@income',
+        'as' => 'report.income'
+    ]);
+
+    Route::get('/report/expense',[
+        'uses' => 'App\Http\Controllers\ReportController@expense',
+        'as' => 'report.expense'
+    ]);
+
+    Route::get('/report/incomeVsexpense',[
+        'uses' => 'App\Http\Controllers\ReportController@incomeVsexpense',
+        'as' => 'report.incomeVsexpense'
+    ]);
+
+    Route::get('/report/profitAndloss',[
+        'uses' => 'App\Http\Controllers\ReportController@profitAndloss',
+        'as' => 'report.profitAndloss'
+    ]);
+
+    Route::get('/report/tax',[
+        'uses' => 'App\Http\Controllers\ReportController@tax',
+        'as' => 'report.tax'
+    ]);
+
     Route::resources([
         'roles' => App\Http\Controllers\RoleController::class,
         'users' => App\Http\Controllers\UserController::class,

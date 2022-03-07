@@ -8,7 +8,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('entire.dashboard') }}</a></li>
-                        <li class="breadcrumb-item active">{{ __('entire.profile') }}</li>
+                        <li class="breadcrumb-item active">{{ __('Profile') }}</li>
                     </ol>
                 </div>
             </div>
@@ -39,25 +39,25 @@
         <div class="white-box">
             <ul class="nav nav-tabs tabs customtab">
                 <li class="tab active">
-                    <a href="#profile" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs">{{ __('entire.profile') }}</span> </a>
+                    <a href="#profile" data-toggle="tab"> <span class="visible-xs"><i class="fa fa-user"></i></span> <span class="hidden-xs">{{ __('Profile') }}</span> </a>
                 </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="profile">
                     <div class="row">
-                        <div class="col-md-3 col-xs-6 b-r"> <strong>{{ __('entire.full name') }}</strong>
+                        <div class="col-md-3 col-xs-6 b-r"> <strong>{{ __('Full Name') }}</strong>
                             <br>
                             <p class="text-muted">{{ $user->name }}</p>
                         </div>
-                        <div class="col-md-3 col-xs-6 b-r"> <strong>{{ __('entire.mobile') }}</strong>
+                        <div class="col-md-3 col-xs-6 b-r"> <strong>{{ __('Mobile') }}</strong>
                             <br>
                             <p class="text-muted">{{ $user->phone }}</p>
                         </div>
-                        <div class="col-md-3 col-xs-6 b-r"> <strong>{{ __('entire.email') }}</strong>
+                        <div class="col-md-3 col-xs-6 b-r"> <strong>{{ __('Email') }}</strong>
                             <br>
                             <p class="text-muted">{{ $user->email }}</p>
                         </div>
-                        <div class="col-md-3 col-xs-6"> <strong>{{ __('entire.address') }}</strong>
+                        <div class="col-md-3 col-xs-6"> <strong>{{ __('Address') }}</strong>
                             <br>
                             <p class="text-muted">{!! $user->address !!}</p>
                         </div>

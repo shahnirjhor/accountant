@@ -156,7 +156,7 @@
                     <div class="form-group">
                         <label class="col-md-3 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('entire.submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
                             <a href="{{ route('smtp.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('smtp.cancel') }}</a>
                         </div>
                     </div>

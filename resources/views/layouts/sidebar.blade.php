@@ -39,14 +39,14 @@ $RoleName = Auth::user()->getRoleNames();
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link @if($c == 'dashboard') active @endif">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-chart-line"></i>
                         <p>{{ __('Dashboard') }}</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a href="{{ route('item.index') }}" class="nav-link @if($c == 'item') active @endif ">
-                        <i class="fas fa-layer-group nav-icon"></i>
+                        <i class="fab fa-buffer nav-icon"></i>
                         <p>@lang('Items')</p>
                     </a>
                 </li>
@@ -116,7 +116,7 @@ $RoleName = Auth::user()->getRoleNames();
                         <i class="nav-icon fas fa-university"></i>
                         <p>
                             @lang('Banking')
-                            <i class="right fas fa-angle-left nav-icon"></i>
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -144,6 +144,50 @@ $RoleName = Auth::user()->getRoleNames();
                                 <p>@lang('Reconciliations')</p>
                             </a>
                         </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview @if($c == 'report') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'report') active @endif">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            @lang('Reports')
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('report.income') }}" class="nav-link @if($c == 'report' && $m='income') active @endif ">
+                                <i class="fas fa-hand-holding-usd nav-icon"></i>
+                                <p>@lang('Income')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('report.expense') }}" class="nav-link @if($c == 'report' && $m='expense') active @endif ">
+                                <i class="fas fa-money-check-alt nav-icon"></i>
+                                <p>@lang('Expense')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('report.tax') }}" class="nav-link @if($c == 'report' && $m='tax') active @endif ">
+                                <i class="fas fa-coins nav-icon"></i>
+                                <p>@lang('Tax')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('report.profitAndloss') }}" class="nav-link @if($c == 'report' && $m='profitAndloss') active @endif ">
+                                <i class="fas fa-wave-square nav-icon"></i>
+                                <p>@lang('Profit &amp; Loss')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('report.incomeVsexpense') }}" class="nav-link @if($c == 'report' && $m='incomeVsexpense') active @endif ">
+                                <i class="fas fa-columns nav-icon"></i>
+                                <p>@lang('Income VS Expense')</p>
+                            </a>
+                        </li>
+
+
                     </ul>
                 </li>
 

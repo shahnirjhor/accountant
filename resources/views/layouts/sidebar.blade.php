@@ -191,8 +191,45 @@ $RoleName = Auth::user()->getRoleNames();
                     </ul>
                 </li>
 
-                <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' || $c == 'offline-payment' ) menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'general' || $c == 'category' || $c == 'currency' || $c == 'tax' || $c == 'offline-payment' ) active @endif">
+                <li class="nav-item has-treeview @if($c == 'category' || $c == 'currency' || $c == 'tax') menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'category' || $c == 'currency' || $c == 'tax') active @endif">
+                        <i class="nav-icon fas fa-quote-right"></i>
+                        <p>
+                            @lang('Types')
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('category.index') }}" class="nav-link @if($c == 'category') active @endif ">
+                                <i class="fas fa-code-branch nav-icon"></i>
+                                <p>@lang('Category')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('currency.index') }}" class="nav-link @if($c == 'currency') active @endif ">
+                                <i class="fas fa-coins nav-icon"></i>
+                                <p>@lang('Currencies')</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('tax.index') }}" class="nav-link @if($c == 'tax') active @endif ">
+                                <i class="fas fa-percentage nav-icon"></i>
+                                <p>@lang('Tax rates')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('general') }}" class="nav-link @if($c == 'general') active @endif ">
+                        <i class="fas fa-align-left nav-icon"></i>
+                        <p>@lang('My Company')</p>
+                    </a>
+                </li>
+
+                <li class="nav-item has-treeview @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'offline-payment' ) menu-open @endif">
+                    <a href="javascript:void(0)" class="nav-link @if($c == 'roles' || $c == 'users' || $c == 'apsetting' || $c == 'smtp' || $c == 'offline-payment' ) active @endif">
                         <i class="nav-icon fa fa-cogs"></i>
                         <p>
                             @lang('Settings')
@@ -222,30 +259,6 @@ $RoleName = Auth::user()->getRoleNames();
                             <a href="{{ route('smtp.index') }}" class="nav-link @if($c == 'smtp') active @endif ">
                                 <i class="fas fa-mail-bulk nav-icon"></i>
                                 <p>@lang('Smtp Settings')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('general') }}" class="nav-link @if($c == 'general') active @endif ">
-                                <i class="fas fa-align-left nav-icon"></i>
-                                <p>@lang('General Settings')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('category.index') }}" class="nav-link @if($c == 'category') active @endif ">
-                                <i class="fas fa-code-branch nav-icon"></i>
-                                <p>@lang('Category')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('currency.index') }}" class="nav-link @if($c == 'currency') active @endif ">
-                                <i class="fas fa-coins nav-icon"></i>
-                                <p>@lang('Currencies')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('tax.index') }}" class="nav-link @if($c == 'tax') active @endif ">
-                                <i class="fas fa-percentage nav-icon"></i>
-                                <p>@lang('Tax rates')</p>
                             </a>
                         </li>
                         <li class="nav-item">

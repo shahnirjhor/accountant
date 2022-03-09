@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Akaunting\Money\Money;
+use App\Traits\DateTime;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,8 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Invoice extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, DateTime, SoftDeletes;
 
     protected $appends = ['paid'];
 

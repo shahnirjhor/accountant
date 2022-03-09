@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DateTime;
 
 class Revenue extends Model
 {
+    use DateTime;
     protected $fillable = [
         'company_id',
         'account_id',
@@ -24,14 +26,19 @@ class Revenue extends Model
         'parent_id'
     ];
 
-    public function transfers()
+    public function user()
     {
-        return $this->hasMany(Transfer::class);
+        return $this->belongsTo(User::class, 'customer_id', 'id');
     }
 
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_code', 'code');
     }
 
     public function category()
@@ -43,4 +50,21 @@ class Revenue extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function transfers()
+    {
+        return $this->hasMany(Transfer::class);
+    }
+
+    public function scopeIsTransfer($query)
+    {
+        return $query->where('category_id', '=', Category::transfer());
+    }
+
+    public function scopeIsNotTransfer($query)
+    {
+        return $query->where('category_id', '<>', Category::transfer());
+    }
+
+
 }

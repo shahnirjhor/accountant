@@ -9,6 +9,11 @@ class Account extends Model
 {
     protected $fillable = ['company_id', 'name', 'number', 'currency_code', 'opening_balance', 'bank_name', 'bank_phone', 'bank_address', 'enabled'];
 
+
+    public function revenues()
+    {
+        return $this->hasMany(Revenue::class);
+    }
     /**
      * Get the current balance.
      *

@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Akaunting\Money\Money;
 use Akaunting\Money\Currency;
+use App\Traits\DateTime;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Session;
 
 class InvoicePayment extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, DateTime, SoftDeletes;
 
     protected $fillable = [
         'company_id',
@@ -86,6 +87,23 @@ class InvoicePayment extends Model
         return $money;
     }
 
+    public function convert($amount, $code, $rate, $format = false)
+    {
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+
+
+        $default = new Currency($company->default_currency);
+
+        if ($format) {
+            $money = Money::$code($amount, true)->convert($default, (double) $rate)->format();
+        } else {
+            $money = Money::$code($amount)->convert($default, (double) $rate)->getAmount();
+        }
+
+        return $money;
+    }
+
     public function getDynamicConvertedAmount($format = false)
     {
         return $this->dynamicConvert($this->default_currency_code, $this->amount, $this->currency_code, $this->currency_rate, $format);
@@ -100,6 +118,11 @@ class InvoicePayment extends Model
             $money = Money::$default($amount)->convert($code, (double) $rate)->getAmount();
         }
         return $money;
+    }
+
+    public function getConvertedAmount($format = false)
+    {
+        return $this->convert($this->amount, $this->currency_code, $this->currency_rate, $format);
     }
 
 }

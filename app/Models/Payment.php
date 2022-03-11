@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\DateTime;
 
 class Payment extends Model
 {
+    use DateTime;
     protected $fillable = [
         'company_id',
         'account_id',
@@ -53,5 +55,5 @@ class Payment extends Model
     {
         return $query->where('category_id', '<>', Category::transfer());
     }
-    
+
 }

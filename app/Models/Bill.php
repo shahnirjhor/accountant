@@ -6,11 +6,15 @@ use Akaunting\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\DateTime;
+use Session;
+use Akaunting\Money\Currency;
 
 class Bill extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use DateTime;
 
     protected $appends = ['paid'];
 
@@ -188,6 +192,23 @@ class Bill extends Model
         } else {
             $money = Money::$code($amount)->divide((double) $rate)->getAmount();
         }
+        return $money;
+    }
+
+    public function convert($amount, $code, $rate, $format = false)
+    {
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+
+
+        $default = new Currency($company->default_currency);
+
+        if ($format) {
+            $money = Money::$code($amount, true)->convert($default, (double) $rate)->format();
+        } else {
+            $money = Money::$code($amount)->convert($default, (double) $rate)->getAmount();
+        }
+
         return $money;
     }
 }

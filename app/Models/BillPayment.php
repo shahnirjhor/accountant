@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Akaunting\Money\Money;
+use App\Traits\DateTime;
 
 class BillPayment extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use DateTime;
 
     protected $fillable = [
         'company_id',

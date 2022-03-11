@@ -369,5 +369,7 @@ class ReportController extends Controller
         }
 
         $statuses = collect(['all' => 'All','paid' => 'Paid']);
+
+        return view('report.tax', compact('dates', 'taxes', 'incomes', 'expenses', 'totals', 'statuses'));
     }
 }

@@ -12,6 +12,7 @@ use App\Models\Invoice;
 use App\Models\InvoicePayment;
 use App\Models\Payment;
 use App\Models\Revenue;
+use App\Models\Tax;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Traits\DateTime;
@@ -301,5 +302,72 @@ class ReportController extends Controller
 
             $totals[$month]['amount'] += $amount;
         }
+    }
+
+    public function tax(Request $request)
+    {
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+
+        $dates = $incomes = $expenses = $totals = [];
+
+        ($request->year) ?  $year = $request->year : $year = Carbon::now()->year;
+        ($request->status) ?  $status = $request->status : $status = 'all';
+
+        $financial_start = $this->getFinancialStart();
+        if ($financial_start->month != 1) {
+            if (!is_null($request->year)) {
+                $financial_start->year = $year;
+            }
+            $year = [$financial_start->format('Y'), $financial_start->addYear()->format('Y')];
+            $financial_start->subYear()->subMonth();
+        }
+
+        $t = Tax::where('enabled', 1)->where('rate', '<>', '0')->pluck('name')->toArray();
+        $taxes = array_combine($t, $t);
+
+        // Dates
+        for ($j = 1; $j <= 12; $j++) {
+            $ym_string = is_array($year) ? $financial_start->addMonth()->format('Y-m') : $year . '-' . $j;
+            $dates[$j] = Carbon::parse($ym_string)->format('M');
+            foreach ($taxes as $tax_name) {
+                $incomes[$tax_name][$dates[$j]] = [
+                    'amount' => 0,
+                    'currency_code' => $company->default_currency,
+                    'currency_rate' => 1,
+                ];
+                $expenses[$tax_name][$dates[$j]] = [
+                    'amount' => 0,
+                    'currency_code' => $company->default_currency,
+                    'currency_rate' => 1,
+                ];
+                $totals[$tax_name][$dates[$j]] = [
+                    'amount' => 0,
+                    'currency_code' => $company->default_currency,
+                    'currency_rate' => 1,
+                ];
+            }
+        }
+
+        switch ($status) {
+            case 'paid':
+                // Invoices
+                $invoices = InvoicePayment::with(['invoice', 'invoice.totals'])->monthsOfYear('paid_at')->get();
+                $this->setAmount($incomes, $totals, $invoices, 'invoice', 'paid_at');
+                // Bills
+                $bills = BillPayment::with(['bill', 'bill.totals'])->monthsOfYear('paid_at')->get();
+                $this->setAmount($expenses, $totals, $bills, 'bill', 'paid_at');
+                break;
+            default:
+                // Invoices
+                $invoices = Invoice::with(['totals'])->accrued()->monthsOfYear('invoiced_at')->get();
+                $this->setAmount($incomes, $totals, $invoices, 'invoice', 'invoiced_at');
+                // Bills
+                $bills = Bill::with(['totals'])->accrued()->monthsOfYear('billed_at')->get();
+                $this->setAmount($expenses, $totals, $bills, 'bill', 'billed_at');
+                break;
+        }
+
+        $statuses = collect(['all' => 'All','paid' => 'Paid']);
     }
 }

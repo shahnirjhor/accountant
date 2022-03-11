@@ -79,6 +79,40 @@
                         <br>
                         <br>
                         <table class="table table-striped compact table-width table-bordered">
+                            <thead>
+                                <tr class="table-info">
+                                    <th>@lang('Category')</th>
+                                    @foreach($dates as $date)
+                                        <th class="text-right">{{ $date }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($expenses)
+                                    @foreach($expenses as $category_id =>  $category)
+                                        <tr>
+                                            <td>{{ $categories[$category_id] }}</td>
+                                            @foreach($category as $item)
+                                                <td class="text-right">@money($item['amount'], $company->default_currency, true)</td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="13">
+                                            <h5 class="text-center">@lang('No Records')</h5>
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>@lang('Totals')</th>
+                                    @foreach($totals as $total)
+                                        <th class="text-right">@money($total['amount'], $total['currency_code'], true)</th>
+                                    @endforeach
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -86,4 +120,34 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    var ctx = document.getElementById("myExpenseChart")
+    var data = {
+        labels: {!! $myMonth !!},
+        datasets: [
+            {
+                fill: true,
+                label: "Expense",
+                lineTension: 0.3, borderColor: "#F56954",
+                backgroundColor: "#F56954",
+                data: {!! $myExpensesGraph !!},
+            },
+        ]
+    };
+
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: true,
+                position: 'top'
+            },
+        }
+    });
+</script>
+
 @endsection

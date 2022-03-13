@@ -157,31 +157,31 @@ $RoleName = Auth::user()->getRoleNames();
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('report.income') }}" class="nav-link @if($c == 'report' && $m='income') active @endif ">
+                            <a href="{{ route('report.income') }}" class="nav-link @if($c == 'report' && $m == 'income') active @endif ">
                                 <i class="fas fa-hand-holding-usd nav-icon"></i>
                                 <p>@lang('Income')</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('report.expense') }}" class="nav-link @if($c == 'report' && $m='expense') active @endif ">
+                            <a href="{{ route('report.expense') }}" class="nav-link @if($c == 'report' && $m == 'expense') active @endif ">
                                 <i class="fas fa-money-check-alt nav-icon"></i>
                                 <p>@lang('Expense')</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('report.tax') }}" class="nav-link @if($c == 'report' && $m='tax') active @endif ">
+                            <a href="{{ route('report.tax') }}" class="nav-link @if($c == 'report' && $m == 'tax') active @endif ">
                                 <i class="fas fa-coins nav-icon"></i>
                                 <p>@lang('Tax')</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('report.profitAndloss') }}" class="nav-link @if($c == 'report' && $m='profitAndloss') active @endif ">
+                            <a href="{{ route('report.profitAndloss') }}" class="nav-link @if($c == 'report' && $m == 'profitAndloss') active @endif ">
                                 <i class="fas fa-wave-square nav-icon"></i>
                                 <p>@lang('Profit &amp; Loss')</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('report.incomeVsexpense') }}" class="nav-link @if($c == 'report' && $m='incomeVsexpense') active @endif ">
+                            <a href="{{ route('report.incomeVsexpense') }}" class="nav-link @if($c == 'report' && $m == 'incomeVsexpense') active @endif ">
                                 <i class="fas fa-columns nav-icon"></i>
                                 <p>@lang('Income VS Expense')</p>
                             </a>

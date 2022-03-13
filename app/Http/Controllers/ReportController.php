@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\Bill;
+use App\Models\BillPayment;
 use App\Models\Category;
 use App\Models\Company;
 use App\Models\Customer;
@@ -111,6 +112,57 @@ class ReportController extends Controller
 
 
         return view('report.income', compact('years','thisYear','dates', 'categories', 'statuses', 'accounts', 'customers', 'incomes', 'totals', 'company', 'myMonth','myIncomesGraph'));
+    }
+
+    private function setAmount(&$graph, &$totals, &$incomes, $items, $type, $date_field)
+    {
+        foreach ($items as $item) {
+            if ($item->getTable() == 'invoice_payments') {
+                $invoice = $item->invoice;
+
+                if ($customers = request('customers')) {
+                    if (!in_array($invoice->customer_id, $customers)) {
+                        continue;
+                    }
+                }
+
+                $item->category_id = $invoice->category_id;
+            }
+
+            if ($item->getTable() == 'invoices') {
+                if ($accounts = request('accounts')) {
+                    foreach ($item->payments as $payment) {
+                        if (!in_array($payment->account_id, $accounts)) {
+                            continue 2;
+                        }
+                    }
+                }
+            }
+
+            $month = Carbon::parse($item->$date_field)->format('F');
+            $month_year = Carbon::parse($item->$date_field)->format('F-Y');
+
+            if (!isset($incomes[$item->category_id]) || !isset($incomes[$item->category_id][$month]) || !isset($graph[$month_year])) {
+                continue;
+            }
+
+            $amount = $item->getConvertedAmount();
+
+            // Forecasting
+            if (($type == 'invoice') && ($date_field == 'due_at')) {
+                foreach ($item->payments as $payment) {
+                    $amount -= $payment->getConvertedAmount();
+                }
+            }
+
+            $incomes[$item->category_id][$month]['amount'] += $amount;
+            $incomes[$item->category_id][$month]['currency_code'] = $item->currency_code;
+            $incomes[$item->category_id][$month]['currency_rate'] = $item->currency_rate;
+
+            $graph[$month_year] += $amount;
+
+            $totals[$month]['amount'] += $amount;
+        }
     }
 
     public function expense(Request $request)
@@ -253,55 +305,172 @@ class ReportController extends Controller
         }
     }
 
-    private function setAmount(&$graph, &$totals, &$incomes, $items, $type, $date_field)
+    public function incomeVsexpense(Request $request)
     {
-        foreach ($items as $item) {
-            if ($item->getTable() == 'invoice_payments') {
-                $invoice = $item->invoice;
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
 
-                if ($customers = request('customers')) {
-                    if (!in_array($invoice->customer_id, $customers)) {
-                        continue;
-                    }
-                }
+        $dates = $totals = $compares = $profit_graph = $categories = [];
 
-                $item->category_id = $invoice->category_id;
+        ($request->year) ?  $year = $request->year : $year = Carbon::now()->year;
+        ($request->status) ?  $status = $request->status : $status = 'all';
+
+        // check and assign year start
+        $financial_start = $this->getFinancialStart();
+
+        if ($financial_start->month != 1) {
+            // check if a specific year is requested
+            if (!is_null(request('year'))) {
+                $financial_start->year = $year;
             }
 
-            if ($item->getTable() == 'invoices') {
-                if ($accounts = request('accounts')) {
-                    foreach ($item->payments as $payment) {
-                        if (!in_array($payment->account_id, $accounts)) {
-                            continue 2;
-                        }
-                    }
-                }
-            }
-
-            $month = Carbon::parse($item->$date_field)->format('F');
-            $month_year = Carbon::parse($item->$date_field)->format('F-Y');
-
-            if (!isset($incomes[$item->category_id]) || !isset($incomes[$item->category_id][$month]) || !isset($graph[$month_year])) {
-                continue;
-            }
-
-            $amount = $item->getConvertedAmount();
-
-            // Forecasting
-            if (($type == 'invoice') && ($date_field == 'due_at')) {
-                foreach ($item->payments as $payment) {
-                    $amount -= $payment->getConvertedAmount();
-                }
-            }
-
-            $incomes[$item->category_id][$month]['amount'] += $amount;
-            $incomes[$item->category_id][$month]['currency_code'] = $item->currency_code;
-            $incomes[$item->category_id][$month]['currency_rate'] = $item->currency_rate;
-
-            $graph[$month_year] += $amount;
-
-            $totals[$month]['amount'] += $amount;
+            $year = [$financial_start->format('Y'), $financial_start->addYear()->format('Y')];
+            $financial_start->subYear()->subMonth();
         }
+
+        $categories_filter = $request->categories;
+
+        $income_categories = Category::where('enabled', 1)->where('type', 'income')->when($categories_filter, function ($query) use ($categories_filter) {
+            return $query->whereIn('id', $categories_filter);
+        })->orderBy('name')->pluck('name', 'id')->toArray();
+
+        $expense_categories = Category::where('enabled', 1)->where('type', 'expense')->when($categories_filter, function ($query) use ($categories_filter) {
+            return $query->whereIn('id', $categories_filter);
+        })->orderBy('name')->pluck('name', 'id')->toArray();
+
+        // Dates
+        for ($j = 1; $j <= 12; $j++) {
+            $ym_string = is_array($year) ? $financial_start->addMonth()->format('Y-m') : $year . '-' . $j;
+            $dates[$j] = Carbon::parse($ym_string)->format('F');
+            $profit_graph[Carbon::parse($ym_string)->format('F-Y')] = 0;
+
+            // Totals
+            $totals[$dates[$j]] = array(
+                'amount' => 0,
+                'currency_code' => $company->default_currency,
+                'currency_rate' => 1
+            );
+
+            foreach ($income_categories as $category_id => $category_name) {
+                $compares['income'][$category_id][$dates[$j]] = array(
+                    'category_id' => $category_id,
+                    'name' => $category_name,
+                    'amount' => 0,
+                    'currency_code' => $company->default_currency,
+                    'currency_rate' => 1
+                );
+            }
+
+            foreach ($expense_categories as $category_id => $category_name) {
+                $compares['expense'][$category_id][$dates[$j]] = array(
+                    'category_id' => $category_id,
+                    'name' => $category_name,
+                    'amount' => 0,
+                    'currency_code' => $company->default_currency,
+                    'currency_rate' => 1
+                );
+            }
+        }
+
+        $revenues = Revenue::monthsOfYear('paid_at')->isNotTransfer()->get();
+        if ($request->accounts)
+            $revenues = $revenues->where('account_id', $request->accounts);
+
+        $payments = Payment::monthsOfYear('paid_at')->isNotTransfer()->get();
+        if ($request->accounts)
+            $payments = $payments->where('account_id', $request->accounts);
+
+        switch ($status) {
+            case 'paid':
+                // Invoices
+                $invoices = InvoicePayment::monthsOfYear('paid_at')->get();
+                if ($request->accounts)
+                    $invoices = $invoices->where('account_id', $request->accounts);
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $invoices, 'invoice', 'paid_at');
+
+                // Revenues
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $revenues, 'revenue', 'paid_at');
+
+                // Bills
+                $bills = BillPayment::monthsOfYear('paid_at')->get();
+                if ($request->accounts)
+                    $bills = $bills->where('account_id', $request->accounts);
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $bills, 'bill', 'paid_at');
+
+                // Payments
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $payments, 'payment', 'paid_at');
+                break;
+            default:
+                // Invoices
+                $invoices = Invoice::accrued()->monthsOfYear('invoiced_at')->get();
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $invoices, 'invoice', 'invoiced_at');
+
+                // Revenues
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $revenues, 'revenue', 'paid_at');
+
+                // Bills
+                $bills = Bill::accrued()->monthsOfYear('billed_at')->get();
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $bills, 'bill', 'billed_at');
+
+                // Payments
+                $this->setIncomeExpenseAmount($profit_graph, $totals, $compares, $payments, 'payment', 'paid_at');
+                break;
+        }
+
+        $statuses = collect(['all' => 'All','paid' => 'Paid']);
+
+        $accounts = Account::where('enabled', 1)->pluck('name', 'id')->toArray();
+        $categories = Category::where('enabled', 1)->type(['income', 'expense'])->pluck('name', 'id')->toArray();
+
+        // return view('report.income_expense', compact('years','thisYear','company', 'myMonth', 'myExpensesGraph', 'dates','income_categories','expense_categories','categories','statuses','accounts','compares','totals'));
+    }
+
+    private function setIncomeExpenseAmount(&$graph, &$totals, &$compares, $items, $type, $date_field)
+    {
+
+    }
+
+    private function setTaxAmount(&$items, &$totals, $rows, $type, $date_field)
+    {
+        foreach ($rows as $row) {
+            if (($row->getTable() == 'bill_payments') || ($row->getTable() == 'invoice_payments')) {
+                $type_row = $row->$type;
+                $row->category_id = $type_row->category_id;
+            }
+
+            $date = Carbon::parse($row->$date_field)->format('M');
+
+            ($date_field == 'paid_at') ? $row_totals = $row->$type->totals : $row_totals = $row->totals;
+
+            foreach ($row_totals as $row_total) {
+                if ($row_total->code != 'tax') {
+                    continue;
+                }
+
+                if (!isset($items[$row_total->name])) {
+                    continue;
+                }
+
+                if ($date_field == 'paid_at') {
+                    $rate = ($row->amount * 100) / $type_row->amount;
+                    $row_amount = ($row_total->amount / 100) * $rate;
+                } else {
+                    $row_amount = $row_total->amount;
+                }
+
+                $amount = $row->convert($row_amount, $row->currency_code, $row->currency_rate);
+
+                $items[$row_total->name][$date]['amount'] += $amount;
+
+                if ($type == 'invoice') {
+                    $totals[$row_total->name][$date]['amount'] += $amount;
+                } else {
+                    $totals[$row_total->name][$date]['amount'] -= $amount;
+                }
+            }
+        }
+
+
     }
 
     public function tax(Request $request)
@@ -353,23 +522,199 @@ class ReportController extends Controller
             case 'paid':
                 // Invoices
                 $invoices = InvoicePayment::with(['invoice', 'invoice.totals'])->monthsOfYear('paid_at')->get();
-                $this->setAmount($incomes, $totals, $invoices, 'invoice', 'paid_at');
+
+                $this->setTaxAmount($incomes, $totals, $invoices, 'invoice', 'paid_at');
                 // Bills
                 $bills = BillPayment::with(['bill', 'bill.totals'])->monthsOfYear('paid_at')->get();
-                $this->setAmount($expenses, $totals, $bills, 'bill', 'paid_at');
+                $this->setTaxAmount($expenses, $totals, $bills, 'bill', 'paid_at');
                 break;
             default:
                 // Invoices
                 $invoices = Invoice::with(['totals'])->accrued()->monthsOfYear('invoiced_at')->get();
-                $this->setAmount($incomes, $totals, $invoices, 'invoice', 'invoiced_at');
+                $this->setTaxAmount($incomes, $totals, $invoices, 'invoice', 'invoiced_at');
                 // Bills
                 $bills = Bill::with(['totals'])->accrued()->monthsOfYear('billed_at')->get();
-                $this->setAmount($expenses, $totals, $bills, 'bill', 'billed_at');
+                $this->setTaxAmount($expenses, $totals, $bills, 'bill', 'billed_at');
                 break;
         }
 
         $statuses = collect(['all' => 'All','paid' => 'Paid']);
+        $years = collect(['2020' => '2020','2021' => '2021','2022' => '2022','2023' => '2023','2024' => '2024','2025' => '2025']);
+        $thisYear = Carbon::now()->year;
 
-        return view('report.tax', compact('dates', 'taxes', 'incomes', 'expenses', 'totals', 'statuses'));
+        return view('report.tax', compact('years','thisYear','dates', 'taxes', 'incomes', 'expenses', 'totals', 'statuses','company'));
+    }
+
+    private function setProfitLossAmount(&$totals, &$compares, $items, $type, $date_field)
+    {
+        foreach ($items as $item) {
+            if (($item->getTable() == 'bill_payments') || ($item->getTable() == 'invoice_payments')) {
+                $type_item = $item->$type;
+                $item->category_id = $type_item->category_id;
+            }
+
+            $date = Carbon::parse($item->$date_field)->quarter;
+
+            $group = (($type == 'invoice') || ($type == 'revenue')) ? 'income' : 'expense';
+
+            if (!isset($compares[$group][$item->category_id]))
+                continue;
+
+            $amount = $item->getConvertedAmount(false, false);
+
+            // Forecasting
+            if ((($type == 'invoice') || ($type == 'bill')) && ($date_field == 'due_at')) {
+                foreach ($item->payments as $payment) {
+                    $amount -= $payment->getConvertedAmount();
+                }
+            }
+
+            $compares[$group][$item->category_id][$date]['amount'] += $amount;
+            $compares[$group][$item->category_id][$date]['currency_code'] = $item->currency_code;
+            $compares[$group][$item->category_id][$date]['currency_rate'] = $item->currency_rate;
+            $compares[$group][$item->category_id]['total']['amount'] += $amount;
+
+            if ($group == 'income') {
+                $totals[$date]['amount'] += $amount;
+                $totals['total']['amount'] += $amount;
+            } else {
+                $totals[$date]['amount'] -= $amount;
+                $totals['total']['amount'] -= $amount;
+            }
+        }
+    }
+
+    public function profitAndloss(Request $request)
+    {
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+
+        $dates = $totals = $compares = $categories = [];
+
+        ($request->year) ?  $year = $request->year : $year = Carbon::now()->year;
+        ($request->status) ?  $status = $request->status : $status = 'all';
+
+        // check and assign year start
+        $financial_start = $this->getFinancialStart();
+
+        if ($financial_start->month != 1) {
+            // check if a specific year is requested
+            if (!is_null(request('year'))) {
+                $financial_start->year = $year;
+            }
+
+            $year = [$financial_start->format('Y'), $financial_start->addYear()->format('Y')];
+            $financial_start->subYear()->subQuarter();
+        }
+
+        $income_categories = Category::where('enabled', 1)->where('type', 'income')->orderBy('name')->pluck('name', 'id')->toArray();
+        $expense_categories = Category::where('enabled', 1)->where('type', 'expense')->orderBy('name')->pluck('name', 'id')->toArray();
+
+        // Dates
+        for ($j = 1; $j <= 12; $j++) {
+            $ym_string = is_array($year) ? $financial_start->addQuarter()->format('Y-m') : $year . '-' . $j;
+            $dates[$j] = Carbon::parse($ym_string)->quarter;
+
+            // Totals
+            $totals[$dates[$j]] = array(
+                'amount' => 0,
+                'currency_code' => $company->default_currency,
+                'currency_rate' => 1
+            );
+
+            foreach ($income_categories as $category_id => $category_name) {
+                $compares['income'][$category_id][$dates[$j]] = [
+                    'category_id' => $category_id,
+                    'name' => $category_name,
+                    'amount' => 0,
+                    'currency_code' => $company->default_currency,
+                    'currency_rate' => 1
+                ];
+            }
+
+            foreach ($expense_categories as $category_id => $category_name) {
+                $compares['expense'][$category_id][$dates[$j]] = [
+                    'category_id' => $category_id,
+                    'name' => $category_name,
+                    'amount' => 0,
+                    'currency_code' => $company->default_currency,
+                    'currency_rate' => 1
+                ];
+            }
+
+            $j += 2;
+        }
+
+        $totals['total'] = [
+            'amount' => 0,
+            'currency_code' => $company->default_currency,
+            'currency_rate' => 1
+        ];
+
+        foreach ($dates as $date) {
+            $gross['income'][$date] = 0;
+            $gross['expense'][$date] = 0;
+        }
+
+        $gross['income']['total'] = 0;
+        $gross['expense']['total'] = 0;
+
+        foreach ($income_categories as $category_id => $category_name) {
+            $compares['income'][$category_id]['total'] = [
+                'category_id' => $category_id,
+                'name' => 'Totals',
+                'amount' => 0,
+                'currency_code' => $company->default_currency,
+                'currency_rate' => 1
+            ];
+        }
+
+        foreach ($expense_categories as $category_id => $category_name) {
+            $compares['expense'][$category_id]['total'] = [
+                'category_id' => $category_id,
+                'name' => 'Totals',
+                'amount' => 0,
+                'currency_code' => $company->default_currency,
+                'currency_rate' => 1
+            ];
+        }
+
+        // Invoices
+        switch ($status) {
+            case 'paid':
+                $invoices = InvoicePayment::monthsOfYear('paid_at')->get();
+                $this->setProfitLossAmount($totals, $compares, $invoices, 'invoice', 'paid_at');
+                break;
+            default:
+                $invoices = Invoice::accrued()->monthsOfYear('invoiced_at')->get();
+                $this->setProfitLossAmount($totals, $compares, $invoices, 'invoice', 'invoiced_at');
+                break;
+        }
+
+        // Revenues
+        $revenues = Revenue::monthsOfYear('paid_at')->isNotTransfer()->get();
+        $this->setProfitLossAmount($totals, $compares, $revenues, 'revenue', 'paid_at');
+
+        // Bills
+        switch ($status) {
+            case 'paid':
+                $bills = BillPayment::monthsOfYear('paid_at')->get();
+                $this->setProfitLossAmount($totals, $compares, $bills, 'bill', 'paid_at');
+                break;
+            default:
+                $bills = Bill::accrued()->monthsOfYear('billed_at')->get();
+                $this->setProfitLossAmount($totals, $compares, $bills, 'bill', 'billed_at');
+                break;
+        }
+
+        // Payments
+        $payments = Payment::monthsOfYear('paid_at')->isNotTransfer()->get();
+        $this->setProfitLossAmount($totals, $compares, $payments, 'payment', 'paid_at');
+
+        $statuses = collect(['all' => 'All','paid' => 'Paid']);
+        $years = collect(['2020' => '2020','2021' => '2021','2022' => '2022','2023' => '2023','2024' => '2024','2025' => '2025']);
+        $thisYear = Carbon::now()->year;
+
+        return view('report.profit_loss', compact('years','thisYear','dates', 'income_categories', 'expense_categories', 'compares', 'totals', 'gross', 'statuses','company'));
     }
 }

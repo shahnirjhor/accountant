@@ -418,16 +418,89 @@ class ReportController extends Controller
         }
 
         $statuses = collect(['all' => 'All','paid' => 'Paid']);
+        $years = collect(['2020' => '2020','2021' => '2021','2022' => '2022','2023' => '2023','2024' => '2024','2025' => '2025']);
+        $thisYear = Carbon::now()->year;
+        $myMonth = json_encode(array_values($dates));
+        $myGraph = json_encode(array_values($profit_graph));
 
         $accounts = Account::where('enabled', 1)->pluck('name', 'id')->toArray();
-        $categories = Category::where('enabled', 1)->type(['income', 'expense'])->pluck('name', 'id')->toArray();
+        $categories = Category::where('enabled', 1)->where('type', ['income', 'expense'])->pluck('name', 'id')->toArray();
 
-        // return view('report.income_expense', compact('years','thisYear','company', 'myMonth', 'myExpensesGraph', 'dates','income_categories','expense_categories','categories','statuses','accounts','compares','totals'));
+        return view('report.income_expense', compact('years','thisYear','company', 'myMonth', 'myGraph', 'dates','income_categories','expense_categories','categories','statuses','accounts','compares','totals'));
     }
 
     private function setIncomeExpenseAmount(&$graph, &$totals, &$compares, $items, $type, $date_field)
     {
+        foreach ($items as $item) {
+            if (($item->getTable() == 'bill_payments') || ($item->getTable() == 'invoice_payments')) {
+                $type_item = $item->$type;
+                $item->category_id = $type_item->category_id;
+            }
 
+            if ($item->getTable() == 'invoice_payments') {
+                $invoice = $item->invoice;
+
+                if ($customers = request('customers')) {
+                    if (!in_array($invoice->customer_id, $customers)) {
+                        continue;
+                    }
+                }
+                $item->category_id = $invoice->category_id;
+            }
+
+            if ($item->getTable() == 'bill_payments') {
+                $bill = $item->bill;
+
+                if ($vendors = request('vendors')) {
+                    if (!in_array($bill->vendor_id, $vendors)) {
+                        continue;
+                    }
+                }
+                $item->category_id = $bill->category_id;
+            }
+
+            if (($item->getTable() == 'invoices') || ($item->getTable() == 'bills')) {
+                if ($accounts = request('accounts')) {
+                    foreach ($item->payments as $payment) {
+                        if (!in_array($payment->account_id, $accounts)) {
+                            continue 2;
+                        }
+                    }
+                }
+            }
+
+            $month = Carbon::parse($item->$date_field)->format('F');
+            $month_year = Carbon::parse($item->$date_field)->format('F-Y');
+
+            $group = (($type == 'invoice') || ($type == 'revenue')) ? 'income' : 'expense';
+
+            if (!isset($compares[$group][$item->category_id]) || !isset($compares[$group][$item->category_id][$month]) || !isset($graph[$month_year])) {
+                continue;
+            }
+
+            $amount = $item->getConvertedAmount();
+
+            // Forecasting
+            if ((($type == 'invoice') || ($type == 'bill')) && ($date_field == 'due_at')) {
+                foreach ($item->payments as $payment) {
+                    $amount -= $payment->getConvertedAmount();
+                }
+            }
+
+            $compares[$group][$item->category_id][$month]['amount'] += $amount;
+            $compares[$group][$item->category_id][$month]['currency_code'] = $item->currency_code;
+            $compares[$group][$item->category_id][$month]['currency_rate'] = $item->currency_rate;
+
+            if ($group == 'income') {
+                $graph[$month_year] += $amount;
+
+                $totals[$month]['amount'] += $amount;
+            } else {
+                $graph[$month_year] -= $amount;
+
+                $totals[$month]['amount'] -= $amount;
+            }
+        }
     }
 
     private function setTaxAmount(&$items, &$totals, $rows, $type, $date_field)

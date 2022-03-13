@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\DateTime;
+use Session;
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
 
 class Payment extends Model
 {
@@ -54,6 +57,28 @@ class Payment extends Model
     public function scopeIsNotTransfer($query)
     {
         return $query->where('category_id', '<>', Category::transfer());
+    }
+
+    public function getConvertedAmount($format = false)
+    {
+        return $this->convert($this->amount, $this->currency_code, $this->currency_rate, $format);
+    }
+
+    public function convert($amount, $code, $rate, $format = false)
+    {
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
+
+
+        $default = new Currency($company->default_currency);
+
+        if ($format) {
+            $money = Money::$code($amount, true)->convert($default, (double) $rate)->format();
+        } else {
+            $money = Money::$code($amount)->convert($default, (double) $rate)->getAmount();
+        }
+
+        return $money;
     }
 
 }

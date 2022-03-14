@@ -18,8 +18,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('entire.dashboard') }}</a></li>
-                        <li class="breadcrumb-item active">{{ __('entire.account setting title') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                        <li class="breadcrumb-item active">{{ __('Account Setting Title') }}</li>
                     </ol>
                 </div>
             </div>
@@ -29,7 +29,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3>{{ __('entire.account setting title') }}</h3>
+                    <h3>{{ __('Account Setting Title') }}</h3>
                 </div>
                 <div class="card-body">
                     <form class="form-material form-horizontal" action="{{ route('profile.updateSetting') }}" method="POST" enctype="multipart/form-data">
@@ -39,7 +39,7 @@
                                 <h4>{{ __('Name') }} <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading" name="name" id="name" value="{{ $user->name }}" type="text" placeholder="{{ __('entire.type your name here') }}" required>
+                                <input class="form-control ambitious-form-loading" name="name" id="name" value="{{ $user->name }}" type="text" placeholder="{{ __('Type Your Name Here') }}" required>
                             </div>
                             @if ($errors->has('name'))
                                 {{ Session::flash('error',$errors->first('name')) }}
@@ -51,7 +51,7 @@
                                 <h4>{{ __('Email') }} <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading" name="email" id="email" value="{{ $user->email }}" type="email" placeholder="{{ __('entire.type your email here') }}" required>
+                                <input class="form-control ambitious-form-loading" name="email" id="email" value="{{ $user->email }}" type="email" placeholder="{{ __('Type Your Email Here') }}" required>
                             </div>
                             @if ($errors->has('email'))
                                 {{ Session::flash('error',$errors->first('email')) }}
@@ -61,8 +61,8 @@
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center"><h4>{{ __('Photo') }} </h4></label>
                             <div class="col-md-9">
-                                {{ __('entire.max dimension: 200 x 200, max size: 100kb, allowed format: png') }}
-                                <input id="photo" class="dropify" name="photo" value="{{ old('photo') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="100K"/><small id="name" class="form-text text-muted">{{ __('entire.leave blank for remain unchanged') }}</small>
+                                {{ __('Max Dimension: 200 x 200, Max Size: 100kb, Allowed Format: png') }}
+                                <input id="photo" class="dropify" name="photo" value="{{ old('photo') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="100K"/><small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
                             </div>
 
                             @if ($errors->has('photo'))
@@ -73,7 +73,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center"><h4>{{ __('Phone') }}</h4></label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading" name="phone" value="{{ $user->phone }}" id="phone" type="text" placeholder="{{ __('entire.type your phone here') }}">
+                                <input class="form-control ambitious-form-loading" name="phone" value="{{ $user->phone }}" id="phone" type="text" placeholder="{{ __('Type Your Phone Here') }}">
                             </div>
                             @if ($errors->has('phone'))
                                 {{ Session::flash('error',$errors->first('phone')) }}
@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 ambitious-center"><h4>{{ __('entire.address') }}</h4></label>
+                            <label class="col-md-3 ambitious-center"><h4>{{ __('Address') }}</h4></label>
                             <div class="col-md-8">
                                 <div id="edit_input_address">
                                 </div>

@@ -25,11 +25,11 @@
                     <a href="{{ route('company.companyAccountSwitch', ['company_switch' => $key]  ) }}" class="dropdown-item" @if ($key == Session::get('companyInfo')) style="background-color : #ddd" @endif>
                         <i class="fas fa-building mr-2"></i> {{ \Illuminate\Support\Str::limit($value, 20, '...') }}
                     </a>
-                    <div class="dropdown-divider"></div>                  
+                    <div class="dropdown-divider"></div>
                 @endforeach
 
                 <div class="dropdown-divider"></div>
-                <a href="{{ route('company.index') }}" class="dropdown-item"><i class="fa fa-sliders-h mr-2"></i> {{ __('entire.manage company') }}</a>
+                <a href="{{ route('company.index') }}" class="dropdown-item"><i class="fa fa-sliders-h mr-2"></i> @lang('Manage Company')</a>
             </div>
         </li>
         <!-- Company Name // -->
@@ -42,13 +42,13 @@
                 $locale = App::getLocale();
             @endphp
             <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @foreach ($getLang as $key => $value) 
+            @foreach ($getLang as $key => $value)
                     @if($locale == $key)
                         <span  class="flag-icon {{ $flag[$key] }}"> </span> <span id="ambitious-flag-name-id">{{ $value }}</span> </a>
                     @endif
-            @endforeach   
+            @endforeach
             <div class="dropdown-menu" aria-labelledby="dropdown09">
-                @foreach ($getLang as $key => $value) 
+                @foreach ($getLang as $key => $value)
                        <a class="dropdown-item" href="{{ route('lang.index', ['language' => $key]) }}" @if ($key == $locale) style="background-color : #ddd" @endif><span class="flag-icon {{ $flag[$key] }}"> </span>  {{ $value }}</a>
                 @endforeach
             </div>
@@ -80,22 +80,22 @@
                     <div class="u-text">
                         <h4>{{ Auth::user()->name }}</h4>
                         <p class="text-muted" style="padding-bottom: 5px;">{{ Auth::user()->email }}</p>
-                        <a href="{{ route('profile.view') }}" class="btn btn-rounded btn-danger btn-sm">{{ __('entire.view profile') }}</a>
+                        <a href="{{ route('profile.view') }}" class="btn btn-rounded btn-danger btn-sm">@lang('View Profile')</a>
                     </div>
                 </div>
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('profile.view') }}" class="dropdown-item">
-                    <i class="fas fa-user mr-2"></i> {{ __('entire.my profile') }}
+                    <i class="fas fa-user mr-2"></i> @lang('My Profile')
                 </a>
                 <a href="{{ route('profile.setting') }}" class="dropdown-item">
-                    <i class="fas fa-cogs mr-2"></i> {{ __('entire.account setting') }}
+                    <i class="fas fa-cogs mr-2"></i> @lang('Account Setting')
                 </a>
                 <a href="{{ route('profile.password') }}" class="dropdown-item">
-                    <i class="fa fa-key mr-2"></i></i> {{ __('entire.change password') }}
+                    <i class="fa fa-key mr-2"></i></i> @lang('Change Password')
                 </a>
                 <div class="dropdown-divider"></div>
 
-                <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off mr-2"></i> {{ __('entire.logout') }}</a>
+                <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off mr-2"></i> @lang('Logout')</a>
 
                 <form id="logout-form" class="ambitious-display-none" action="{{ route('logout') }}" method="POST">@csrf</form>
             </div>

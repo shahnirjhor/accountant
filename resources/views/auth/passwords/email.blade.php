@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicon.png') }}">
-    <title>{{ __('entire.reset password title') }}</title>
+    <title>{{ __('Reset Password Title') }}</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- animation CSS -->
@@ -54,13 +54,13 @@
                 <div class="form-group text-center m-t-20">
                     <div class="col-xs-12">
                         <button type="submit" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">
-                            {{ __('entire.send password reset link') }}
+                            {{ __('Send Password Reset Link') }}
                         </button>
                     </div>
                 </div>
                 <div class="form-group m-b-0">
                     <div class="col-sm-12 text-center">
-                        <p>{{ __('entire.go back to') }} <a href="/login" class="text-info"><b>{{ __('Login') }}</b></a></p>
+                        <p>{{ __('Go Back To') }} <a href="/login" class="text-info"><b>{{ __('Login') }}</b></a></p>
                     </div>
                 </div>
             </form>

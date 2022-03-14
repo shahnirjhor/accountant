@@ -123,7 +123,7 @@
                     <h4 class="modal-title">{{ $ApplicationSetting->item_name }}</h4>
                 </div>
                 <div class="modal-body text-center">
-                    <p class="my-0 font-weight-bold">{{ __('entire.are you sure you want to delete this data') }} ???</p>
+                    <p class="my-0 font-weight-bold">@lang('Are You Sure You Want To Delete This Data') ???</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{ __('Close') }}</button>

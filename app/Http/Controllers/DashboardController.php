@@ -48,9 +48,12 @@ class DashboardController extends Controller
 
         list($total_incomes, $total_expenses, $total_profit) = $this->getTotals();
 
+        // dd($total_incomes);
+
         // list($donut_incomes, $donut_expenses) = $this->getDonuts();
 
         return view('dashboard', compact(
+            'company',
             'total_incomes',
             'total_expenses',
             'total_profit',
@@ -126,15 +129,38 @@ class DashboardController extends Controller
                     $invoices = $category->invoices()->accrued()->get();
                     foreach ($invoices as $invoice) {
                         list($paid, $open, $overdue) = $this->calculateInvoiceBillTotals($invoice, 'invoice');
+
+                        $incomes_amount += $paid;
+                        $open_invoice += $open;
+                        $overdue_invoice += $overdue;
+
+                        $amount += $paid;
                     }
                     break;
 
                 case 'expense':
                     $amount = 0;
+                    // Payments
+                    foreach ($category->payments as $payment) {
+                        $amount += $payment->getConvertedAmount();
+                    }
+
+                    $expenses_amount += $amount;
+
+                    // Bills
+                    $bills = $category->bills()->accrued()->get();
+                    foreach ($bills as $bill) {
+                        list($paid, $open, $overdue) = $this->calculateInvoiceBillTotals($bill, 'bill');
+
+                        $expenses_amount += $paid;
+                        $open_bill += $open;
+                        $overdue_bill += $overdue;
+
+                        $amount += $paid;
+                    }
                     break;
             }
         }
-
         return array($incomes_amount, $open_invoice, $overdue_invoice, $expenses_amount, $open_bill, $overdue_bill);
     }
 

@@ -1,10 +1,12 @@
 @extends('layouts.layout')
 @section('one_page_js')
     <script src="{{ asset('js/quill.js') }}"></script>
+    <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
 @endsection
 
 @section('one_page_css')
     <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <section class="content-header">
@@ -96,8 +98,8 @@
                             <label class="col-md-12"><h4>@lang('Enabled') <b class="ambitious-crimson">*</b></h4></label>
                             <div class="col-md-12">
                                 <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" name="enabled" value="" id="enabled">
-                                    <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>@lang('Yes')</option>
-                                    <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>@lang('No')</option>
+                                    <option value="1" {{ old('enabled') === 1 ? 'selected' : '' }}>@lang('Yes')</option>
+                                    <option value="0" {{ old('enabled') === 0 ? 'selected' : '' }}>@lang('No')</option>
                                 </select>
                                 @error('enabled')
                                     <div class="invalid-feedback">

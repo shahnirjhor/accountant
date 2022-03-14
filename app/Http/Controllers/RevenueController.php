@@ -86,7 +86,7 @@ class RevenueController extends Controller
     {
         $request->validate([
             'paid_at' => ['required', 'string', 'max:255'],
-            'amount' => ['required', 'string', 'max:255'],
+            'amount' => ['required', 'numeric', 'max:255'],
             'account_id' => ['required', 'integer'],
             'customer_id' => ['required', 'integer'],
             'category_id' => ['required', 'integer'],

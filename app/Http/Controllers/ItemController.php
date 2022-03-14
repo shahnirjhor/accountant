@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ItemsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Item;
 use App\Models\Company;
 use App\Models\Category;
@@ -20,6 +22,8 @@ class ItemController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $items = $this->filter($request)->paginate(10)->withQueryString();
         $categories = Category::where('company_id', session('company_id'))->where('enabled', 1)->where('type', 'item')->orderBy('name')->pluck('name', 'id');
         return view('items.index',compact('items','categories'));
@@ -28,7 +32,31 @@ class ItemController extends Controller
     private function filter(Request $request)
     {
         $query = Item::where('company_id', session('company_id'))->latest();
+
+        if ($request->name)
+            $query->where('name', 'like', '%'.$request->name.'%');
+
+        if ($request->sku)
+            $query->where('sku', 'like', '%'.$request->sku.'%');
+
+        if ($request->category_id)
+            $query->where('category_id', $request->category_id);
+
+        if ($request->enabled > -1)
+            $query->where('enabled', $request->enabled);
+
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new ItemsExport($request), 'items.xlsx');
     }
 
     /**

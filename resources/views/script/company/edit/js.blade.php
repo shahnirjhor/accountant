@@ -1,6 +1,9 @@
 <script>
     "use strict";
     $(document).ready(function() {
+
+        $('.dropify').dropify();
+
         var equill = new Quill('#edit_input_address', {
             theme: 'snow'
         });

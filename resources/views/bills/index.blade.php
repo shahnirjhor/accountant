@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
                     <li class="breadcrumb-item active">{{ __('Bill List') }}</li>
                 </ol>
             </div>
@@ -80,8 +80,8 @@
                             <th>{{ __('Amount') }}</th>
                             <th>{{ __('Bill Date') }}</th>
                             <th>{{ __('Due Date')}}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th data-orderable="false">{{ __('Actions') }}</th>
+                            <th>@lang('Status')</th>
+                            <th data-orderable="false">@lang('Actions')</th>
                         </tr>
                     </thead>
                     <tbody>

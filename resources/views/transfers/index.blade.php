@@ -77,7 +77,7 @@
                             <th>@lang('From Account')</th>
                             <th>@lang('To Account')</th>
                             <th>@lang('Amount')</th>
-                            <th data-orderable="false">{{ __('Actions') }}</th>
+                            <th data-orderable="false">@lang('Actions')</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
                     <li class="breadcrumb-item active">{{ __('Currency List') }}</li>
                 </ol>
             </div>
@@ -63,12 +63,12 @@
             <table id="laravel_datatable" class="table table-striped compact table-width">
                 <thead>
                     <tr>
-                        <th>{{ __('Name') }}</th>
+                        <th>@lang('Name')</th>
                         <th>{{ __('Code') }}</th>
                         <th>{{ __('Rate') }}</th>
                         <th class="text-center">{{ __('Symbol') }}</th>
-                        <th>{{ __('Enabled') }}</th>
-                        <th data-orderable="false">{{ __('Actions') }}</th>
+                        <th>@lang('Enabled')</th>
+                        <th data-orderable="false">@lang('Actions')</th>
                     </tr>
                 </thead>
                 <tbody>

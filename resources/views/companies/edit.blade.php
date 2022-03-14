@@ -18,8 +18,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('company.index') }}">{{ __('company.company list') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('company.edit company') }}</li>
+                        <a href="{{ route('company.index') }}">{{ __('Company List') }}</a></li>
+                    <li class="breadcrumb-item active">{{ __('Edit Company') }}</li>
                 </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3>{{ __('company.edit company') }}</h3>
+                <h3>{{ __('Edit Company') }}</h3>
             </div>
 
             <div class="card-body">
@@ -40,10 +40,10 @@
                     <div class="form-group row">
                         <div class="col-md-12">
                             <label class="col-md-12">
-                                <h4>{{ __('company.company name') }} <b class="ambitious-crimson">*</b></h4>
+                                <h4>@lang('Company Name') <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-12">
-                                <input class="form-control ambitious-form-loading @error('company_name') is-invalid @enderror" name="company_name" id="company_name" type="text" value="{{ old('company_name',$company->company_name) }}" placeholder="{{ __('company.enter name') }}" required>
+                                <input class="form-control ambitious-form-loading @error('company_name') is-invalid @enderror" name="company_name" id="company_name" type="text" value="{{ old('company_name',$company->company_name) }}" placeholder="@lang('Enter Name')" required>
                                 @error('company_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -56,10 +56,10 @@
                     <div class="form-group row">
                         <div class="col-md-6">
                             <label class="col-md-12">
-                                <h4>{{ __('company.company email') }} <b class="ambitious-crimson">*</b></h4>
+                                <h4>@lang('Company Email') <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-12">
-                                <input class="form-control ambitious-form-loading @error('company_email') is-invalid @enderror" name="company_email" id="company_email" type="email" value="{{ old('company_email', $company->company_email) }}" placeholder="{{ __('company.enter company email') }}" required>
+                                <input class="form-control ambitious-form-loading @error('company_email') is-invalid @enderror" name="company_email" id="company_email" type="email" value="{{ old('company_email', $company->company_email) }}" placeholder="{{ __('Enter Company Email') }}" required>
                                 @error('company_email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -69,10 +69,10 @@
                         </div>
                         <div class="col-md-6">
                             <label class="col-md-12">
-                                <h4>{{ __('company.domain') }} <b class="ambitious-crimson">*</b></h4>
+                                <h4>@lang('Domain') <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-12">
-                                <input class="form-control ambitious-form-loading @error('domain') is-invalid @enderror" name="domain" id="domain" type="text" value="{{ old('domain', $company->domain) }}" placeholder="{{ __('company.enter domain') }}" required>
+                                <input class="form-control ambitious-form-loading @error('domain') is-invalid @enderror" name="domain" id="domain" type="text" value="{{ old('domain', $company->domain) }}" placeholder="{{ __('Enter Domain') }}" required>
                                 @error('domain')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -84,12 +84,12 @@
 
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label class="col-md-12"><h4>{{ __('company.photo') }} </h4></label>
+                            <label class="col-md-12"><h4>@lang('Photo') </h4></label>
                             <div class="col-md-12">
                                 <input id="photo" class="dropify @error('photo') is-invalid @enderror" name="photo" value="{{ old('photo') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
-                                <small id="name" class="form-text text-muted">{{ __('company.leave blank for remain unchanged') }}
+                                <small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')
                                 </small>
-                                <p>{{ __('company.max size: 1000kb, allowed format: png, jpg, jpeg') }}</p>
+                                <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
                                 @error('photo')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -98,7 +98,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="col-md-12"><h4>{{ __('company.address') }}</h4></label>
+                            <label class="col-md-12"><h4>@lang('Address')</h4></label>
                             <div class="col-md-12">
                                 <div id="edit_input_address" class="form-control @error('address') is-invalid @enderror" style="min-height: 55px;">
                                 </div>
@@ -114,11 +114,11 @@
 
                     <div class="form-group row">
                         <div class="col-md-6">
-                            <label class="col-md-12"><h4>{{ __('company.enabled') }} <b class="ambitious-crimson">*</b></h4></label>
+                            <label class="col-md-12"><h4>@lang('Enabled') <b class="ambitious-crimson">*</b></h4></label>
                             <div class="col-md-12">
                                 <select class="form-control ambitious-form-loading" name="enabled" id="enabled">
-                                    <option value="1" {{ old('enabled', $company->enabled) == 1 ? 'selected' : '' }}>{{ __('company.yes') }}</option>
-                                    <option value="0" {{ old('enabled', $company->enabled) == 0 ? 'selected' : '' }}>{{ __('company.no') }}</option>
+                                    <option value="1" {{ old('enabled', $company->enabled) == 1 ? 'selected' : '' }}>@lang('Yes')</option>
+                                    <option value="0" {{ old('enabled', $company->enabled) == 0 ? 'selected' : '' }}>@lang('No')</option>
                                 </select>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                         <div class="form-group">
                             <label class="col-md-3 col-form-label"></label>
                             <div class="col-md-8">
-                                <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                                <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
                             </div>
                         </div>
                     </div>

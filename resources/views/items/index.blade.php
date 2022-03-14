@@ -8,7 +8,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
                     <li class="breadcrumb-item active">{{ __('Item List') }}</li>
                 </ol>
             </div>
@@ -19,7 +19,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('Items') }} </h3>
+                <h3 class="card-title">@lang('Items') </h3>
                 <div class="card-tools">
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
@@ -28,14 +28,14 @@
                 <table id="laravel_datatable" class="table table-striped compact table-width">
                     <thead>
                         <tr>
-                            <th>{{ __('Picture') }}</th>
-                            <th>{{ __('Name') }}</th>
-                            <th>{{ __('Category') }}</th>
-                            <th>{{ __('Quantity') }}</th>
+                            <th>@lang('Picture')</th>
+                            <th>@lang('Name')</th>
+                            <th>@lang('Category')</th>
+                            <th>@lang('Quantity')</th>
                             <th>{{ __('Sale Price')}}</th>
                             <th>{{ __('Purchase Price')}}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th data-orderable="false">{{ __('Actions') }}</th>
+                            <th>@lang('Status')</th>
+                            <th data-orderable="false">@lang('Actions')</th>
                         </tr>
                     </thead>
                     <tbody>

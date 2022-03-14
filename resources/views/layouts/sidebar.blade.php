@@ -40,7 +40,7 @@ $RoleName = Auth::user()->getRoleNames();
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link @if($c == 'dashboard') active @endif">
                         <i class="nav-icon fas fa-chart-line"></i>
-                        <p>{{ __('Dashboard') }}</p>
+                        <p>@lang('Dashboard')</p>
                     </a>
                 </li>
 

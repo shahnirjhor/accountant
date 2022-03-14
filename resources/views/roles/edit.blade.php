@@ -39,8 +39,8 @@
                         <label class="col-md-2 col-form-label ambitious-center"><h4>{{ __('Role For') }}</h4></label>
                         <div class="col-md-8">
                             <select class="form-control ambitious-form-loading @error('role_for') is-invalid @enderror" name="role_for" id="role_for">
-                                <option value="1" {{ old('role_for', $role->role_for) == 1 ? 'selected' : ''  }}>{{ __('General User') }}</option>
-                                <option value="0" {{ old('role_for', $role->role_for) == 0 ? 'selected' : ''  }}>{{ __('System User') }}</option>
+                                <option value="1" {{ old('role_for', $role->role_for) == 1 ? 'selected' : ''  }}>@lang('General User')</option>
+                                <option value="0" {{ old('role_for', $role->role_for) == 0 ? 'selected' : ''  }}>@lang('System User')</option>
                             </select>
                             @error('role_for')
                                 <div class="invalid-feedback">
@@ -139,7 +139,7 @@
                     <div class="form-group row mb-0">
                         <label class="col-md-2 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                            <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
                         </div>
                     </div>
                     <br>

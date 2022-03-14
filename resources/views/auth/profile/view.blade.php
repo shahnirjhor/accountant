@@ -53,11 +53,11 @@
                             <br>
                             <p class="text-muted">{{ $user->phone }}</p>
                         </div>
-                        <div class="col-md-3 col-xs-6 b-r"> <strong>{{ __('Email') }}</strong>
+                        <div class="col-md-3 col-xs-6 b-r"> <strong>@lang('Email')</strong>
                             <br>
                             <p class="text-muted">{{ $user->email }}</p>
                         </div>
-                        <div class="col-md-3 col-xs-6"> <strong>{{ __('Address') }}</strong>
+                        <div class="col-md-3 col-xs-6"> <strong>@lang('Address')</strong>
                             <br>
                             <p class="text-muted">{!! $user->address !!}</p>
                         </div>

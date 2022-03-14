@@ -43,7 +43,7 @@
                 <a href="#" class="text-center db"><img style="max-width : 100px; height :auto" src="{{ asset('img/favicon.png') }}" alt="Home" /><br/><img style="max-width : 140px; height : 24px; margin-top : 8px" src="{{ asset('img/logo-text.png') }}" alt="Home" /></a>
                 <div class="form-group m-t-40">
                     <div class="col-xs-12">
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('Email') }}">
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="@lang('Email')">
                         @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="form-group m-b-0">
                     <div class="col-sm-12 text-center">
-                        <p>{{ __('Go Back To') }} <a href="/login" class="text-info"><b>{{ __('Login') }}</b></a></p>
+                        <p>{{ __('Go Back To') }} <a href="/login" class="text-info"><b>@lang('Login')</b></a></p>
                     </div>
                 </div>
             </form>

@@ -484,7 +484,7 @@ class CompanyController extends Controller
             }
         }
 
-        session()->flash('success', trans('company.company created successfully'));
+        session()->flash('success', trans('Company Created Successfully'));
         return redirect()->route('company.index');
     }
 
@@ -571,7 +571,7 @@ class CompanyController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('company.index')->with('success', trans('company.company updated successfully'));
+            return redirect()->route('company.index')->with('success', trans('Company Updated Successfully'));
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error',$e);
@@ -587,7 +587,7 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         if ($company->id == session('company_id')) {
-            return redirect('company')->with('error',trans('company.this is active company'));
+            return redirect('company')->with('error',trans('This Is Active Company'));
         }
 
         DB::beginTransaction();
@@ -596,7 +596,7 @@ class CompanyController extends Controller
             DB::table('settings')->where('company_id', $company->id)->delete();
             DB::table('currencies')->where('company_id', $company->id)->delete();
             DB::commit();
-            return redirect()->route('company.index')->with('success',trans('company.company deleted successfully'));
+            return redirect()->route('company.index')->with('success',trans('Company Deleted Successfully'));
         } catch (Exception $e) {
             DB::rollback();
             return redirect()->back()->with('error',$e);

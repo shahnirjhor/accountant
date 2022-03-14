@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
                         <li class="breadcrumb-item active">{{ __('Role List') }}</li>
                     </ol>
                 </div>
@@ -64,14 +64,14 @@
                     <table class="table table-striped" id="laravel_datatable">
                         <thead>
                             <tr>
-                                <th>{{ __('Id') }}</th>
-                                <th>{{ __('Name') }}</th>
+                                <th>@lang('Id')</th>
+                                <th>@lang('Name')</th>
                                 <th>{{ __('Price') }}</th>
                                 <th>{{ __('Validity') }}</th>
                                 <th>{{ __('Role For') }}</th>
                                 <th>{{ __('Default') }}</th>
                                 @canany(['role-delete', 'role-edit'])
-                                    <th data-orderable="false">{{ __('Actions') }}</th>
+                                    <th data-orderable="false">@lang('Actions')</th>
                                 @endcan
                             </tr>
                         </thead>

@@ -266,7 +266,7 @@
                     </form>
                 </div>
                 <div class="modal-footer no-print">
-                    <input id="add_payment_button" type="submit" value="{{ __('Submit') }}" class="btn btn-primary"/>
+                    <input id="add_payment_button" type="submit" value="@lang('Submit')" class="btn btn-primary"/>
                     <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fas fa-times"></i> @lang('Close')</button>
                 </div>
             </div>

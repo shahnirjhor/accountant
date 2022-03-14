@@ -8,8 +8,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-                        <li class="breadcrumb-item active">{{ __('Change Password') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
+                        <li class="breadcrumb-item active">@lang('Change Password')</li>
                     </ol>
                 </div>
             </div>
@@ -20,14 +20,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3>{{ __('Change Password') }}</h3>
+                    <h3>@lang('Change Password')</h3>
                 </div>
                 <div class="card-body">
                     <form class="form-material form-horizontal" action="{{ route('profile.updatePassword') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center">
-                                <h4>{{ __('Current Password') }} <b class="ambitious-crimson"></b></h4>
+                                <h4>@lang('Current Password') <b class="ambitious-crimson"></b></h4>
                             </label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading" name="current-password" id="current-password" type="password" placeholder="{{ __('Type Your Current Password Here') }}">
@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center">
-                                <h4>{{ __('New Password') }} <b class="ambitious-crimson"></b></h4>
+                                <h4>@lang('New Password') <b class="ambitious-crimson"></b></h4>
                             </label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading" name="new-password" id="new-password" type="password" placeholder="{{ __('Type Your New Password here') }}">
@@ -50,10 +50,10 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center">
-                                <h4>{{ __('Confirm Password') }} <b class="ambitious-crimson"></b></h4>
+                                <h4>@lang('Confirm Password') <b class="ambitious-crimson"></b></h4>
                             </label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading" name="new-password_confirmation" id="new-password-confirm" type="password" placeholder="{{ __('Type Your Confirm Password Here') }}">
+                                <input class="form-control ambitious-form-loading" name="new-password_confirmation" id="new-password-confirm" type="password" placeholder="@lang('Type Your Confirm Password Here')">
                                 <small id="name" class="form-text text-muted">{{ __('6 Characters Long') }}</small>
                             </div>
                             @if ($errors->has('new-password_confirmation'))
@@ -64,7 +64,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 col-form-label"></label>
                             <div class="col-md-8">
-                                <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
+                                <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
                             </div>
                         </div>
                     </form>

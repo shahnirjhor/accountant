@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="name">{{ __('Name') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="name">@lang('Name') <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-money-check-alt"></i></span>
@@ -172,14 +172,14 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="enabled">{{ __('Enabled') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="enabled">@lang('Enabled') <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" required="required" name="enabled" id="enabled">
-                                        <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>{{ __('Yes') }}</option>
-                                        <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>{{ __('No') }}</option>
+                                        <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>@lang('Yes')</option>
+                                        <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>@lang('No')</option>
                                     </select>
                                     @error('enabled')
                                         <div class="invalid-feedback">
@@ -195,8 +195,8 @@
                                         <span class="input-group-text"><i class="fab fa-typo3"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('default_currency') is-invalid @enderror" required="required" name="default_currency" id="default_currency">
-                                        <option value="1" {{ old('default_currency') == 1 ? 'selected' : '' }}>{{ __('Yes') }}</option>
-                                        <option value="0" {{ old('default_currency') == 0 ? 'selected' : '' }}>{{ __('No') }}</option>
+                                        <option value="1" {{ old('default_currency') == 1 ? 'selected' : '' }}>@lang('Yes')</option>
+                                        <option value="0" {{ old('default_currency') == 0 ? 'selected' : '' }}>@lang('No')</option>
                                     </select>
                                     @error('default_currency')
                                         <div class="invalid-feedback">
@@ -210,8 +210,8 @@
                     <div class="form-group">
                         <label class="col-md-3 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('currency.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                            <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
+                            <a href="{{ route('currency.index') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                         </div>
                     </div>
                 </form>

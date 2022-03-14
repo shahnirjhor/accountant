@@ -352,11 +352,11 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('Picture') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>@lang('Picture')</h4></label>
                                 <div class="col-md-12">
                                     <input id="picture" class="dropify" name="picture" value="{{ old('picture') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="2024K" />
-                                    <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
-                                    <p>{{ __('Max Size: 2mb, Allowed Format: png, jpg, jpeg') }}</p>
+                                    <small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')</small>
+                                    <p>@lang('Max Size: 2mb, Allowed Format: png, jpg, jpeg')</p>
                                 </div>
                                 @if ($errors->has('picture'))
                                     <div class="error ambitious-red">{{ $errors->first('picture') }}</div>
@@ -375,7 +375,7 @@
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <a href="{{ route('invoice.index') }}" class="btn btn-outline btn-warning btn-lg btn-block" style="float: right;">{{ __('Cancel') }}</a>
+                                <a href="{{ route('invoice.index') }}" class="btn btn-outline btn-warning btn-lg btn-block" style="float: right;">@lang('Cancel')</a>
                             </div>
                         </div>
                     </div>

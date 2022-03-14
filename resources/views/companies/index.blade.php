@@ -5,14 +5,14 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
 
-                    <h3><a href="{{ route('company.create') }}" class="btn btn-outline btn-info">+ {{ __('company.add company') }}</a>
+                    <h3><a href="{{ route('company.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Company') }}</a>
                         <span class="pull-right"></span>
                     </h3>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-                        <li class="breadcrumb-item active">{{ __('company.company list') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
+                        <li class="breadcrumb-item active">{{ __('Company List') }}</li>
                     </ol>
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('company.company list') }}</h3>
+                    <h3 class="card-title">{{ __('Company List') }}</h3>
                     <div class="card-tools">
                         <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                     </div>
@@ -66,13 +66,13 @@
                     <table class="table table-striped compact table-width" id="laravel_datatable">
                         <thead>
                             <tr>
-                                <th>{{ __('company.id') }}</th>
-                                <th>{{ __('company.name') }}</th>
-                                <th>{{ __('company.domain') }}</th>
-                                <th>{{ __('company.email') }}</th>
-                                <th>{{ __('company.created') }}</th>
-                                <th>{{ __('company.status') }}</th>
-                                <th>{{ __('company.actions') }}</th>
+                                <th>@lang('Id')</th>
+                                <th>@lang('Name')</th>
+                                <th>@lang('Domain')</th>
+                                <th>@lang('Email')</th>
+                                <th>@lang('Created')</th>
+                                <th>@lang('Status')</th>
+                                <th>@lang('Actions')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -85,9 +85,9 @@
                                     <td>{{ date($company->date_format, strtotime($company->created_at)) }}</td>
                                     <td>
                                         @if($company->enabled == '1')
-                                            <span class="badge badge-pill badge-success">@lang('company.enabled')</span>
+                                            <span class="badge badge-pill badge-success">@lang('Enabled')</span>
                                         @else
-                                            <span class="badge badge-pill badge-danger">@lang('company.disabled')</span>
+                                            <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                         @endif
                                     </td>
                                     <td>

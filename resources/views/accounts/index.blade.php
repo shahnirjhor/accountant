@@ -4,13 +4,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('account.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New Account') }}</a>
+                <h3><a href="{{ route('account.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Account')</a>
                 </h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('Account List') }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
+                    <li class="breadcrumb-item active">@lang('Account List')</li>
                 </ol>
             </div>
         </div>
@@ -20,7 +20,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('Account List') }}</h3>
+                <h3 class="card-title">@lang('Account List')</h3>
                 <div class="card-tools">
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
@@ -69,11 +69,11 @@
                 <table id="laravel_datatable" class="table table-striped compact table-width">
                     <thead>
                         <tr>
-                            <th>{{ __('Name') }}</th>
-                            <th>{{ __('Number') }}</th>
-                            <th>{{ __('Current Balance') }}</th>
-                            <th>{{ __('Status') }}</th>
-                            <th data-orderable="false" data-searchable="false">{{ __('Actions') }}</th>
+                            <th>@lang('Name')</th>
+                            <th>@lang('Number')</th>
+                            <th>@lang('Current Balance')</th>
+                            <th>@lang('Status')</th>
+                            <th data-orderable="false" data-searchable="false">@lang('Actions')</th>
                         </tr>
                     </thead>
                     <tbody>

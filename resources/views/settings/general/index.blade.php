@@ -25,7 +25,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                        <a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
                     <li class="breadcrumb-item active">{{ __('Settings') }}</li>
                 </ol>
             </div>
@@ -69,7 +69,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('Email') }} <b class="ambitious-crimson">*</b></label>
+                                                <label for="exampleInputPassword1">@lang('Email') <b class="ambitious-crimson">*</b></label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
@@ -101,7 +101,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('Phone') }}</label>
+                                                <label for="exampleInputPassword1">@lang('Phone')</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
@@ -119,9 +119,9 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>{{ __('Logo') }}</label>
+                                                <label>@lang('Logo')</label>
                                                 <input id="photo" class="dropify" name="company_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
-                                                <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
+                                                <small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')</small>
                                                 <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
                                                 @error('company_logo')
                                                     <div class="invalid-feedback">
@@ -130,7 +130,7 @@
                                                 @enderror
                                             </div>
                                             <div class="col-md-6">
-                                                <label>{{ __('Address') }} <b class="ambitious-crimson">*</b></label>
+                                                <label>@lang('Address') <b class="ambitious-crimson">*</b></label>
                                                 <div id="edit_input_address" class="form-control @error('company_address') is-invalid @enderror" style="max-height: 55px;"></div>
                                                 <input type="hidden" name="company_address" id="company_address" value="{{ old('company_address',$company->company_address) }}">
                                                 @error('company_address')
@@ -145,7 +145,7 @@
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
                                             <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
                                 </form>
@@ -172,7 +172,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="exampleInputPassword1">{{ __('Time Zone') }}</label>
+                                                <label for="exampleInputPassword1">@lang('Time Zone')</label>
                                                 <div class="form-group input-group mb-3">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fas fa-globe"></i></span>
@@ -260,7 +260,7 @@
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
                                             <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
                                 </form>
@@ -348,10 +348,10 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <label>{{ __('Logo') }}</label>
+                                                <label>@lang('Logo')</label>
 
                                                 <input id="photo1" class="dropify" name="invoice_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
-                                                <small id="name" class="form-text text-muted">{{ __('Leave Blank For Remain Unchanged') }}</small>
+                                                <small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')</small>
                                                 <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
 
                                             </div>
@@ -361,7 +361,7 @@
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
                                             <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
                                 </form>
@@ -423,7 +423,7 @@
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
                                             <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
                                 </form>
@@ -518,7 +518,7 @@
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
                                             <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
-                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
                                 </form>

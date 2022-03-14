@@ -4,7 +4,7 @@
     <script src="{{ asset('plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 @endsection
 
-@section('one_page_css')    
+@section('one_page_css')
     <!-- Color Picker -->
     <link href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
 @endsection
@@ -18,7 +18,7 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
                         <a href="{{ route('category.index') }}">{{ __('Category List') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('Add New') }}</li>
+                    <li class="breadcrumb-item active">@lang('Add New')</li>
                 </ol>
             </div>
         </div>
@@ -28,7 +28,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('Add New') }}</h3>
+                <h3 class="card-title">@lang('Add New')</h3>
             </div>
             <div class="card-body">
                 <form class="form-material form-horizontal" action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="exampleInputPassword1">{{ __('Name') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="exampleInputPassword1">@lang('Name') <b class="ambitious-crimson">*</b></label>
                               <div class="form-group input-group mb-3">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-money-check-alt"></i>
@@ -46,15 +46,15 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label for="type">{{ __('Type') }}</label>
+                                <label for="type">@lang('Type')</label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-weight"></i></span>
                                     </div>
                                     <select class="form-control" id="type" name="type">
-                                            <option value="">- {{ __('Select Type') }} -</option>
-                                            @foreach($types as $key=> $value)      
-                                                <option value="{{ $key }}" @if(old('type') == $key) selected="selected" @endif >{{ $value }}</option>  
+                                            <option value="">- @lang('Select Type') -</option>
+                                            @foreach($types as $key=> $value)
+                                                <option value="{{ $key }}" @if(old('type') == $key) selected="selected" @endif >{{ $value }}</option>
                                             @endforeach
                                     </select>
                                 </div>
@@ -74,14 +74,14 @@
                               </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="enabled">{{ __('Enabled') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="enabled">@lang('Enabled') <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" required="required" name="enabled" id="enabled">
-                                        <option value="1" {{ old('enabled') === 1 ? 'selected' : '' }}>{{ __('Yes') }}</option>
-                                        <option value="0" {{ old('enabled') === 0 ? 'selected' : '' }}>{{ __('No') }}</option>
+                                        <option value="1" {{ old('enabled') === 1 ? 'selected' : '' }}>@lang('Yes')</option>
+                                        <option value="0" {{ old('enabled') === 0 ? 'selected' : '' }}>@lang('No')</option>
                                     </select>
                                     @error('enabled')
                                         <div class="invalid-feedback">
@@ -95,8 +95,8 @@
                     <div class="form-group">
                         <label class="col-md-3 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('category.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                            <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
+                            <a href="{{ route('category.index') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                         </div>
                     </div>
                 </form>

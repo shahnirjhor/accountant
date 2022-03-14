@@ -5,12 +5,12 @@
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h3>
-                    <a href="{{ route('category.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New') }}</a>
+                    <a href="{{ route('category.create') }}" class="btn btn-outline btn-info">+ @lang('Add New')</a>
                 </h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
                     <li class="breadcrumb-item active">{{ __('Category List') }}</li>
                 </ol>
             </div>

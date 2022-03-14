@@ -199,9 +199,9 @@ class DatatablesController extends Controller
             {
                 if ($row->enabled == '1')
                 {
-                    $btn = '<span class="badge badge-pill badge-success">'.trans('company.enabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-success">'.trans('Enabled').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-danger">'.trans('company.disabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-danger">'.trans('Disabled').'</span>';
                 }
                 return $btn;
             })
@@ -376,11 +376,11 @@ class DatatablesController extends Controller
             {
                 if ($row->type == 'inclusive')
                 {
-                    $btn = '<span class="badge badge-pill badge-primary">'.trans('tax.inclusive').'</span>';
+                    $btn = '<span class="badge badge-pill badge-primary">'.trans('Inclusive').'</span>';
                 } elseif ($row->type == 'exclusive') {
-                    $btn = '<span class="badge badge-pill badge-warning">'.trans('tax.exclusive').'</span>';
+                    $btn = '<span class="badge badge-pill badge-warning">'.trans('Exclusive').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-secondary">'.trans('tax.normal').'</span>';
+                    $btn = '<span class="badge badge-pill badge-secondary">'.trans('Normal').'</span>';
                 }
                 return $btn;
             })
@@ -389,9 +389,9 @@ class DatatablesController extends Controller
             {
                 if ($row->enabled == '1')
                 {
-                    $btn = '<span class="badge badge-pill badge-success">'.trans('tax.enabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-success">'.trans('Enabled').'</span>';
                 } else {
-                    $btn = '<span class="badge badge-pill badge-danger">'.trans('tax.disabled').'</span>';
+                    $btn = '<span class="badge badge-pill badge-danger">'.trans('Disabled').'</span>';
                 }
                 return $btn;
             })

@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name"><h4>{{ __('Name') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="name"><h4>@lang('Name') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-signature"></i></span>
@@ -69,7 +69,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="sale_price"><h4>{{ __('Sale Price') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="sale_price"><h4>@lang('Sale Price') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-money-bill-alt"></i></span>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="purchase_price"><h4>{{ __('Purchase Price') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="purchase_price"><h4>@lang('Purchase Price') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-money-bill"></i></span>
@@ -103,7 +103,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="quantity"><h4>{{ __('Quantity') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="quantity"><h4>@lang('Quantity') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-cubes"></i></span>
@@ -142,7 +142,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="category_id"><h4>{{ __('Category') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="category_id"><h4>@lang('Category') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-folder-open"></i></span>
@@ -163,14 +163,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="enabled"><h4>{{ __('Enabled') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label for="enabled"><h4>@lang('Enabled') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" required="required" name="enabled" id="enabled">
-                                        <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>{{ __('Yes') }}</option>
-                                        <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>{{ __('No') }}</option>
+                                        <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>@lang('Yes')</option>
+                                        <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>@lang('No')</option>
                                     </select>
                                     @error('enabled')
                                         <div class="invalid-feedback">
@@ -200,10 +200,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('Picture') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>@lang('Picture')</h4></label>
                                 <div class="col-md-12">
                                     <input id="picture" class="dropify" name="picture" value="{{ old('picture') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="2024K" />
-                                    <p>{{ __('Max Size: 2mb, Allowed Format: png, jpg, jpeg') }}</p>
+                                    <p>@lang('Max Size: 2mb, Allowed Format: png, jpg, jpeg')</p>
                                 </div>
                                 @if ($errors->has('picture'))
                                     <div class="error ambitious-red">{{ $errors->first('picture') }}</div>
@@ -214,8 +214,8 @@
                     <div class="form-group">
                         <label class="col-md-3 col-form-label"></label>
                         <div class="col-md-8">
-                            <input type="submit" value="{{ __('Submit') }}" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('item.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('Cancel') }}</a>
+                            <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
+                            <a href="{{ route('item.index') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                         </div>
                     </div>
                 </form>

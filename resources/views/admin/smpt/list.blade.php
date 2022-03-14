@@ -5,11 +5,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('smtp.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New Smtp') }}</a></h3>
+                <h3><a href="{{ route('smtp.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Smtp')</a></h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
                     <li class="breadcrumb-item active">{{ __('Smtp List') }}</li>
                 </ol>
             </div>
@@ -30,15 +30,15 @@
             <table id="laravel_datatable" class="table table-striped compact table-width">
                 <thead>
                     <tr>
-                        <th>{{ __('Id') }}</th>
-                        <th>{{ __('Email') }}</th>
-                        <th>{{ __('Host') }}</th>
-                        <th>{{ __('Port') }}</th>
-                        <th>{{ __('User') }}</th>
-                        <th>{{ __('Password') }}</th>
-                        <th>{{ __('Type') }}</th>
-                        <th>{{ __('Status') }}</th>
-                        <th data-orderable="false">{{   __('Actions') }}</th>
+                        <th>@lang('Id')</th>
+                        <th>@lang('Email')</th>
+                        <th>@lang('Host')</th>
+                        <th>@lang('Port')</th>
+                        <th>@lang('User')</th>
+                        <th>@lang('Password')</th>
+                        <th>@lang('Type')</th>
+                        <th>@lang('Status')</th>
+                        <th data-orderable="false">@lang('Actions')</th>
                     </tr>
                 </thead>
                 <tbody>

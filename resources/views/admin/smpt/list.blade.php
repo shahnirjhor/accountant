@@ -10,7 +10,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
-                    <li class="breadcrumb-item active">{{ __('Smtp List') }}</li>
+                    <li class="breadcrumb-item active">@lang('Smtp List')</li>
                 </ol>
             </div>
         </div>
@@ -24,7 +24,7 @@
 
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">{{ __('SMTP Configrution') }}</h3>
+          <h3 class="card-title">@lang('SMTP Configrution')</h3>
         </div>
         <div class="card-body">
             <table id="laravel_datatable" class="table table-striped compact table-width">

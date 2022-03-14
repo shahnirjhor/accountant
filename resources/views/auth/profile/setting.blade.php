@@ -19,7 +19,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
-                        <li class="breadcrumb-item active">{{ __('Account Setting Title') }}</li>
+                        <li class="breadcrumb-item active">@lang('Account Setting Title')</li>
                     </ol>
                 </div>
             </div>
@@ -29,7 +29,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3>{{ __('Account Setting Title') }}</h3>
+                    <h3>@lang('Account Setting Title')</h3>
                 </div>
                 <div class="card-body">
                     <form class="form-material form-horizontal" action="{{ route('profile.updateSetting') }}" method="POST" enctype="multipart/form-data">
@@ -61,7 +61,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center"><h4>@lang('Photo') </h4></label>
                             <div class="col-md-9">
-                                {{ __('Max Dimension: 200 x 200, Max Size: 100kb, Allowed Format: png') }}
+                                @lang('Max Dimension: 200 x 200, Max Size: 100kb, Allowed Format: png')
                                 <input id="photo" class="dropify" name="photo" value="{{ old('photo') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="100K"/><small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')</small>
                             </div>
 
@@ -73,7 +73,7 @@
                         <div class="form-group row">
                             <label class="col-md-3 ambitious-center"><h4>@lang('Phone')</h4></label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading" name="phone" value="{{ $user->phone }}" id="phone" type="text" placeholder="{{ __('Type Your Phone Here') }}">
+                                <input class="form-control ambitious-form-loading" name="phone" value="{{ $user->phone }}" id="phone" type="text" placeholder="@lang('Type Your Phone Here')">
                             </div>
                             @if ($errors->has('phone'))
                                 {{ Session::flash('error',$errors->first('phone')) }}

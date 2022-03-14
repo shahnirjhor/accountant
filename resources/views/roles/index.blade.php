@@ -69,7 +69,7 @@
                                 <th>{{ __('Price') }}</th>
                                 <th>{{ __('Validity') }}</th>
                                 <th>{{ __('Role For') }}</th>
-                                <th>{{ __('Default') }}</th>
+                                <th>@lang('Default')</th>
                                 @canany(['role-delete', 'role-edit'])
                                     <th data-orderable="false">@lang('Actions')</th>
                                 @endcan

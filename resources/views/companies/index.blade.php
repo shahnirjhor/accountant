@@ -5,14 +5,14 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
 
-                    <h3><a href="{{ route('company.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Company') }}</a>
+                    <h3><a href="{{ route('company.create') }}" class="btn btn-outline btn-info">+ @lang('Add Company')</a>
                         <span class="pull-right"></span>
                     </h3>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
-                        <li class="breadcrumb-item active">{{ __('Company List') }}</li>
+                        <li class="breadcrumb-item active">@lang('Company List')</li>
                     </ol>
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('Company List') }}</h3>
+                    <h3 class="card-title">@lang('Company List')</h3>
                     <div class="card-tools">
                         <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                     </div>

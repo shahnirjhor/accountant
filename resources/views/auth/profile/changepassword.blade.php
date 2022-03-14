@@ -30,7 +30,7 @@
                                 <h4>@lang('Current Password') <b class="ambitious-crimson"></b></h4>
                             </label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading" name="current-password" id="current-password" type="password" placeholder="{{ __('Type Your Current Password Here') }}">
+                                <input class="form-control ambitious-form-loading" name="current-password" id="current-password" type="password" placeholder="@lang('Type Your Current Password Here')">
                             </div>
                             @if ($errors->has('current-password'))
                                 {{ Session::flash('error',$errors->first('current-password')) }}
@@ -41,8 +41,8 @@
                                 <h4>@lang('New Password') <b class="ambitious-crimson"></b></h4>
                             </label>
                             <div class="col-md-8">
-                                <input class="form-control ambitious-form-loading" name="new-password" id="new-password" type="password" placeholder="{{ __('Type Your New Password here') }}">
-                                <small id="name" class="form-text text-muted">{{ __('6 Characters Long') }}</small>
+                                <input class="form-control ambitious-form-loading" name="new-password" id="new-password" type="password" placeholder="@lang('Type Your New Password here')">
+                                <small id="name" class="form-text text-muted">@lang('6 Characters Long')</small>
                             </div>
                             @if ($errors->has('new-password'))
                                 {{ Session::flash('error',$errors->first('new-password')) }}
@@ -54,7 +54,7 @@
                             </label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading" name="new-password_confirmation" id="new-password-confirm" type="password" placeholder="@lang('Type Your Confirm Password Here')">
-                                <small id="name" class="form-text text-muted">{{ __('6 Characters Long') }}</small>
+                                <small id="name" class="form-text text-muted">@lang('6 Characters Long')</small>
                             </div>
                             @if ($errors->has('new-password_confirmation'))
                                 {{ Session::flash('error',$errors->first('new-password_confirmation')) }}

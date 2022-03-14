@@ -18,8 +18,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('company.index') }}">{{ __('Company List') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('Edit Company') }}</li>
+                        <a href="{{ route('company.index') }}">@lang('Company List')</a></li>
+                    <li class="breadcrumb-item active">@lang('Edit Company')</li>
                 </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3>{{ __('Edit Company') }}</h3>
+                <h3>@lang('Edit Company')</h3>
             </div>
 
             <div class="card-body">
@@ -59,7 +59,7 @@
                                 <h4>@lang('Company Email') <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-12">
-                                <input class="form-control ambitious-form-loading @error('company_email') is-invalid @enderror" name="company_email" id="company_email" type="email" value="{{ old('company_email', $company->company_email) }}" placeholder="{{ __('Enter Company Email') }}" required>
+                                <input class="form-control ambitious-form-loading @error('company_email') is-invalid @enderror" name="company_email" id="company_email" type="email" value="{{ old('company_email', $company->company_email) }}" placeholder="@lang('Enter Company Email')" required>
                                 @error('company_email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -72,7 +72,7 @@
                                 <h4>@lang('Domain') <b class="ambitious-crimson">*</b></h4>
                             </label>
                             <div class="col-md-12">
-                                <input class="form-control ambitious-form-loading @error('domain') is-invalid @enderror" name="domain" id="domain" type="text" value="{{ old('domain', $company->domain) }}" placeholder="{{ __('Enter Domain') }}" required>
+                                <input class="form-control ambitious-form-loading @error('domain') is-invalid @enderror" name="domain" id="domain" type="text" value="{{ old('domain', $company->domain) }}" placeholder="@lang('Enter Domain')" required>
                                 @error('domain')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -89,7 +89,7 @@
                                 <input id="photo" class="dropify @error('photo') is-invalid @enderror" name="photo" value="{{ old('photo') }}" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
                                 <small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')
                                 </small>
-                                <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
+                                <p>@lang('Max Size: 1000kb, Allowed Format: png, jpg, jpeg')</p>
                                 @error('photo')
                                     <div class="invalid-feedback">
                                         {{ $message }}

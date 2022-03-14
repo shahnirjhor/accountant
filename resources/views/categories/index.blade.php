@@ -11,7 +11,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
-                    <li class="breadcrumb-item active">{{ __('Category List') }}</li>
+                    <li class="breadcrumb-item active">@lang('Category List')</li>
                 </ol>
             </div>
         </div>

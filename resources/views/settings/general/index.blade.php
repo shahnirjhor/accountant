@@ -122,7 +122,7 @@
                                                 <label>@lang('Logo')</label>
                                                 <input id="photo" class="dropify" name="company_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
                                                 <small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')</small>
-                                                <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
+                                                <p>@lang('Max Size: 1000kb, Allowed Format: png, jpg, jpeg')</p>
                                                 @error('company_logo')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -352,7 +352,7 @@
 
                                                 <input id="photo1" class="dropify" name="invoice_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
                                                 <small id="name" class="form-text text-muted">@lang('Leave Blank For Remain Unchanged')</small>
-                                                <p>{{ __('Max Size: 1000kb, Allowed Format: png, jpg, jpeg') }}</p>
+                                                <p>@lang('Max Size: 1000kb, Allowed Format: png, jpg, jpeg')</p>
 
                                             </div>
                                         </div>
@@ -450,7 +450,7 @@
                                               </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label>{{ __('Default Currency') }}</label>
+                                                <label>@lang('Default Currency')</label>
                                               <div class="form-group input-group mb-3">
                                                   <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="fas fa-exchange-alt"></i></span>

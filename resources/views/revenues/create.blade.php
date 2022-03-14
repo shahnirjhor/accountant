@@ -78,7 +78,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -133,7 +133,7 @@
                                 <label class="col-md-12 col-form-label"><h4>@lang('Attachment')</h4></label>
                                 <div class="col-md-12">
                                     <input id="attachment" class="dropify" name="attachment" value="{{ old('attachment') }}" type="file" data-allowed-file-extensions="png jpg jpeg pdf" data-max-file-size="2024K" />
-                                    <p>{{ __('Max Size: 2mb, Allowed Format: pdf, png, jpg, jpeg') }}</p>
+                                    <p>@lang('Max Size: 2mb, Allowed Format: pdf, png, jpg, jpeg')</p>
                                 </div>
                                 @if ($errors->has('attachment'))
                                     <div class="error ambitious-red">{{ $errors->first('attachment') }}</div>

@@ -185,7 +185,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('Description') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>@lang('Description')</h4></label>
                                 <div class="col-md-12">
                                     <div id="input_description" class="@error('description') is-invalid @enderror" style="min-height: 55px;">
                                     </div>

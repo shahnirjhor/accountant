@@ -201,7 +201,7 @@
                         <input type="hidden" name="currency_code" id="currency_code" value="{{ $invoice->currency_code }}">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="payment_date">{{ __('Date') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="payment_date">@lang('Date') <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-calendar"></i>
@@ -210,7 +210,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="payment_amount">{{ __('Amount') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="payment_amount">@lang('Amount') <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-dollar-sign"></i>
@@ -221,7 +221,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="payment_account">{{ __('Account') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="payment_account">@lang('Account') <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fa fa-university"></i></span>
@@ -236,7 +236,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="payment_method">{{ __('Payment Method') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="payment_method">@lang('Payment Method') <b class="ambitious-crimson">*</b></label>
                                 <div class="form-group input-group mb-3">
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
@@ -252,7 +252,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="col-md-12"><h4>{{ __('Description') }}</h4></label>
+                                <label class="col-md-12"><h4>@lang('Description')</h4></label>
                                 <div class="col-md-12">
                                     <div id="payment_description" style="min-height: 55px;">
                                     </div>
@@ -325,7 +325,7 @@
                     $("#progress-bar").hide();
                     Swal.fire(
                         itemName,
-                        '{{ __('Currency Code Required') }}',
+                        '@lang('Currency Code Required')',
                         'warning'
                     );
                     return;
@@ -335,7 +335,7 @@
                     $("#progress-bar").hide();
                     Swal.fire(
                         itemName,
-                        '{{ __('Payment Date Required') }}',
+                        '@lang('Payment Date Required')',
                         'warning'
                     );
                     return;
@@ -345,7 +345,7 @@
                     $("#progress-bar").hide();
                     Swal.fire(
                         itemName,
-                        '{{ __('Payment Amount Required') }}',
+                        '@lang('Payment Amount Required')',
                         'warning'
                     );
                     return;
@@ -355,7 +355,7 @@
                     $("#progress-bar").hide();
                     Swal.fire(
                         itemName,
-                        '{{ __('Payment Account Required') }}',
+                        '@lang('Payment Account Required')',
                         'warning'
                     );
                     return;
@@ -365,7 +365,7 @@
                     $("#progress-bar").hide();
                     Swal.fire(
                         itemName,
-                        '{{ __('Payment Method Required') }}',
+                        '@lang('Payment Account Required')',
                         'warning'
                     );
                     return;
@@ -392,7 +392,7 @@
                         if(response.status==0){
                             Swal.fire(
                                 itemName,
-                                '{{ __('Oops Something Wrong') }}',
+                                '@lang('Oops Something Wrong')',
                                 'warning'
                             ).then(function() {
                                 $('#addPaymentModalView').modal('hide');
@@ -400,7 +400,7 @@
                         } else {
                             Swal.fire(
                                 itemName,
-                                '{{ __('Payment Succussfully Added') }}',
+                                '@lang('Payment Succussfully Added')',
                                 'success'
                             ).then(function() {
                                 $('#addPaymentModalView').modal('hide');

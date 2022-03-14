@@ -70,13 +70,13 @@
                 <div class="form-group text-center m-t-20">
                     <div class="col-xs-12">
                         <button type="submit" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">
-                            {{ __('Reset Password') }}
+                            @lang('Reset Password')
                         </button>
                     </div>
                 </div>
                 <div class="form-group m-b-0">
                     <div class="col-sm-12 text-center">
-                        <p>{{ __('Go Back To') }} <a href="/login" class="text-info"><b>@lang('Login')</b></a></p>
+                        <p>@lang('Go Back To') <a href="/login" class="text-info"><b>@lang('Login')</b></a></p>
                     </div>
                 </div>
             </form>

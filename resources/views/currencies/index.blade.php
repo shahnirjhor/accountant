@@ -4,12 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('currency.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New Currency') }}</a></h3>
+                <h3><a href="{{ route('currency.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Currency')</a></h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
-                    <li class="breadcrumb-item active">{{ __('Currency List') }}</li>
+                    <li class="breadcrumb-item active">@lang('Currency List')</li>
                 </ol>
             </div>
         </div>
@@ -64,9 +64,9 @@
                 <thead>
                     <tr>
                         <th>@lang('Name')</th>
-                        <th>{{ __('Code') }}</th>
-                        <th>{{ __('Rate') }}</th>
-                        <th class="text-center">{{ __('Symbol') }}</th>
+                        <th>@lang('Code')</th>
+                        <th>@lang('Rate')</th>
+                        <th class="text-center">@lang('Symbol')</th>
                         <th>@lang('Enabled')</th>
                         <th data-orderable="false">@lang('Actions')</th>
                     </tr>

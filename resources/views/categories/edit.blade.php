@@ -17,8 +17,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('category.index') }}">{{ __('Category List') }}</a></li>
-                    <li class="breadcrumb-item active">{{ __('Edit Category') }}</li>
+                        <a href="{{ route('category.index') }}">@lang('Category List')</a></li>
+                    <li class="breadcrumb-item active">@lang('Edit Category')</li>
                 </ol>
             </div>
         </div>
@@ -28,7 +28,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('Edit Category') }}</h3>
+                <h3 class="card-title">@lang('Edit Category')</h3>
             </div>
             <div class="card-body">
                 <form class="form-material form-horizontal" action="{{ route('category.update', $category) }}" method="POST" enctype="multipart/form-data">
@@ -42,7 +42,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-money-check-alt"></i>
                                     </div>
-                                    <input type="text" name="name" value="{{ old('name', $category->name) }}" class="form-control" placeholder="{{ __('Enter Category Name') }}" required>
+                                    <input type="text" name="name" value="{{ old('name', $category->name) }}" class="form-control" placeholder="@lang('Enter Category Name')" required>
                                 </div>
                             </div>
 
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="exampleInputPassword1">{{ __('Color') }} <b class="ambitious-crimson">*</b></label>
+                                <label for="exampleInputPassword1">@lang('Color') <b class="ambitious-crimson">*</b></label>
                               <div class="form-group input-group mb-3">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text color-id" id="color-id"><i class="fas fa-stop"></i></span>

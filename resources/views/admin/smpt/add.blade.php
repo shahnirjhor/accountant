@@ -9,7 +9,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('smtp.index') }}">{{ __('Smtp List') }}</a></li>
+                        <a href="{{ route('smtp.index') }}">@lang('Smtp List')</a></li>
                     <li class="breadcrumb-item active">@lang('Add New Smtp')</li>
                 </ol>
             </div>
@@ -68,7 +68,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-arrows-alt-v"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('smtp_port') is-invalid @enderror" name="smtp_port" value="{{ old('smtp_port') }}" id="smtp_port" type="text" placeholder="{{ __('please type your smtp port') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('smtp_port') is-invalid @enderror" name="smtp_port" value="{{ old('smtp_port') }}" id="smtp_port" type="text" placeholder="@lang('Please Type Your SMTP Port')" required>
                                     @error('smtp_port')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -81,12 +81,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12"><h4>{{ __('user') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label class="col-md-12"><h4>@lang('User') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('smtp_user') is-invalid @enderror" name="smtp_user" value="{{ old('smtp_user') }}" id="smtp_user" type="text" placeholder="{{ __('please type your smtp user') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('smtp_user') is-invalid @enderror" name="smtp_user" value="{{ old('smtp_user') }}" id="smtp_user" type="text" placeholder="@lang('Please Type Your Smtp User')" required>
                                     @error('smtp_user')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -97,12 +97,12 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12"><h4>{{ __('password') }} <b class="ambitious-crimson">*</b></h4></label>
+                                <label class="col-md-12"><h4>@lang('Password') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
-                                    <input class="form-control ambitious-form-loading @error('smtp_password') is-invalid @enderror" name="smtp_password" id="smtp_password" type="text" placeholder="{{ __('please type your smtp password') }}" required>
+                                    <input class="form-control ambitious-form-loading @error('smtp_password') is-invalid @enderror" name="smtp_password" id="smtp_password" type="text" placeholder="@lang('Please Type Your SMTP Password')" required>
                                     @error('smtp_password')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -115,15 +115,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12"><h4>{{ __('type') }}</h4></label>
+                                <label class="col-md-12"><h4>@lang('type')</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fab fa-typo3"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('smtp_type') is-invalid @enderror" name="smtp_type" id="smtp_type">
-                                        <option value="default" {{ old('smtp_type') == "default" ? 'selected' : '' }}>{{ __('default') }}</option>
-                                        <option value="ssl" {{ old('smtp_type') == "ssl" ? 'selected' : '' }}>{{ __('ssl') }}</option>
-                                        <option value="tls" {{ old('smtp_type') == "tls" ? 'selected' : '' }}>{{ __('tls') }}</option>
+                                        <option value="default" {{ old('smtp_type') == "default" ? 'selected' : '' }}>@lang('Default')</option>
+                                        <option value="ssl" {{ old('smtp_type') == "ssl" ? 'selected' : '' }}>@lang('SSL')</option>
+                                        <option value="tls" {{ old('smtp_type') == "tls" ? 'selected' : '' }}>@lang('Tls')</option>
                                     </select>
                                     @error('smtp_type')
                                         <div class="invalid-feedback">
@@ -135,7 +135,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12"><h4>{{ __('status') }}</h4></label>
+                                <label class="col-md-12"><h4>@lang('status')</h4></label>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
@@ -157,7 +157,7 @@
                         <label class="col-md-3 col-form-label"></label>
                         <div class="col-md-8">
                             <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('smtp.index') }}" class="btn btn-outline btn-warning btn-lg">{{ __('cancel') }}</a>
+                            <a href="{{ route('smtp.index') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                         </div>
                     </div>
                 </form>

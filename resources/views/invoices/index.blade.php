@@ -11,12 +11,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('invoice.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New Invoice') }}</a></h3>
+                <h3><a href="{{ route('invoice.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Invoice')</a></h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">@lang('Dashboard')</a></li>
-                    <li class="breadcrumb-item active">{{ __('Invoice List') }}</li>
+                    <li class="breadcrumb-item active">@lang('Invoice List')</li>
                 </ol>
             </div>
         </div>
@@ -26,7 +26,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">{{ __('Invoices') }} </h3>
+                <h3 class="card-title">@lang('Invoices') </h3>
                 <div class="card-tools">
                     <a class="btn btn-primary" target="_blank" href="{{ route('invoice.index') }}?export=1">
                         <i class="fas fa-cloud-download-alt"></i> @lang('Export')
@@ -75,11 +75,11 @@
                 <table id="laravel_datatable" class="table table-striped compact table-width">
                     <thead>
                         <tr>
-                            <th>{{ __('Invoice No') }}</th>
-                            <th>{{ __('Customer') }}</th>
-                            <th>{{ __('Amount') }}</th>
-                            <th>{{ __('Invoice Date') }}</th>
-                            <th>{{ __('Due Date')}}</th>
+                            <th>@lang('Invoice No')</th>
+                            <th>@lang('Customer')</th>
+                            <th>@lang('Amount')</th>
+                            <th>@lang('Invoice Date')</th>
+                            <th>@lang('Due Date')</th>
                             <th>@lang('Status')</th>
                             <th data-orderable="false">@lang('Actions')</th>
                         </tr>

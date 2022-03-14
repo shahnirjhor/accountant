@@ -337,7 +337,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="col-md-12 col-form-label"><h4>{{ __('Description') }}</h4></label>
+                                <label class="col-md-12 col-form-label"><h4>@lang('Description')</h4></label>
                                 <div class="col-md-12">
                                     <div id="input_description" class="@error('description') is-invalid @enderror" style="min-height: 55px;">
                                     </div>
@@ -369,7 +369,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input type="submit" value="{{ __('Update') }}" class="btn btn-outline btn-info btn-lg btn-block"/>
+                                <input type="submit" value="@lang('Update')" class="btn btn-outline btn-info btn-lg btn-block"/>
                             </div>
                         </div>
                         <div class="col-md-4"></div>
@@ -655,7 +655,7 @@
             },
             cache: true
         },
-        placeholder: '{{ __('Search Your Item') }}',
+        placeholder: '@lang('Search Your Item')',
         minimumInputLength: 1,
         templateResult: formatRepo,
         templateSelection: formatRepoSelection

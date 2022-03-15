@@ -2,17 +2,14 @@
 @section('one_page_js')
     <script src="{{ asset('js/quill.js') }}"></script>
     <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
-@endsection
-
-@push('header')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-@endpush
+@endsection
 
 @section('one_page_css')
     <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 @endsection
 @section('content')
@@ -348,6 +345,31 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
+                                                <label for="send_item_reminder">{{ __('Send Item Reminder') }}</label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-clock"></i></span>
+                                                    </div>
+                                                    <select class="form-control @error('send_item_reminder') is-invalid @enderror" autocomplete="off" id="send_item_reminder" name="send_item_reminder">
+                                                        <option value="1" {{ old('send_item_reminder', $company->send_item_reminder) =='1' ? 'selected' : '' }} >Yes</option>
+                                                        <option value="0" {{ old('send_item_reminder', $company->send_item_reminder) == '0' ? 'selected' : '' }} >No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="send_item_reminder">{{ __('Send When Item Stock') }}</label>
+                                                <div class="form-group input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fas fa-layer-group"></i></span>
+                                                    </div>
+                                                    <input type="text" name="schedule_item_stocks" id="schedule_item_stocks" class="form-control" placeholder="{{ __('Enter Schedule Item Stocks') }}" value="{{ $company->schedule_item_stocks ?? null }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
                                                 <label>@lang('Logo')</label>
 
                                                 <input id="photo1" class="dropify" name="invoice_logo" type="file" data-allowed-file-extensions="png jpg jpeg" data-max-file-size="1024K"/>
@@ -535,6 +557,7 @@
 
 <script>
     $(document).ready( function () {
+
         if($('#sku_type').val() == '1') {
             $('#sku_random').show(500);
             $('#sku_define').hide(500);

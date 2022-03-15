@@ -369,6 +369,16 @@ class CompanyController extends Controller
             ],
             [
                 'company_id' => $company->id,
+                'key' => 'general.send_item_reminder',
+                'value' => '1',
+            ],
+            [
+                'company_id' => $company->id,
+                'key' => 'general.schedule_item_stocks',
+                'value' => '3,5,7',
+            ],
+            [
+                'company_id' => $company->id,
                 'key' => 'general.default_payment_method',
                 'value' => 1,
             ],
@@ -381,11 +391,6 @@ class CompanyController extends Controller
                 'company_id' => $company->id,
                 'key' => 'general.email_sendmail_path',
                 'value' => '/usr/sbin/sendmail -bs',
-            ],
-            [
-                'company_id' => $company->id,
-                'key' => 'general.send_item_reminder',
-                'value' => '0',
             ],
             [
                 'company_id' => $company->id,

@@ -291,6 +291,20 @@ class GeneralController extends Controller
              $data = Setting::create(['company_id' => $id, 'key' => 'general.invoice_quantity', 'value' => $request->invoice_quantity]);
        }
 
+        //send_item_reminder
+        if (array_key_exists("send_item_reminder", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.send_item_reminder')->update(['value' => $request->send_item_reminder]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.send_item_reminder', 'value' => $request->send_item_reminder]);
+        }
+
+        //schedule_item_stocks
+        if (array_key_exists("schedule_item_stocks", $company->toArray())) {
+            $data = Setting::where('company_id', $id)->where('key', 'general.schedule_item_stocks')->update(['value' => $request->schedule_item_stocks]);
+        } else {
+            $data = Setting::create(['company_id' => $id, 'key' => 'general.schedule_item_stocks', 'value' => $request->schedule_item_stocks]);
+        }
+
        // Logo
        if($request->hasFile('invoice_logo'))
        {

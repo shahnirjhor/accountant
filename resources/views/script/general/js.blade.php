@@ -1,12 +1,15 @@
 <script>
     "use strict";
 
-    $("#financial_start").flatpickr({
-    	enableTime: false,
-	    dateFormat: "d-m"
-	});
+
 
     $(document).ready(function() {
+
+        $("#financial_start").flatpickr({
+            enableTime: false,
+            dateFormat: "d-m"
+        });
+
         var equill = new Quill('#edit_input_address', {
             theme: 'snow'
         });

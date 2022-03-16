@@ -18,6 +18,8 @@ use App\Models\Item;
 use App\Models\OfflinePayment;
 use App\Models\Tax;
 use App\Models\User;
+use App\Notifications\Item as ItemNotification;
+use App\Notifications\ItemReminder as ItemReminderNotification;
 use Exception;
 use Illuminate\Http\Request;
 use Session;
@@ -285,6 +287,24 @@ class InvoiceController extends Controller
                         // Decrease stock (item sold)
                         $item_object->quantity -= (double) $order_quantity;
                         $item_object->save();
+
+                        if ($company->send_item_reminder) {
+                            $item_stocks = explode(',', $company->schedule_item_stocks);
+                            foreach ($item_stocks as $item_stock) {
+                                if ($item_object->quantity == $item_stock) {
+                                    foreach ($item_object->company->users as $user) {
+                                        $user->notify(new ItemReminderNotification($item_object));
+                                    }
+                                }
+                            }
+                        }
+
+                        if ($item_object->quantity == 0) {
+                            foreach ($item_object->company->users as $user) {
+                                $user->notify(new ItemNotification($item_object));
+                            }
+                        }
+
                     } elseif ($item->sku) {
                         $item_sku = $item->sku;
                     }

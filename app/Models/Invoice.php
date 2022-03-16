@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Akaunting\Money\Money;
-use Akaunting\Money\Currency;
+use Akaunting\Money\Currency as AkCurrency;
+use App\Models\Currency;
 use App\Traits\DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -194,7 +195,7 @@ class Invoice extends Model
         $company->setSettings();
 
 
-        $default = new Currency($company->default_currency);
+        $default = new AkCurrency($company->default_currency);
 
         if ($format) {
             $money = Money::$code($amount, true)->convert($default, (double) $rate)->format();

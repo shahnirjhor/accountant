@@ -11,14 +11,16 @@ class ItemReminder extends Notification
 {
     use Queueable;
 
+    public $item;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($item)
     {
-        //
+        $this->item = $item;
     }
 
     /**
@@ -29,7 +31,7 @@ class ItemReminder extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -55,7 +57,8 @@ class ItemReminder extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'item_id' => $this->item->id,
+            'name' => $this->item->name,
         ];
     }
 }

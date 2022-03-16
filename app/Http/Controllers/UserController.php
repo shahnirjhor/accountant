@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Http\Request;
 
 /**
@@ -56,6 +57,22 @@ class UserController extends Controller
             $query->where('email', 'like', $request->email.'%');
 
         return $query;
+    }
+
+    public function readItemsOutOfStock(User $user)
+    {
+        foreach ($user->unreadNotifications as $notification) {
+            if ($notification->getAttribute('type') != 'App\Notifications\ItemReminder') {
+                continue;
+            } elseif($notification->getAttribute('type') != 'App\Notifications\Item')
+            {
+                continue;
+            } else {
+                $notification->markAsRead();
+            }
+        }
+
+        return redirect()->route('item.index');
     }
 
     /**

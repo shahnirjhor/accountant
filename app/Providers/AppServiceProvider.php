@@ -74,8 +74,9 @@ class AppServiceProvider extends ServiceProvider
                 "tr"=>"flag-icon-tr"
             );
 
-
-
+            $items = [];
+            $items_reminder = [];
+            $notifications = 0;
 
             if (Auth::check()) {
 
@@ -110,6 +111,23 @@ class AppServiceProvider extends ServiceProvider
                     }
                     $companySwitchingInfo[$value->id] = $str.$value->company_name;
                 }
+
+                $user = Auth::user();
+                $undereads = $user->unreadNotifications;
+                foreach ($undereads as $underead) {
+                    $data = $underead->getAttribute('data');
+
+                    switch ($underead->getAttribute('type')) {
+                        case 'App\Notifications\Item':
+                            $items[$data['item_id']] = $data['name'];
+                            $notifications++;
+                            break;
+                        case 'App\Notifications\ItemReminder':
+                            $items_reminder[$data['item_id']] = $data['name'];
+                            $notifications++;
+                            break;
+                    }
+                }
             }
 
             if(empty($companySwitchingInfo)) {
@@ -124,6 +142,10 @@ class AppServiceProvider extends ServiceProvider
                      ->with('companySwitchingInfo', $companySwitchingInfo)
                      ->with('getLang', $getLang)
                      ->with('company_full_name', $company_full_name)
+                     ->with('user', $user)
+                     ->with('notify_items', $items)
+                     ->with('notify_items_reminder', $items_reminder)
+                     ->with('notifications', $notifications)
                      ->with('flag', $flag);
         });
 

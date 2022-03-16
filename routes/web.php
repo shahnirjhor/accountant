@@ -94,6 +94,8 @@ Route::group(['middleware' => ['auth']], function() {
         'as' => 'report.tax'
     ]);
 
+    Route::get('users/{user}/read-items', 'App\Http\Controllers\UserController@readItemsOutOfStock');
+
     Route::resources([
         'roles' => App\Http\Controllers\RoleController::class,
         'users' => App\Http\Controllers\UserController::class,

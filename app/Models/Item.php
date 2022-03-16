@@ -30,6 +30,13 @@ class Item extends Model
         'enabled'
     ];
 
+
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

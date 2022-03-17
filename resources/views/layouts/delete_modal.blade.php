@@ -12,8 +12,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">@lang('Close')</button>
                     <form class="btn-ok" action="" method="post">
-                        @csrf
-                        @method('DELETE')
+                        @csrf @method('DELETE')
                         <button type="submit" class="btn btn-danger">@lang('Delete')</button>
                     </form>
                 </div>
@@ -23,9 +22,9 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        $('#myModal').on('show.bs.modal', function(e) {
-            $(this).find('.btn-ok').attr('action', $(e.relatedTarget).data('href'));
+    $(document).ready(function () {
+        $("#myModal").on("show.bs.modal", function (e) {
+            $(this).find(".btn-ok").attr("action", $(e.relatedTarget).data("href"));
         });
     });
 </script>

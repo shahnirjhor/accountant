@@ -73,7 +73,7 @@ class AppServiceProvider extends ServiceProvider
                 "ru"=>"flag-icon-ru",
                 "tr"=>"flag-icon-tr"
             );
-
+            $user = [];
             $items = [];
             $items_reminder = [];
             $notifications = 0;

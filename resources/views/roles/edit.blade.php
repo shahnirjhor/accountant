@@ -24,8 +24,8 @@
                 <form class="form-material form-horizontal" action="{{ route('roles.update', $role) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="form-group row mb-0">
-                        <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin ambitious-center">{{ __('Role Name') }} <b class="ambitious-crimson">*</b></h4></label>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label ambitious-center"><h4>@lang('Name') <b class="ambitious-crimson">*</b></h4></label>
                         <div class="col-md-8">
                             <input class="form-control ambitious-form-loading @error('name') is-invalid @enderror" name="name" id="name" type="text" placeholder="{{ __('Role Name') }}" value="{{ old('name', $role->name) }}" >
                             @error('name')
@@ -35,7 +35,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="form-group row mb-0">
+                    <div class="form-group row">
                         <label class="col-md-2 col-form-label ambitious-center"><h4>{{ __('Role For') }}</h4></label>
                         <div class="col-md-8">
                             <select class="form-control ambitious-form-loading @error('role_for') is-invalid @enderror" name="role_for" id="role_for">
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div id="user_block">
-                        <div class="form-group row mb-0">
+                        <div class="form-group row">
                             <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('Price') }} <b class="ambitious-crimson">*</b></h4></label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading @error('price') is-invalid @enderror" name="price" id="price" type="text" placeholder="{{ __('Role Price') }}" value="{{ old('price', $role->price) }}">
@@ -61,8 +61,8 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row mb-0">
-                            <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('Validity day') }} <b class="ambitious-crimson">*</b></h4></label>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('Validity') }} <b class="ambitious-crimson">*</b></h4></label>
                             <div class="col-md-8">
                                 <input class="form-control ambitious-form-loading @error('validity') is-invalid @enderror" name="validity" id="validity" type="text" placeholder="{{ __('Validity Day') }}" value="{{ old('validity', $role->validity) }}" >
                                 @error('validity')
@@ -73,8 +73,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row mb-0">
-                        <label class="col-md-2 col-form-label ambitious-center"><h4 class="ambitious-role-margin">{{ __('Permissions') }}</h4></label>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label ambitious-center"><h4>@lang('Permissions') <b class="ambitious-crimson">*</b></h4></label>
                         <div class="col-md-10">
                             <div class="form-control-plaintext">
                                 @php
@@ -126,6 +126,22 @@
                                     @if($display == 'delete')
                                         <div class="role-form-ambi checkbox checkbox-danger">
                                             <input name="permission[]" id="permission_{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" @if(is_array(old('permission', $rolePermissions)) && in_array($permission->id, old('permission', $rolePermissions))) checked @endif>
+                                            <label class="ambitious-capital" for="permission_{{ $permission->id }}">
+                                                {{ $display }}
+                                            </label>
+                                        </div>
+                                    @endif
+                                    @if ($display == 'export')
+                                        <div class="role-form-ambi checkbox checkbox-info">
+                                            <input name="permission[]" id="permission_{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" @if(is_array(old('permission',$rolePermissions)) && in_array($permission->id, old('permission', $rolePermissions))) checked @endif>
+                                            <label class="ambitious-capital" for="permission_{{ $permission->id }}">
+                                                {{ $display }}
+                                            </label>
+                                        </div>
+                                    @endif
+                                    @if ($display == 'import')
+                                        <div class="role-form-ambi checkbox checkbox-primary">
+                                            <input name="permission[]" id="permission_{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" @if(is_array(old('permission',$rolePermissions)) && in_array($permission->id, old('permission', $rolePermissions))) checked @endif>
                                             <label class="ambitious-capital" for="permission_{{ $permission->id }}">
                                                 {{ $display }}
                                             </label>

@@ -4,10 +4,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-
-                    <h3><a href="{{ route('roles.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Role') }}</a>
-                        <span class="pull-right"></span>
-                    </h3>
+                    @can('role-create')
+                        <h3><a href="{{ route('roles.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Role') }}</a>
+                            <span class="pull-right"></span>
+                        </h3>
+                    @endcan
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -70,7 +71,7 @@
                                 <th>{{ __('Validity') }}</th>
                                 <th>{{ __('Role For') }}</th>
                                 <th>@lang('Default')</th>
-                                @canany(['role-delete', 'role-edit'])
+                                @canany(['role-update', 'role-delete'])
                                     <th data-orderable="false">@lang('Actions')</th>
                                 @endcan
                             </tr>
@@ -97,9 +98,13 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @canany(['role-delete', 'role-edit'])
-                                            <a href="{{ route('roles.edit', $role) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                            <a href="#" data-href="{{ route('roles.destroy', $role) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                        @canany(['role-update', 'role-delete'])
+                                            @can('role-update')
+                                                <a href="{{ route('roles.edit', $role) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                            @endcan
+                                            @can('role-delete')
+                                                <a href="#" data-href="{{ route('roles.destroy', $role) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                            @endcan
                                         @endcan
                                     </td>
                                 </tr>

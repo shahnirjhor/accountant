@@ -24,10 +24,10 @@ class RoleController extends Controller
      */
     function __construct()
     {
-        //$this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index']]);
-        //$this->middleware('permission:role-create', ['only' => ['create','store']]);
-        //$this->middleware('permission:role-edit', ['only' => ['edit','customUpdate']]);
-        //$this->middleware('permission:role-delete', ['only' => ['customDestroy']]);
+        $this->middleware('permission:role-read|role-create|role-update|role-delete', ['only' => ['index']]);
+        $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        $this->middleware('permission:role-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -77,12 +77,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
-            'role_for' => 'required',
-        ]);
-
+        $this->validate($request, ['name' => 'required|unique:roles,name','permission' => 'required','role_for' => 'required']);
         if($request->input('role_for') == "1") //staff
         {
             $role = Role::create([
@@ -91,10 +86,7 @@ class RoleController extends Controller
             ]);
             $role->syncPermissions($request->input('permission'));
         } else {
-            $this->validate($request, [
-                'price' => 'required',
-                'validity' => 'required',
-            ]);
+            $this->validate($request, ['price' => 'required','validity' => 'required']);
             $role = Role::create([
                 'name' => $request->input('name'),
                 'price' => $request->input('price'),
@@ -116,9 +108,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id", $role->id)
-            ->get();
+        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")->where("role_has_permissions.role_id", $role->id)->get();
         return view('roles.show',compact('role','rolePermissions'));
     }
 
@@ -132,9 +122,7 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         $permissions = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')->all();
         return view('roles.edit',compact('role','permissions','rolePermissions'));
     }
 
@@ -148,11 +136,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-            'role_for' => 'required',
-        ]);
+        $this->validate($request, ['name' => 'required','permission' => 'required','role_for' => 'required']);
 
         if($request->input('role_for') == "1") //staff
         {
@@ -163,10 +147,7 @@ class RoleController extends Controller
             $role->save();
             $role->syncPermissions($request->input('permission'));
         } else {
-            $this->validate($request, [
-                'price' => 'required',
-                'validity' => 'required',
-            ]);
+            $this->validate($request, ['price' => 'required','validity' => 'required']);
             $role->name = $request->input('name');
             $role->role_for = $request->input('role_for');
             $role->price = $request->input('price');
@@ -188,7 +169,6 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         DB::table("roles")->where('id', $role->id)->delete();
-        return redirect()->route('roles.index')
-            ->with('success',trans('roles.role deleted successfully'));
+        return redirect()->route('roles.index')->with('success',trans('roles.role deleted successfully'));
     }
 }

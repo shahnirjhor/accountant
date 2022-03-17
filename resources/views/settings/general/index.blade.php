@@ -141,7 +141,9 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @can('company-update')
+                                                <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @endcan
                                             <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
@@ -256,7 +258,9 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @can('company-update')
+                                                <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @endcan
                                             <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
@@ -382,7 +386,9 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @can('company-update')
+                                                <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @endcan
                                             <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
@@ -444,7 +450,9 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @can('company-update')
+                                                <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @endcan
                                             <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>
@@ -539,7 +547,9 @@
                                     <div class="form-group">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-8">
-                                            <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @can('company-update')
+                                                <input type="submit" value="{{ __('Save') }}" class="btn btn-outline btn-info btn-lg"/>
+                                            @endcan
                                             <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
                                         </div>
                                     </div>

@@ -15,6 +15,8 @@ class PermissionTableSeeder extends Seeder
      */
     public function run()
     {
+        Permission::firstOrCreate(['name' => 'profile-read','display_name' => 'Profile']);
+        Permission::firstOrCreate(['name' => 'profile-update','display_name' => 'Profile']);
         Permission::firstOrCreate(['name' => 'role-read','display_name' => 'Role']);
         Permission::firstOrCreate(['name' => 'role-create','display_name' => 'Role']);
         Permission::firstOrCreate(['name' => 'role-update','display_name' => 'Role']);
@@ -52,13 +54,6 @@ class PermissionTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'tax-rate-delete','display_name' => 'Tax Rate']);
         Permission::firstOrCreate(['name' => 'tax-rate-export','display_name' => 'Tax Rate']);
         Permission::firstOrCreate(['name' => 'tax-rate-import','display_name' => 'Tax Rate']);
-        Permission::firstOrCreate(['name' => 'income-report-read','display_name' => 'Reports']);
-        Permission::firstOrCreate(['name' => 'expense-report-read','display_name' => 'Reports']);
-        Permission::firstOrCreate(['name' => 'tax-report-read','display_name' => 'Reports']);
-        Permission::firstOrCreate(['name' => 'profit-loss-report-read','display_name' => 'Reports']);
-        Permission::firstOrCreate(['name' => 'income-expense-report-read','display_name' => 'Reports']);
-        Permission::firstOrCreate(['name' => 'profile-read','display_name' => 'Profile']);
-        Permission::firstOrCreate(['name' => 'profile-update','display_name' => 'Profile']);
         Permission::firstOrCreate(['name' => 'item-read','display_name' => 'Item']);
         Permission::firstOrCreate(['name' => 'item-create','display_name' => 'Item']);
         Permission::firstOrCreate(['name' => 'item-update','display_name' => 'Item']);
@@ -97,5 +92,10 @@ class PermissionTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'payment-update','display_name' => 'Payment']);
         Permission::firstOrCreate(['name' => 'payment-delete','display_name' => 'Payment']);
         Permission::firstOrCreate(['name' => 'payment-export','display_name' => 'Payment']);
+        Permission::firstOrCreate(['name' => 'income-report-read','display_name' => 'Reports']);
+        Permission::firstOrCreate(['name' => 'expense-report-read','display_name' => 'Reports']);
+        Permission::firstOrCreate(['name' => 'tax-report-read','display_name' => 'Reports']);
+        Permission::firstOrCreate(['name' => 'profit-loss-report-read','display_name' => 'Reports']);
+        Permission::firstOrCreate(['name' => 'income-expense-report-read','display_name' => 'Reports']);
     }
 }

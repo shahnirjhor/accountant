@@ -85,6 +85,7 @@
                                     @if($lastName != $permission->display_name)
                                         @php
                                             $lastName = $permission->display_name;
+                                            // dd($lastName);
                                         @endphp
                                         <div role="checkbox" style="padding-top: 5px;">
                                             <h4 class="ambitious-role-margin-extra">{{ $lastName }}</h4>
@@ -96,7 +97,21 @@
                                         $display = end($pname);
                                     @endphp
 
-                                    @if($display == 'read')
+                                    @if($display == 'read' && $lastName == 'Reports')
+                                        <div class="role-form-ambi checkbox checkbox-info">
+                                            <input name="permission[]" id="permission_{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" @if(is_array(old('permission', $rolePermissions)) && in_array($permission->id, old('permission', $rolePermissions))) checked @endif>
+                                            <label class="ambitious-capital" for="permission_{{ $permission->id }}">
+                                                @php
+                                                    $pname = explode("-", $permission->name);
+                                                    $nArray = array_diff( $pname, ['read'] );
+                                                    $nStr = implode(" ", $nArray);
+                                                @endphp
+                                                {{ $nStr }}
+                                            </label>
+                                        </div>
+                                    @endif
+
+                                    @if($display == 'read' && $lastName != 'Reports')
                                         <div class="role-form-ambi checkbox checkbox-info">
                                             <input name="permission[]" id="permission_{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" @if(is_array(old('permission', $rolePermissions)) && in_array($permission->id, old('permission', $rolePermissions))) checked @endif>
                                             <label class="ambitious-capital" for="permission_{{ $permission->id }}">

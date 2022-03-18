@@ -3,6 +3,8 @@
 "use strict";
 $(document).ready( function () {
 
+    $('.dropify').dropify();
+
     var rolefor = $('#role_for').val();
     if(rolefor == '1') {
         $('#staff_block').show();

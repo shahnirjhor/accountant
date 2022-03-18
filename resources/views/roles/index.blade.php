@@ -25,6 +25,11 @@
                 <div class="card-header">
                     <h3 class="card-title">{{ __('Role List') }}</h3>
                     <div class="card-tools">
+                        @can('role-export')
+                            <a class="btn btn-primary" target="_blank" href="{{ route('roles.index') }}?export=1">
+                                <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                            </a>
+                        @endcan
                         <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                     </div>
                 </div>
@@ -45,8 +50,8 @@
                                             <label>@lang('Role For')</label>
                                             <select class="form-control" name="role_for">
                                                 <option value="">--@lang('Select')--</option>
-                                                <option value="0" {{ old('role_for', request()->role_for) === '0' ? 'selected' : ''  }}>@lang('User')</option>
-                                                <option value="1" {{ old('role_for', request()->role_for) === '1' ? 'selected' : ''  }}>@lang('Staff')</option>
+                                                <option value="0" {{ old('role_for', request()->role_for) === '0' ? 'selected' : ''  }}>@lang('System User')</option>
+                                                <option value="1" {{ old('role_for', request()->role_for) === '1' ? 'selected' : ''  }}>@lang('General User')</option>
                                             </select>
                                         </div>
                                     </div>
@@ -73,7 +78,7 @@
                                 <th>@lang('Default')</th>
                                 @canany(['role-update', 'role-delete'])
                                     <th data-orderable="false">@lang('Actions')</th>
-                                @endcan
+                                @endcanany
                             </tr>
                         </thead>
                         <tbody>
@@ -97,16 +102,16 @@
                                             <span class="badge badge-pill badge-danger">@lang('No')</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        @canany(['role-update', 'role-delete'])
+                                    @canany(['role-update', 'role-delete'])
+                                        <td>
                                             @can('role-update')
                                                 <a href="{{ route('roles.edit', $role) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
                                             @endcan
                                             @can('role-delete')
                                                 <a href="#" data-href="{{ route('roles.destroy', $role) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
                                             @endcan
-                                        @endcan
-                                    </td>
+                                        </td>
+                                    @endcanany
                                 </tr>
                             @endforeach
                         </tbody>

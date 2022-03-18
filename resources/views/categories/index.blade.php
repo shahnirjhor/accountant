@@ -4,9 +4,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3>
-                    <a href="{{ route('category.create') }}" class="btn btn-outline btn-info">+ @lang('Add New')</a>
-                </h3>
+                @can('category-create')
+                    <h3><a href="{{ route('category.create') }}" class="btn btn-outline btn-info">+ @lang('Add New')</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -23,6 +23,11 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('Category List')</h3>
                 <div class="card-tools">
+                    @can('category-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('category.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -80,7 +85,9 @@
                             <th>@lang('Type')</th>
                             <th>@lang('Color')</th>
                             <th>@lang('Status')</th>
-                            <th>@lang('Actions')</th>
+                            @canany(['category-update', 'category-delete'])
+                                <th>@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -99,10 +106,16 @@
                                         <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                     @endif
                                 </td>
-                                <td>
-                                    <a href="{{ route('category.edit', $category) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                    <a href="#" data-href="{{ route('category.destroy', $category) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                                </td>
+                                @canany(['category-update', 'category-delete'])
+                                    <td>
+                                        @can('category-update')
+                                            <a href="{{ route('category.edit', $category) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                        @endcan
+                                        @can('category-delete')
+                                            <a href="#" data-href="{{ route('category.destroy', $category) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                        @endcan
+                                    </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

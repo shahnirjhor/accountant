@@ -2,6 +2,8 @@
 $(document).ready(function() {
     "use strict";
 
+    $('.dropify').dropify();
+
     var quill = new Quill('#company_address', {
         theme: 'snow',
     });

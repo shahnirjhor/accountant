@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('currency.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Currency')</a></h3>
+                @can('currencies-create')
+                    <h3><a href="{{ route('currency.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Currency')</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -21,6 +23,11 @@
         <div class="card-header">
             <h3 class="card-title">{{ __('Currencies') }} </h3>
             <div class="card-tools">
+                @can('currencies-export')
+                    <a class="btn btn-primary" target="_blank" href="{{ route('currency.index') }}?export=1">
+                        <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                    </a>
+                @endcan
                 <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
             </div>
         </div>
@@ -68,7 +75,9 @@
                         <th>@lang('Rate')</th>
                         <th class="text-center">@lang('Symbol')</th>
                         <th>@lang('Enabled')</th>
-                        <th data-orderable="false">@lang('Actions')</th>
+                        @canany(['currencies-update', 'currencies-delete'])
+                            <th data-orderable="false">@lang('Actions')</th>
+                        @endcanany
                     </tr>
                 </thead>
                 <tbody>
@@ -87,10 +96,16 @@
                                     <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                 @endif
                             </td>
-                            <td>
-                                <a href="{{ route('currency.edit', $currency) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="#" data-href="{{ route('currency.destroy', $currency) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                            </td>
+                            @canany(['currencies-update', 'currencies-delete'])
+                                <td>
+                                    @can('currencies-update')
+                                        <a href="{{ route('currency.edit', $currency) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                    @endcan
+                                    @can('currencies-delete')
+                                        <a href="#" data-href="{{ route('currency.destroy', $currency) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @endcan
+                                </td>
+                            @endcanany
                         </tr>
                     @endforeach
                 </tbody>

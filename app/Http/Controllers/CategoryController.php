@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Session;
 use App\Models\Company;
 use App\Models\Category;
+use App\Exports\CategoriesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Services\PayUService\Exception;
 use Illuminate\Support\Facades\DB;
@@ -12,12 +14,28 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
     /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:category-read|category-create|category-update|category-delete', ['only' => ['index']]);
+        $this->middleware('permission:category-create', ['only' => ['create','store']]);
+        $this->middleware('permission:category-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:category-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:category-export', ['only' => ['doExport']]);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $categories = $this->filter($request)->paginate(10);
         return view('categories.index', compact('categories'));
     }
@@ -38,6 +56,17 @@ class CategoryController extends Controller
         if (isset($request->enabled))
             $query->where('enabled', $request->enabled);
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new CategoriesExport($request, session('company_id')), 'categories.xlsx');
     }
 
     /**

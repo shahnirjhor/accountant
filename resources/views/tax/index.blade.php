@@ -1,11 +1,12 @@
 @extends('layouts.layout')
 @section('content')
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('tax.create') }}" class="btn btn-outline btn-info">+ @lang('Add New')</a></h3>
+                @can('tax-rate-create')
+                    <h3><a href="{{ route('tax.create') }}" class="btn btn-outline btn-info">+ @lang('Add New')</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -16,15 +17,18 @@
         </div>
     </div>
 </section>
-
 @include('partials.errors')
-
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">@lang('Tax Rates') </h3>
                 <div class="card-tools">
+                    @can('tax-rate-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('tax.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -45,9 +49,8 @@
                                         <label>@lang('Tax Type')</label>
                                         <select class="form-control" name="type">
                                             <option value="">--@lang('Select')--</option>
-                                            <option value="normal" {{ old('type', request()->type) === 'normal' ? 'selected' : ''  }}>@lang('Normal')</option>
                                             <option value="inclusive" {{ old('type', request()->type) === 'inclusive' ? 'selected' : ''  }}>@lang('Inclusive')</option>
-                                            <option value="compound" {{ old('type', request()->type) === 'compound' ? 'selected' : ''  }}>@lang('Compound')</option>
+                                            <option value="exclusive" {{ old('type', request()->type) === 'exclusive' ? 'selected' : ''  }}>@lang('Exclusive')</option>
                                         </select>
                                     </div>
                                 </div>
@@ -70,7 +73,9 @@
                             <th>@lang('Tax Rate(%)')</th>
                             <th>@lang('Type')</th>
                             <th>@lang('Status')</th>
-                            <th data-orderable="false">@lang('Actions')</th>
+                            @canany(['tax-rate-update', 'tax-rate-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -92,10 +97,16 @@
                                         <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                     @endif
                                 </td>
-                                <td>
-                                    <a href="{{ route('tax.edit', $tax) }}" class="btn btn-info btn-circle" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                    <a href="#" data-href="{{ route('tax.destroy', $tax) }}" class="btn btn-info btn-circle" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                                </td>
+                                @canany(['tax-rate-update', 'tax-rate-delete'])
+                                    <td>
+                                        @can('tax-rate-update')
+                                            <a href="{{ route('tax.edit', $tax) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                        @endcan
+                                        @can('tax-rate-delete')
+                                            <a href="#" data-href="{{ route('tax.destroy', $tax) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                        @endcan
+                                    </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

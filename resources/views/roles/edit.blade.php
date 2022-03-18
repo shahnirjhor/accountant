@@ -139,14 +139,6 @@
                                             </label>
                                         </div>
                                     @endif
-                                    @if ($display == 'import')
-                                        <div class="role-form-ambi checkbox checkbox-primary">
-                                            <input name="permission[]" id="permission_{{ $permission->id }}" type="checkbox" value="{{ $permission->id }}" @if(is_array(old('permission',$rolePermissions)) && in_array($permission->id, old('permission', $rolePermissions))) checked @endif>
-                                            <label class="ambitious-capital" for="permission_{{ $permission->id }}">
-                                                {{ $display }}
-                                            </label>
-                                        </div>
-                                    @endif
                                 @endforeach
                             </div>
                         </div>

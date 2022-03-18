@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\DB;
 class SmtpConfigurationController extends Controller
 {
     /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('role:Super Admin', ['only' => ['index','create', 'store', 'edit', 'update', 'destroy']]);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

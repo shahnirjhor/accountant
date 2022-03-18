@@ -22,6 +22,18 @@ use Carbon\Carbon;
 class GeneralController extends Controller
 {
 
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:company-read|company-update', ['only' => ['index']]);
+        $this->middleware('permission:company-update', ['only' => ['edit','localisation', 'bill', 'invoice', 'defaults']]);
+    }
+
 	/**
      * Method to load general view
      *

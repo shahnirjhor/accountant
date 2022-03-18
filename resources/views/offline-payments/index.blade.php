@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('offline-payment.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Offline Payment')</a></h3>
+                @can('offline-payment-create')
+                    <h3><a href="{{ route('offline-payment.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Offline Payment')</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -61,7 +63,9 @@
                             <th>@lang('Code')</th>
                             <th>@lang('Order')</th>
                             <th>@lang('Show to Customer')</th>
-                            <th data-orderable="false">@lang('Actions')</th>
+                            @canany(['offline-payment-update', 'offline-payment-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -77,10 +81,16 @@
                                         <span class="badge badge-pill badge-danger">@lang('No')</span>
                                     @endif
                                 </td>
-                                <td>
-                                    <a href="{{ route('offline-payment.edit', $offlinePayment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                    <a href="#" data-href="{{ route('offline-payment.destroy', $offlinePayment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                                </td>
+                                @canany(['offline-payment-update', 'offline-payment-delete'])
+                                    <td>
+                                        @can('offline-payment-update')
+                                            <a href="{{ route('offline-payment.edit', $offlinePayment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                        @endcan
+                                        @can('offline-payment-delete')
+                                            <a href="#" data-href="{{ route('offline-payment.destroy', $offlinePayment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                        @endcan
+                                    </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

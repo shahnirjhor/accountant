@@ -2,10 +2,12 @@
 
 @section('one_page_js')
     <script src="{{ asset('js/quill.js') }}"></script>
+    <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
 @endsection
 
 @section('one_page_css')
      <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
+     <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')

@@ -95,8 +95,8 @@
                                         <span class="input-group-text"><i class="fas fa-bell"></i></span>
                                     </div>
                                     <select class="form-control ambitious-form-loading @error('enabled') is-invalid @enderror" required="required" name="enabled" id="enabled">
-                                        <option value="1" {{ old('enabled') == 1 ? 'selected' : '' }}>@lang('Yes')</option>
-                                        <option value="0" {{ old('enabled') == 0 ? 'selected' : '' }}>@lang('No')</option>
+                                        <option value="1" {{ old('enabled') === 1 ? 'selected' : '' }}>@lang('Yes')</option>
+                                        <option value="0" {{ old('enabled') === 0 ? 'selected' : '' }}>@lang('No')</option>
                                     </select>
                                     @error('enabled')
                                         <div class="invalid-feedback">

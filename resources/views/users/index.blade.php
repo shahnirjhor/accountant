@@ -25,6 +25,11 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('User List')</h3>
                 <div class="card-tools">
+                    @can('user-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('users.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -74,7 +79,9 @@
                             <th>@lang('Roles')</th>
                             <th>@lang('Register Date')</th>
                             <th>@lang('Status')</th>
-                            <th data-orderable="false">@lang('Actions')</th>
+                            @canany(['user-update', 'user-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -92,10 +99,16 @@
                                         <span class="badge badge-danger">@lang('Inactive')</span>
                                     @endif
                                 </td>
-                                <td>
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                    <a href="#" data-href="{{ route('users.destroy', $user->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                                </td>
+                                @canany(['user-update', 'user-delete'])
+                                    <td>
+                                        @can('user-update')
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                        @endcan
+                                        @can('user-delete')
+                                            <a href="#" data-href="{{ route('users.destroy', $user->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                        @endcan
+                                    </td>
+                                @endcanany
                             </tr>
                         @endforeach
                     </tbody>

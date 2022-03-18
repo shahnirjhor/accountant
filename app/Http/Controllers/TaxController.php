@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tax;
+use App\Exports\TaxesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Services\PayUService\Exception;
 use Illuminate\Support\Facades\DB;
@@ -10,12 +12,28 @@ use Illuminate\Support\Facades\DB;
 class TaxController extends Controller
 {
     /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:tax-rate-read|tax-rate-create|tax-rate-update|tax-rate-delete', ['only' => ['index']]);
+        $this->middleware('permission:tax-rate-create', ['only' => ['create','store']]);
+        $this->middleware('permission:tax-rate-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:tax-rate-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:tax-rate-export', ['only' => ['doExport']]);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $taxes = $this->filter($request)->paginate(10)->withQueryString();
         return view('tax.index',compact('taxes'));
     }
@@ -30,6 +48,17 @@ class TaxController extends Controller
             $query->where('type', $request->type);
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new TaxesExport($request, session('company_id')), 'taxes.xlsx');
     }
 
     /**

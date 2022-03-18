@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Currency;
 use App\Models\Setting;
 use App\Models\Company;
+use App\Exports\CurrenciesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Services\PayUService\Exception;
 use Illuminate\Support\Facades\DB;
@@ -13,12 +15,29 @@ use Session;
 class CurrencyController extends Controller
 {
     /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:currencies-read|currencies-create|currencies-update|currencies-delete', ['only' => ['index']]);
+        $this->middleware('permission:currencies-create', ['only' => ['create','store']]);
+        $this->middleware('permission:currencies-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:currencies-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:currencies-export', ['only' => ['doExport']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $currencies = $this->filter($request)->paginate(10)->withQueryString();
         return view('currencies.index',compact('currencies'));
     }
@@ -37,6 +56,17 @@ class CurrencyController extends Controller
             $query->where('symbol', '=', $request->symbol);
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new CurrenciesExport($request, session('company_id')), 'currencies.xlsx');
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Exports\RolesExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
@@ -28,6 +30,7 @@ class RoleController extends Controller
         $this->middleware('permission:role-create', ['only' => ['create','store']]);
         $this->middleware('permission:role-update', ['only' => ['edit','update']]);
         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:role-export', ['only' => ['doExport']]);
     }
 
     /**
@@ -39,6 +42,8 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $roles = $this->filter($request)->paginate(10)->withQueryString();
         return view('roles.index',compact('roles'));
     }
@@ -54,6 +59,17 @@ class RoleController extends Controller
             $query->where('role_for', $request->role_for);
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new RolesExport($request), 'roles.xlsx');
     }
 
     /**

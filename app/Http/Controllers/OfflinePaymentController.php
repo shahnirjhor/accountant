@@ -8,6 +8,19 @@ use Illuminate\Http\Request;
 class OfflinePaymentController extends Controller
 {
     /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:offline-payment-read|offline-payment-create|offline-payment-update|offline-payment-delete', ['only' => ['index']]);
+        $this->middleware('permission:offline-payment-create', ['only' => ['create','store']]);
+        $this->middleware('permission:offline-payment-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:offline-payment-delete', ['only' => ['destroy']]);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

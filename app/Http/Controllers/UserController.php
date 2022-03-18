@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
@@ -22,13 +24,14 @@ class UserController extends Controller
      * @access public
      * @return void
      */
-//    function __construct()
-//    {
-//        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index']]);
-//        $this->middleware('permission:user-create', ['only' => ['create','store']]);
-//        $this->middleware('permission:user-edit', ['only' => ['edit','customUpdate']]);
-//        $this->middleware('permission:user-delete', ['only' => ['customDestroy']]);
-//    }
+    function __construct()
+    {
+        $this->middleware('permission:user-read|user-create|user-update|user-delete', ['only' => ['index']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:user-export', ['only' => ['doExport']]);
+    }
 
     /**
      * Display a listing of the resource
@@ -39,6 +42,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $users = $this->filter($request)->paginate(10)->withQueryString();
         return view('users.index',compact('users'));
     }
@@ -57,6 +62,17 @@ class UserController extends Controller
             $query->where('email', 'like', $request->email.'%');
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new UsersExport($request), 'users.xlsx');
     }
 
     public function readItemsOutOfStock(User $user)
@@ -205,6 +221,87 @@ class UserController extends Controller
         return view('users.edit',compact('user','roleFor','staffRoles', 'userRoles','companies','cIdStd'));
     }
 
+    /**
+     * Methot to custom update
+     *
+     * @access public
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function update(Request $request, User $user)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => 'same:password_confirmation',
+            'status' => 'required',
+            'role_for' => 'required'
+        ]);
+        $logoUrl = "";
+        if($request->hasFile('photo'))
+        {
+
+            $this->validate($request, [
+                'photo' => 'image|mimes:png,jpg,jpeg'
+            ]);
+
+            $logo = $request->photo;
+            $logoNewName = time().$logo->getClientOriginalName();
+            $logo->move('uploads/employee',$logoNewName);
+            $logoUrl = 'uploads/employee/'.$logoNewName;
+        }
+        $password = $user->password;
+        if($request->role_for == "1") //staff
+        {
+            $roles = $request->staff_roles;
+            $companies = $request->staff_company;
+        }
+        if($request->role_for == "0") //user
+        {
+            $roles = $request->user_roles;
+            $companies = $request->user_company; //array
+        }
+        $input = array();
+        $input['name'] = $request->name;
+        $input['email'] = $request->email;
+        if (!empty($request->password))
+        {
+            $input['password'] = bcrypt($input['password']);
+        } else {
+            $input['password'] = $password;
+        }
+        $input['phone'] = $request->phone;
+        $input['address'] = $request->address;
+        $input['status'] = $request->status;
+        $input['photo'] = $logoUrl;
+        $user->update($input);
+        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+        $userSelectedCompaniesStr = $request->user_selected_companies;
+        $userSelectedCompaniesArray = explode(',',$userSelectedCompaniesStr);
+        foreach ($userSelectedCompaniesArray as $company) {
+            DB::table('user_companies')->where('user_id',$user->id)->where('company_id',$company)->delete();
+        }
+        if($request->role_for == "1") //staff
+        {
+            // Attach company
+            $user->companies()->attach($companies);
+        }
+        if($request->role_for == "0") //user
+        {
+            if(!empty($companies))
+            {
+                foreach ($companies as $company)
+                {
+                    $user->companies()->attach($company);
+                }
+            }
+        }
+        $user->assignRole($roles);
+        return redirect()->route('users.index')->with('success', trans('User Updated Successfully'));
+    }
+
 
     /**
      * Remove the specified resource from storage
@@ -226,97 +323,5 @@ class UserController extends Controller
             DB::rollback();
             return redirect()->route('users.index')->with('error',$e);
         }
-    }
-
-    /**
-     * Methot to custom update
-     *
-     * @access public
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function update(Request $request, User $user)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
-            'password' => 'same:password_confirmation',
-            'status' => 'required',
-            'role_for' => 'required'
-        ]);
-
-        $logoUrl = "";
-        if($request->hasFile('photo'))
-        {
-
-            $this->validate($request, [
-                'photo' => 'image|mimes:png,jpg,jpeg'
-            ]);
-
-            $logo = $request->photo;
-            $logoNewName = time().$logo->getClientOriginalName();
-            $logo->move('uploads/employee',$logoNewName);
-            $logoUrl = 'uploads/employee/'.$logoNewName;
-        }
-
-        $password = $user->password;
-
-        if($request->role_for == "1") //staff
-        {
-            $roles = $request->staff_roles;
-            $companies = $request->staff_company;
-        }
-
-        if($request->role_for == "0") //user
-        {
-            $roles = $request->user_roles;
-            $companies = $request->user_company; //array
-        }
-
-        $input = array();
-        $input['name'] = $request->name;
-        $input['email'] = $request->email;
-        if (!empty($request->password))
-        {
-            $input['password'] = bcrypt($input['password']);
-        } else {
-            $input['password'] = $password;
-        }
-        $input['phone'] = $request->phone;
-        $input['address'] = $request->address;
-        $input['status'] = $request->status;
-        $input['photo'] = $logoUrl;
-        $user->update($input);
-
-        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-
-        $userSelectedCompaniesStr = $request->user_selected_companies;
-        $userSelectedCompaniesArray = explode(',',$userSelectedCompaniesStr);
-        foreach ($userSelectedCompaniesArray as $company) {
-            DB::table('user_companies')->where('user_id',$user->id)
-                                       ->where('company_id',$company)
-                                       ->delete();
-        }
-        if($request->role_for == "1") //staff
-        {
-            // Attach company
-            $user->companies()->attach($companies);
-        }
-        if($request->role_for == "0") //user
-        {
-            if(!empty($companies))
-            {
-                foreach ($companies as $company)
-                {
-                    $user->companies()->attach($company);
-                }
-            }
-
-        }
-
-        $user->assignRole($roles);
-        return redirect()->route('users.index')->with('success', trans('User Updated Successfully'));
     }
 }

@@ -8,6 +8,7 @@ use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\ApplicationSetting;
+use Spatie\Permission\Models\Role;
 use Redirect,Response,Config;
 use Datatables;
 use Artisan;
@@ -23,6 +24,17 @@ use Illuminate\Support\Str;
  */
 class ApplicationSettingController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('role:Super Admin', ['only' => ['index','update']]);
+    }
+
     /**
      * Method to load view
      *

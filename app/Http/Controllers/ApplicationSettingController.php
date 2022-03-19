@@ -2,19 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SmtpConfiguration;
-use Auth;
-use Session;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Models\ApplicationSetting;
-use Spatie\Permission\Models\Role;
-use Redirect,Response,Config;
-use Datatables;
 use Artisan;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ApplicationSetting;
 
 /**
  * Class ApplicationSettingController

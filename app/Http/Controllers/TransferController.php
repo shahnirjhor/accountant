@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Models\Account;
 use App\Models\Revenue;
 use App\Models\Payment;
@@ -11,13 +12,26 @@ use App\Models\Category;
 use App\Models\Transfer;
 use App\Models\OfflinePayment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Services\PayUService\Exception;
-use Session;
-// use Date;
+use App\Exports\TransfersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransferController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:transfer-read|transfer-create|transfer-update|transfer-delete', ['only' => ['index']]);
+        $this->middleware('permission:transfer-create', ['only' => ['create','store']]);
+        $this->middleware('permission:transfer-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:transfer-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:transfer-export', ['only' => ['doExport']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +39,8 @@ class TransferController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $transfers = $this->filter($request)->paginate(10);
@@ -50,6 +66,17 @@ class TransferController extends Controller
             })->where('transfers.company_id', session('company_id'))->latest();
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new TransfersExport($request, session('company_id')), 'transfers.xlsx');
     }
 
     /**
@@ -153,7 +180,7 @@ class TransferController extends Controller
      */
     public function show(Transfer $transfer)
     {
-        
+
     }
 
     /**
@@ -287,5 +314,5 @@ class TransferController extends Controller
             'date' => ['required', 'date_format:Y-m-d H:i'],
             'payment_method' => ['required', 'string', 'max:255']
         ]);
-    } 
+    }
 }

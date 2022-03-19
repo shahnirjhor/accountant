@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App;
-use Illuminate\Support\Facades\Input;
 use Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 /**
  * Class HomeController
@@ -38,7 +37,7 @@ class HomeController extends Controller
     }
 
     public function lang(Request $request)
-    {   
+    {
         $authId = Auth::user()->id;
         $locale = $request->language;
         App::setLocale($locale);

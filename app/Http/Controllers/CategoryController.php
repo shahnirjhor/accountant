@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Session;
-use App\Models\Company;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Exports\CategoriesExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
-use App\Services\PayUService\Exception;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {

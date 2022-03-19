@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('transfer.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Transfer')</a></h3>
+                @can('transfer-create')
+                    <h3><a href="{{ route('transfer.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Transfer')</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -21,6 +23,11 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('Transfers') </h3>
                 <div class="card-tools">
+                    @can('transfer-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('transfer.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -77,7 +84,9 @@
                             <th>@lang('From Account')</th>
                             <th>@lang('To Account')</th>
                             <th>@lang('Amount')</th>
-                            <th data-orderable="false">@lang('Actions')</th>
+                            @canany(['transfer-update', 'transfer-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -87,10 +96,16 @@
                             <td>{{ $transfer->payment->account->name }}</td>
                             <td>{{ $transfer->revenue->account->name }}</td>
                             <td>@money($transfer->payment->amount, $transfer->payment->currency_code, true)</td>
-                            <td>
-                                <a href="{{ route('transfer.edit', $transfer) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="#" data-href="{{ route('transfer.destroy', $transfer) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                            </td>
+                            @canany(['transfer-update', 'transfer-delete'])
+                                <td>
+                                    @can('transfer-update')
+                                        <a href="{{ route('transfer.edit', $transfer) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                    @endcan
+                                    @can('transfer-delete')
+                                        <a href="#" data-href="{{ route('transfer.destroy', $transfer) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @endcan
+                                </td>
+                            @endcanany
                         </tr>
                         @endforeach
                     </tbody>
@@ -101,18 +116,5 @@
     </div>
 </div>
 @include('layouts.delete_modal')
-<script>
-    "use strict";
-    $(document).ready( function () {
-        $('#laravel_datatable').DataTable({
-            "paging": false,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": false,
-            "autoWidth": false,
-            "responsive": true,
-        });
-    });
-</script>
+@include('script.transfer.index.js')
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Account;
@@ -10,7 +11,6 @@ use App\Models\Revenue;
 use App\Models\Category;
 use App\Models\OfflinePayment;
 use Illuminate\Http\Request;
-use Session;
 
 class RevenueController extends Controller
 {

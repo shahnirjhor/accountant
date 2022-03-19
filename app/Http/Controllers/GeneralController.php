@@ -2,22 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+use Session;
+use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Setting;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Contracts\Encryption\DecryptException;
-use DB;
-use Date;
-use Session;
-use App\Models\ApplicationSetting;
-use App\Models\Company;
-use App\Models\User;
-use Carbon\Carbon;
 
 class GeneralController extends Controller
 {

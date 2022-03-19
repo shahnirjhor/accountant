@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
+use Session;
+use Carbon\Carbon;
+use App\Models\Tax;
 use App\Models\Bill;
-use App\Models\BillPayment;
-use App\Models\Category;
-use App\Models\Company;
-use App\Models\Customer;
 use App\Models\Vendor;
+use App\Models\Account;
+use App\Models\Company;
 use App\Models\Invoice;
-use App\Models\InvoicePayment;
 use App\Models\Payment;
 use App\Models\Revenue;
-use App\Models\Tax;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Customer;
 use App\Traits\DateTime;
-use Session;
+use App\Models\BillPayment;
+use Illuminate\Http\Request;
+use App\Models\InvoicePayment;
 
 class ReportController extends Controller
 {

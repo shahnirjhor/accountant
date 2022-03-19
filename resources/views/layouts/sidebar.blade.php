@@ -110,42 +110,43 @@ $RoleName = Auth::user()->getRoleNames();
                         </li>
                     </ul>
                 </li>
-
-                <li class="nav-item has-treeview @if($c == 'account' || $c == 'transfer' || $c == 'transaction') menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfer' || $c == 'transaction' ) active @endif">
-                        <i class="nav-icon fas fa-university"></i>
-                        <p>
-                            @lang('Banking')
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('account.index') }}" class="nav-link @if($c == 'account') active @endif ">
-                                <i class="fas fa-user-circle nav-icon"></i>
-                                <p>@lang('Accounts')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('transfer.index') }}" class="nav-link @if($c == 'transfer') active @endif ">
-                                <i class="fas fa-exchange-alt nav-icon"></i>
-                                <p>@lang('Transfers')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('transaction.index') }}" class="nav-link @if($c == 'transactions') active @endif ">
-                                <i class="fas fa-handshake nav-icon"></i>
-                                <p>@lang('Transactions')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link @if($c == 'reconciliations') active @endif ">
-                                <i class="fab fa-creative-commons-sampling-plus nav-icon"></i>
-                                <p>@lang('Reconciliations')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['account-read', 'account-create', 'account-update', 'account-delete', 'account-export', 'transfer-read', 'transfer-create', 'transfer-update', 'transfer-delete', 'transfer-export', 'transaction-read', 'transaction-export'])
+                    <li class="nav-item has-treeview @if($c == 'account' || $c == 'transfer' || $c == 'transaction') menu-open @endif">
+                        <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfer' || $c == 'transaction' ) active @endif">
+                            <i class="nav-icon fas fa-university"></i>
+                            <p>
+                                @lang('Banking')
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @canany(['account-read', 'account-create', 'account-update', 'account-delete', 'account-export'])
+                                <li class="nav-item">
+                                    <a href="{{ route('account.index') }}" class="nav-link @if($c == 'account') active @endif ">
+                                        <i class="fas fa-user-circle nav-icon"></i>
+                                        <p>@lang('Accounts')</p>
+                                    </a>
+                                </li>
+                            @endcanany
+                            @canany(['transfer-read', 'transfer-create', 'transfer-update', 'transfer-delete', 'transfer-export'])
+                                <li class="nav-item">
+                                    <a href="{{ route('transfer.index') }}" class="nav-link @if($c == 'transfer') active @endif ">
+                                        <i class="fas fa-exchange-alt nav-icon"></i>
+                                        <p>@lang('Transfers')</p>
+                                    </a>
+                                </li>
+                            @endcanany
+                            @canany(['transaction-read', 'transaction-export'])
+                                <li class="nav-item">
+                                    <a href="{{ route('transaction.index') }}" class="nav-link @if($c == 'transactions') active @endif ">
+                                        <i class="fas fa-handshake nav-icon"></i>
+                                        <p>@lang('Transactions')</p>
+                                    </a>
+                                </li>
+                            @endcanany
+                        </ul>
+                    </li>
+                @endcanany
                 @canany(['income-report-read', 'expense-report-read', 'tax-report-read', 'profit-loss-report-read', 'income-expense-report-read'])
                     <li class="nav-item has-treeview @if($c == 'report') menu-open @endif">
                         <a href="javascript:void(0)" class="nav-link @if($c == 'report') active @endif">

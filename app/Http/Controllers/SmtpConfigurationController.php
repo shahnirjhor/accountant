@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\SmtpConfiguration;
 use App\Models\ApplicationSetting;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SmtpConfigurationController extends Controller

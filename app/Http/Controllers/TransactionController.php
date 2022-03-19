@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Models\Company;
 use App\Models\Payment;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
-use Session;
-
 
 class TransactionController extends Controller
 {

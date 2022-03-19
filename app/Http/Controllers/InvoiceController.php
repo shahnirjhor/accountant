@@ -2,30 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\InvoicesExport;
-use App\Models\Account;
-use App\Models\Category;
-use App\Models\Company;
-use App\Models\Currency;
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Models\InvoiceHistory;
-use App\Models\InvoiceItem;
-use App\Models\InvoiceItemTax;
-use App\Models\InvoicePayment;
-use App\Models\InvoiceTotal;
-use App\Models\Item;
-use App\Models\OfflinePayment;
+use Session;
 use App\Models\Tax;
+use App\Models\Item;
 use App\Models\User;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\Invoice;
+use App\Models\Category;
+use App\Models\Customer;
+use App\Models\Currency;
+use App\Models\InvoiceItem;
+use App\Models\InvoiceTotal;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\InvoiceItemTax;
+use App\Models\InvoiceHistory;
+use App\Models\InvoicePayment;
+use App\Models\OfflinePayment;
+use App\Exports\InvoicesExport;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Notifications\Item as ItemNotification;
 use App\Notifications\ItemReminder as ItemReminderNotification;
-use Exception;
-use Illuminate\Http\Request;
-use Session;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
 {

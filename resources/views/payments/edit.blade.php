@@ -33,7 +33,7 @@
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-calendar"></i>
                                     </div>
-                                    <input type="text" name="paid_at" id="paid_at" class="form-control dateTime-flatpickr" value="{{ old('paid_at', $payment->paid_at) }}" required>
+                                    <input type="text" name="paid_at" id="paid_at" class="form-control dateTime-" value="{{ old('paid_at', $payment->paid_at) }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">

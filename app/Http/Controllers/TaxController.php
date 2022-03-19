@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tax;
-use App\Exports\TaxesExport;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-use App\Services\PayUService\Exception;
+use App\Exports\TaxesExport;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Services\PayUService\Exception;
 
 class TaxController extends Controller
 {

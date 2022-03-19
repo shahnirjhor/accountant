@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OfflinePayment;
 use Illuminate\Http\Request;
+use App\Models\OfflinePayment;
 
 class OfflinePaymentController extends Controller
 {

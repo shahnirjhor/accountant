@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Currency;
-use App\Models\Vendor;
-use Illuminate\Http\Request;
 use Session;
+use App\Models\Vendor;
+use App\Models\Currency;
+use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
@@ -117,7 +117,7 @@ class VendorController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'unique:vendors,email,'.$id, 'max:255'],
             'tax_number' => ['nullable', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:14'],            
+            'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
             'currency_code' => ['required', 'string', 'max:255'],
             'website' => ['nullable', 'string', 'max:14'],

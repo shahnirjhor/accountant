@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Hash;
+use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Auth;
-use Hash;
 
 /**
  * Class ProfileController
@@ -112,7 +112,7 @@ class ProfileController extends Controller
 
     /**
      * Method to load view
-     * 
+     *
      * @access public
      * @return mixed
      */

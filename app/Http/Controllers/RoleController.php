@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Exports\RolesExport;
-use Maatwebsite\Excel\Facades\Excel;
+
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Exports\RolesExport;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
 
 use function PHPUnit\Framework\isNull;
 

@@ -2,15 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
-use App\Models\Currency;
-use App\Models\Setting;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Session;
+use App\Models\Account;
+use App\Models\Setting;
+use App\Models\Currency;
+use Illuminate\Http\Request;
+use App\Exports\AccountsExport;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AccountController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:account-read|account-create|account-update|account-delete', ['only' => ['index']]);
+        $this->middleware('permission:account-create', ['only' => ['create','store']]);
+        $this->middleware('permission:account-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:account-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:account-export', ['only' => ['doExport']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,6 +34,8 @@ class AccountController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $accounts = $this->filter($request)->paginate(10)->withQueryString();
         $currencies = Currency::where('company_id', Session::get('company_id'))->where('enabled', 1)->pluck('name', 'code');
         return view('accounts.index',compact('accounts','currencies'));
@@ -37,6 +55,17 @@ class AccountController extends Controller
             $query->where('currency_code', '=', $request->currency_code);
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new AccountsExport($request, session('company_id')), 'accounts.xlsx');
     }
 
     /**
@@ -62,7 +91,7 @@ class AccountController extends Controller
         $data = $request->only(['name','number','currency_code','opening_balance','bank_name','bank_phone','bank_address','enabled']);
         $data['company_id'] = session('company_id');
         DB::transaction(function () use ($data, $request) {
-            $account = Account::create($data);            
+            $account = Account::create($data);
             if($request->default_account == "1") {
                 Setting::where('company_id', Session::get('company_id'))->where('key', 'general.default_account')->update(['value' => $account->id]);
             }

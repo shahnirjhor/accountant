@@ -4,21 +4,15 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Session;
-use Datatables;
+use App\Models\Tax;
 use App\Models\User;
-use App\Models\Company;
+use App\Models\Account;
+use App\Models\Category;
+use App\Models\Currency;
+use App\Models\Customer;
 use App\Models\BankingPayment;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Crypt;
-use Redirect, Response, DB, Config;
-use Illuminate\Http\Request;
-use lang;
-use App\Models\Currency;
-use App\Models\Category;
-use App\Models\Tax;
-use App\Models\Account;
-use App\Models\Customer;
 
 /**
  * Class DatatablesController

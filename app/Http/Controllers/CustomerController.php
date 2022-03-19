@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Models\Currency;
 use App\Models\Customer;
 use Illuminate\Http\Request;
-use Session;
 
 class CustomerController extends Controller
 {
@@ -117,7 +117,7 @@ class CustomerController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'unique:customers,email,'.$id, 'max:255'],
             'tax_number' => ['nullable', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:14'],            
+            'phone' => ['nullable', 'string', 'max:14'],
             'address' => ['nullable', 'string', 'max:255'],
             'currency_code' => ['required', 'string', 'max:255'],
             'website' => ['nullable', 'string', 'max:14'],

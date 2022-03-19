@@ -4,8 +4,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('account.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Account')</a>
-                </h3>
+                @can('account-create')
+                    <h3><a href="{{ route('account.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Account')</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -22,6 +23,11 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('Account List')</h3>
                 <div class="card-tools">
+                    @can('account-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('account.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -73,7 +79,9 @@
                             <th>@lang('Number')</th>
                             <th>@lang('Current Balance')</th>
                             <th>@lang('Status')</th>
-                            <th data-orderable="false" data-searchable="false">@lang('Actions')</th>
+                            @canany(['account-update', 'account-delete'])
+                                <th data-orderable="false" data-searchable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -81,7 +89,7 @@
                         <tr>
                             <td>{{ $account->name }}</td>
                             <td>{{ $account->number }}</td>
-                            <td>{{ $account->balance }}</td>
+                            <td>@money($account->balance, $account->currency_code, true)</td>
                             <td>
                                 @if($account->enabled == '1')
                                     <span class="badge badge-pill badge-success">@lang('Enabled')</span>
@@ -89,10 +97,16 @@
                                     <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                 @endif
                             </td>
-                            <td>
-                                <a href="{{ route('account.edit', $account) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="#" data-href="{{ route('account.destroy', $account) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                            </td>
+                            @canany(['account-update', 'account-delete'])
+                                <td>
+                                    @can('account-update')
+                                        <a href="{{ route('account.edit', $account) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                    @endcan
+                                    @can('account-delete')
+                                        <a href="#" data-href="{{ route('account.destroy', $account) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @endcan
+                                </td>
+                            @endcanany
                         </tr>
                         @endforeach
                     </tbody>

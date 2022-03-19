@@ -2,19 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
-use App\Models\User;
-use Auth;
-use Illuminate\Http\Request;
-use App\Models\ApplicationSetting;
-use App\Models\Category;
-use Mpdf\Tag\Em;
-use Spatie\Permission\Models\Role;
-use DB;
-
-use App\Traits\DateTime;
-use Carbon\Carbon;
 use Session;
+use Carbon\Carbon;
+use App\Models\Company;
+use App\Models\Category;
+use App\Traits\DateTime;
 
 /**
  * Class DashboardController

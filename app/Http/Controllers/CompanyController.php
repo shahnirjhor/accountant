@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Currency;
-use App\Models\Setting;
-use Illuminate\Http\Request;
-use App\Models\OfflinePayment;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company;
-use App\Models\Category;
-use App\Models\Account;
-use App\Models\InvoiceStatus;
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\Setting;
+use App\Models\Currency;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Models\InvoiceStatus;
+use App\Models\OfflinePayment;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class CompanyController extends Controller
 {

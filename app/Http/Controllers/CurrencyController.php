@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Currency;
-use App\Models\Setting;
-use App\Models\Company;
-use App\Exports\CurrenciesExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Http\Request;
-use App\Services\PayUService\Exception;
-use Illuminate\Support\Facades\DB;
 use Session;
+use App\Models\Company;
+use App\Models\Setting;
+use App\Models\Currency;
+use Illuminate\Http\Request;
+use App\Exports\CurrenciesExport;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Services\PayUService\Exception;
 
 class CurrencyController extends Controller
 {

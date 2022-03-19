@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
-use App\Models\Bill;
-use App\Models\BillHistory;
-use App\Models\BillItem;
-use App\Models\BillItemTax;
-use App\Models\BillPayment;
-use App\Models\BillTotal;
-use App\Models\Category;
-use App\Models\Company;
-use App\Models\Currency;
-use App\Models\Item;
-use App\Models\OfflinePayment;
+use Session;
 use App\Models\Tax;
+use App\Models\Bill;
+use App\Models\Item;
 use App\Models\User;
 use App\Models\Vendor;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Account;
+use App\Models\Company;
+use App\Models\Category;
+use App\Models\Currency;
+use App\Models\BillItem;
+use App\Models\BillTotal;
 use Illuminate\Support\Str;
-use Session;
+use App\Models\BillHistory;
+use App\Models\BillItemTax;
+use App\Models\BillPayment;
+use Illuminate\Http\Request;
+use App\Models\OfflinePayment;
+use Illuminate\Support\Facades\DB;
 
 class BillController extends Controller
 {

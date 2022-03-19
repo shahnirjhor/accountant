@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Artisan;
-use Config;
 use DB;
-use File;
-use Session;
+use Config;
+use Artisan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -31,7 +29,7 @@ class InstallController extends Controller
             if (Schema::hasTable('application_settings')) {
                 return view('page.login');
             }
-            
+
             return view('install.manually');
         } else {
             return "No Database !!! <br>Please create a database first !!!";

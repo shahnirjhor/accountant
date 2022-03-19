@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ItemsExport;
-use Maatwebsite\Excel\Facades\Excel;
+use Session;
+use App\Models\Tax;
 use App\Models\Item;
 use App\Models\Company;
 use App\Models\Category;
 use App\Models\Currency;
-use App\Models\Tax;
+use App\Exports\ItemsExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Session;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ItemController extends Controller
 {

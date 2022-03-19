@@ -24,6 +24,21 @@ class ReportController extends Controller
 
     use DateTime;
 
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:income-report-read', ['only' => ['income']]);
+        $this->middleware('permission:expense-report-read', ['only' => ['expense']]);
+        $this->middleware('permission:income-expense-report-read', ['only' => ['incomeVsexpense']]);
+        $this->middleware('permission:tax-report-read', ['only' => ['tax']]);
+        $this->middleware('permission:profit-loss-report-read', ['only' => ['profitAndloss']]);
+    }
+
     public function income(Request $request)
     {
         $company = Company::findOrFail(Session::get('company_id'));

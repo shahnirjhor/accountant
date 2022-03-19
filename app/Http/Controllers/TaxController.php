@@ -25,6 +25,7 @@ class TaxController extends Controller
         $this->middleware('permission:tax-rate-delete', ['only' => ['destroy']]);
         $this->middleware('permission:tax-rate-export', ['only' => ['doExport']]);
     }
+
     /**
      * Display a listing of the resource.
      *

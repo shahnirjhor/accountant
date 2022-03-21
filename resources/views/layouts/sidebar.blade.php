@@ -136,9 +136,9 @@ $RoleName = Auth::user()->getRoleNames();
                                     </a>
                                 </li>
                             @endcanany
-                            @canany(['transaction-read', 'transaction-export'])
+                            @canany(['transaction-read'])
                                 <li class="nav-item">
-                                    <a href="{{ route('transaction.index') }}" class="nav-link @if($c == 'transactions') active @endif ">
+                                    <a href="{{ route('transaction.index') }}" class="nav-link @if($c == 'transaction') active @endif ">
                                         <i class="fas fa-handshake nav-icon"></i>
                                         <p>@lang('Transactions')</p>
                                     </a>

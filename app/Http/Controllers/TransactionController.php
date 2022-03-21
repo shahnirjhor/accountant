@@ -3,13 +3,26 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\Models\Account;
+use App\Models\BillPayment;
 use App\Models\Company;
+use App\Models\InvoicePayment;
 use App\Models\Payment;
 use App\Models\Revenue;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:transaction-read', ['only' => ['index']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -20,25 +33,68 @@ class TransactionController extends Controller
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $transactions = $this->filter($request);
-        return view('transactions.index',compact('transactions','company'));
+        $accounts = Account::where('company_id', session('company_id'))->where('enabled', 1)->orderBy('name')->pluck('name', 'id');
+        return view('transactions.index',compact('transactions','company','accounts'));
     }
 
-    private function filter()
+    private function filter(Request $request)
     {
         $type = null;
         $paymentTransactions = [];
+        $billPaymentTransactions = [];
         if ($type != 'income') {
-            $payments = Payment::orderBy('id', 'DESC')->where('company_id', Session::get('company_id'))->paginate(5);
+            $paymentsQuery = Payment::orderBy('id', 'DESC')->where('company_id', Session::get('company_id'));
+            $billQaymentsQuery = BillPayment::orderBy('id', 'DESC')->where('company_id', Session::get('company_id'));
+            if ($request->paid_at) {
+                $paymentsQuery->where('paid_at', 'like', $request->paid_at.'%');
+                $billQaymentsQuery->where('paid_at', 'like', $request->paid_at.'%');
+            }
+
+            if ($request->account_id) {
+                $paymentsQuery->where('account_id', $request->account_id);
+                $billQaymentsQuery->where('account_id', $request->account_id);
+            }
+
+            if ($request->amount) {
+                $paymentsQuery->where('amount', $request->amount);
+                $billQaymentsQuery->where('account_id', $request->amount);
+            }
+
+            $payments = $paymentsQuery->paginate(5);
+            $billQayments = $billQaymentsQuery->paginate(5);
+
             $paymentTransactions = $this->addTransactions($payments, "Expense");
+            $billPaymentTransactions = $this->addTransactions($billQayments, "Expense");
         }
 
         $revenueTransactions = [];
+        $invoicePaymentTransactions = [];
         if ($type != 'expense') {
-            $revenues = Revenue::orderBy('id', 'DESC')->where('company_id', Session::get('companyInfo'))->paginate(5);
-            $revenueTransactions = $this->addTransactions($revenues, "Income");
+            $revenuesQuery = Revenue::orderBy('id', 'DESC')->where('company_id', Session::get('company_id'));
+            $invoicePaymentQuery = InvoicePayment::orderBy('id', 'DESC')->where('company_id', Session::get('company_id'));
+            if ($request->paid_at) {
+                $revenuesQuery->where('paid_at', 'like', $request->paid_at.'%');
+                $invoicePaymentQuery->where('paid_at', 'like', $request->paid_at.'%');
+            }
+
+            if ($request->account_id) {
+                $revenuesQuery->where('account_id', $request->account_id);
+                $invoicePaymentQuery->where('account_id', $request->account_id);
+            }
+
+            if ($request->amount) {
+                $revenuesQuery->where('amount', $request->amount);
+                $invoicePaymentQuery->where('account_id', $request->amount);
+            }
+
+            $revenues = $revenuesQuery->paginate(5);
+            $invoicePayments = $invoicePaymentQuery->paginate(5);
+
+            $revenueTransactions = $this->addTransactions($revenues, "Expense");
+            $invoicePaymentTransactions = $this->addTransactions($invoicePayments, "Expense");
         }
 
-        $myTransactions = array_merge($paymentTransactions,$revenueTransactions);
+        $myTransactions = array_merge($paymentTransactions,$billPaymentTransactions, $revenueTransactions, $invoicePaymentTransactions);
 
         return $myTransactions;
     }

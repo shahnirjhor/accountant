@@ -103,7 +103,6 @@ class PermissionTableSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'transfer-delete','display_name' => 'Transfer']);
         Permission::firstOrCreate(['name' => 'transfer-export','display_name' => 'Transfer']);
         Permission::firstOrCreate(['name' => 'transaction-read','display_name' => 'Transaction']);
-        Permission::firstOrCreate(['name' => 'transaction-export','display_name' => 'Transaction']);
         Permission::firstOrCreate(['name' => 'income-report-read','display_name' => 'Reports']);
         Permission::firstOrCreate(['name' => 'expense-report-read','display_name' => 'Reports']);
         Permission::firstOrCreate(['name' => 'tax-report-read','display_name' => 'Reports']);

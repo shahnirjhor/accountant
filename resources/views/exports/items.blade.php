@@ -20,7 +20,14 @@
                 <td>{{ $item->sale_price }}</td>
                 <td>{{ $item->purchase_price }}</td>
                 <td>{{ $item->quantity }}</td>
-                <td>{{ $item->tax->name }}</td>
+                @php
+                    if(isset($item->tax->name) && !empty($item->tax->name)) {
+                        $tax = $item->tax->name;
+                    } else {
+                        $tax = "No Tax";
+                    }
+                @endphp
+                <td>{{ $tax }}</td>
                 <td>{{ $item->category->name }}</td>
                 <td>{{ ($item->enabled == '1') ? "Enable" : "Disable" }}</td>
             </tr>

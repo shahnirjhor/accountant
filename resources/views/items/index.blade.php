@@ -4,7 +4,9 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('item.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New Item') }}</a></h3>
+                @can('item-create')
+                    <h3><a href="{{ route('item.create') }}" class="btn btn-outline btn-info">+ {{ __('Add New Item') }}</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -21,9 +23,11 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('Items') </h3>
                 <div class="card-tools">
-                    <a class="btn btn-primary" target="_blank" href="{{ route('item.index') }}?export=1">
-                        <i class="fas fa-cloud-download-alt"></i> @lang('Export')
-                    </a>
+                    @can('item-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('item.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -51,7 +55,7 @@
                                         <select name="category_id" class="form-control">
                                             <option value="">--@lang('Select')--</option>
                                             @foreach ($categories as $key => $value)
-                                                <option value="{{ $key }}" @if($key == old('category_id')) selected @endif>{{ $value }}</option>
+                                                <option value="{{ $key }}" {{ old('category_id', request()->category_id) == $key ? 'selected' : ''  }} >{{ $value }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -61,8 +65,8 @@
                                         <label>@lang('Status')</label>
                                         <select name="enabled" class="form-control">
                                             <option value="">--@lang('Select')--</option>
-                                            <option value="1">@lang('Enable')</option>
-                                            <option value="0">@lang('Disable')</option>
+                                            <option value="1" {{ old('enabled', request()->enabled) === '1' ? 'selected' : ''  }}>@lang('Enable')</option>
+                                            <option value="0" {{ old('enabled', request()->enabled) === '0' ? 'selected' : ''  }}>@lang('Disable')</option>
                                         </select>
                                     </div>
                                 </div>
@@ -88,7 +92,9 @@
                             <th>@lang('Sale Price')</th>
                             <th>@lang('Purchase Price')</th>
                             <th>@lang('Status')</th>
-                            <th data-orderable="false">@lang('Actions')</th>
+                            @canany(['item-update', 'item-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -107,10 +113,16 @@
                                     <span class="badge badge-pill badge-danger">@lang('Disabled')</span>
                                 @endif
                             </td>
-                            <td>
-                                <a href="{{ route('item.edit', $item) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="#" data-href="{{ route('item.destroy', $item) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                            </td>
+                            @canany(['item-update', 'item-delete'])
+                                <td>
+                                    @can('item-update')
+                                        <a href="{{ route('item.edit', $item) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                    @endcan
+                                    @can('item-delete')
+                                        <a href="#" data-href="{{ route('item.destroy', $item) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @endcan
+                                </td>
+                            @endcanany
                         </tr>
                         @endforeach
                     </tbody>

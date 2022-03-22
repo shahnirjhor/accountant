@@ -1,5 +1,6 @@
 <script>
     "use strict";
+
     $(document).ready(function() {
 
         $('.dropify').dropify();
@@ -7,13 +8,13 @@
         var quill = new Quill('#input_description', {
             theme: 'snow'
         });
-        var address = $("#description").val();
-        quill.clipboard.dangerouslyPasteHTML(address);
+        quill.root.innerHTML = $('#description').val();
         quill.root.blur();
-        $('#input_description').on('keyup', function(){
-            var input_description = quill.container.firstChild.innerHTML;
-            $("#description").val(input_description);
+
+        $(document).on('submit', '#itemQuickForm', function(e){
+            $('#description').val(quill.container.firstChild.innerHTML);
         });
+
         $(".select2").select2();
     });
 </script>

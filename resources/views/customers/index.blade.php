@@ -4,9 +4,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3>
-                    <a href="{{ route('customer.create') }}" class="btn btn-outline btn-info">+ @lang('Add Customer')</a>
-                </h3>
+                @can('customer-create')
+                    <h3>
+                        <a href="{{ route('customer.create') }}" class="btn btn-outline btn-info">+ @lang('Add Customer')</a>
+                    </h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -23,6 +25,11 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('Customer List')</h3>
                 <div class="card-tools">
+                    @can('customer-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('customer.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -70,7 +77,9 @@
                             <th>@lang('Phone')</th>
                             <th>@lang('Unpaid')</th>
                             <th>@lang('Status')</th>
-                            <th data-orderable="false">@lang('Actions')</th>
+                            @canany(['customer-update', 'customer-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -79,7 +88,7 @@
                                 <td>{{ $customer->name }}</td>
                                 <td>{{ $customer->email }}</td>
                                 <td>{{ $customer->phone }}</td>
-                                <td>{{ $customer->id }}</td>
+                                <td>@money($customer->unpaid, $company->default_currency, true)</td>
                                 <td>
                                     @if($customer->enabled)
                                         <span class="badge badge-success">@lang('Active')</span>
@@ -89,8 +98,12 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('customer.show', $customer->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Show')"><i class="fa fa-eye ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                    <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                    <a href="#" data-href="{{ route('customer.destroy', $customer->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @can('customer-update')
+                                        <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                    @endcan
+                                    @can('customer-delete')
+                                        <a href="#" data-href="{{ route('customer.destroy', $customer->id) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach

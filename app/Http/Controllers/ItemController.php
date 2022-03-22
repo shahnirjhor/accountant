@@ -16,6 +16,20 @@ use Maatwebsite\Excel\Facades\Excel;
 class ItemController extends Controller
 {
     /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:item-read|item-create|item-update|item-delete', ['only' => ['index']]);
+        $this->middleware('permission:item-create', ['only' => ['create','store']]);
+        $this->middleware('permission:item-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:item-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:item-export', ['only' => ['doExport']]);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -56,7 +70,7 @@ class ItemController extends Controller
      */
     private function doExport(Request $request)
     {
-        return Excel::download(new ItemsExport($request), 'items.xlsx');
+        return Excel::download(new ItemsExport($request, session('company_id')), 'items.xlsx');
     }
 
     /**

@@ -3,12 +3,29 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\Models\Company;
 use App\Models\Currency;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Exports\CustomersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:customer-read|customer-create|customer-update|customer-delete', ['only' => ['index']]);
+        $this->middleware('permission:customer-create', ['only' => ['create','store']]);
+        $this->middleware('permission:customer-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:customer-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:customer-export', ['only' => ['doExport']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +33,12 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
         $customers = $this->filter($request)->paginate(10)->withQueryString();
-        return view('customers.index',compact('customers'));
+        return view('customers.index',compact('customers','company'));
     }
 
     private function filter(Request $request)
@@ -33,6 +54,17 @@ class CustomerController extends Controller
             $query->where('email', 'like', $request->email.'%');
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new CustomersExport($request, session('company_id')), 'customers.xlsx');
     }
 
     /**

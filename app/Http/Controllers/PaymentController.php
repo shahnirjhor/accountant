@@ -11,9 +11,27 @@ use App\Models\Category;
 use App\Models\Currency;
 use Illuminate\Http\Request;
 use App\Models\OfflinePayment;
+use App\Exports\PaymentsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PaymentController extends Controller
 {
+
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:payment-read|payment-create|payment-update|payment-delete', ['only' => ['index']]);
+        $this->middleware('permission:payment-create', ['only' => ['create','store']]);
+        $this->middleware('permission:payment-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:payment-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:payment-export', ['only' => ['doExport']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,6 +39,8 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $payments = $this->filter($request)->paginate(10);
@@ -47,6 +67,17 @@ class PaymentController extends Controller
             $query->where('account_id', $request->account_id);
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new PaymentsExport($request, session('company_id')), 'payments.xlsx');
     }
 
     /**

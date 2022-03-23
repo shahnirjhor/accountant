@@ -11,9 +11,25 @@ use App\Models\Revenue;
 use App\Models\Category;
 use App\Models\OfflinePayment;
 use Illuminate\Http\Request;
+use App\Exports\RevenuesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RevenueController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:revenue-read|revenue-create|revenue-update|revenue-delete', ['only' => ['index']]);
+        $this->middleware('permission:revenue-create', ['only' => ['create','store']]);
+        $this->middleware('permission:revenue-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:revenue-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:revenue-export', ['only' => ['doExport']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,6 +37,8 @@ class RevenueController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $revenues = $this->filter($request)->paginate(10);
@@ -47,6 +65,17 @@ class RevenueController extends Controller
             $query->where('account_id', $request->account_id);
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new RevenuesExport($request, session('company_id')), 'revenues.xlsx');
     }
 
     /**

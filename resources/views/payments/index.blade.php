@@ -4,8 +4,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('payment.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Payment') }}</a>
-                </h3>
+                @can('payment-create')
+                    <h3>
+                        <a href="{{ route('payment.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Payment') }}</a>
+                    </h3>
+                @endcan
+
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -22,6 +26,11 @@
             <div class="card-header">
                 <h3 class="card-title">{{ __('Payment List') }}</h3>
                 <div class="card-tools">
+                    @can('payment-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('payment.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -90,7 +99,9 @@
                             <th>@lang('Vendor')</th>
                             <th>@lang('Category ')</th>
                             <th>@lang('Account ')</th>
-                            <th data-orderable="false" data-searchable="false">@lang('Actions')</th>
+                            @canany(['payment-update', 'payment-delete'])
+                                <th data-orderable="false" data-searchable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -101,10 +112,16 @@
                             <td>{{ $payment->vendor->name }}</td>
                             <td>{{ $payment->category->name}}</td>
                             <td>{{ $payment->account->name}}</td>
-                            <td>
-                                <a href="{{ route('payment.edit', $payment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="#" data-href="{{ route('payment.destroy', $payment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                            </td>
+                            @canany(['payment-update', 'payment-delete'])
+                                <td>
+                                    @can('payment-update')
+                                        <a href="{{ route('payment.edit', $payment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                    @endcan
+                                    @can('payment-delete')
+                                        <a href="#" data-href="{{ route('payment.destroy', $payment) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @endcan
+                                </td>
+                            @endcanany
                         </tr>
                         @endforeach
                     </tbody>

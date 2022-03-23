@@ -4,8 +4,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('revenue.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Revenue') }}</a>
-                </h3>
+                @can('revenue-create')
+                    <h3>
+                        <a href="{{ route('revenue.create') }}" class="btn btn-outline btn-info">+ {{ __('Add Revenue') }}</a>
+                    </h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -22,6 +25,11 @@
             <div class="card-header">
                 <h3 class="card-title">{{ __('Revenue List') }}</h3>
                 <div class="card-tools">
+                    @can('revenue-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('revenue.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter"><i class="fas fa-filter"></i> @lang('Filter')</button>
                 </div>
             </div>
@@ -90,7 +98,9 @@
                             <th>@lang('Customer')</th>
                             <th>@lang('Category ')</th>
                             <th>@lang('Account ')</th>
-                            <th data-orderable="false" data-searchable="false">@lang('Actions')</th>
+                            @canany(['revenue-update', 'revenue-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -101,10 +111,16 @@
                             <td>{{ $revenue->customer->name }}</td>
                             <td>{{ $revenue->category->name}}</td>
                             <td>{{ $revenue->account->name}}</td>
-                            <td>
-                                <a href="{{ route('revenue.edit', $revenue) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="#" data-href="{{ route('revenue.destroy', $revenue) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
-                            </td>
+                            @canany(['revenue-update', 'revenue-delete'])
+                                <td>
+                                    @can('revenue-update')
+                                        <a href="{{ route('revenue.edit', $revenue) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="@lang('Edit')"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                    @endcan
+                                    @can('revenue-delete')
+                                        <a href="#" data-href="{{ route('revenue.destroy', $revenue) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="@lang('Delete')"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                    @endcan
+                                </td>
+                            @endcanany
                         </tr>
                         @endforeach
                     </tbody>

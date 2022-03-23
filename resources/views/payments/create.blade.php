@@ -1,4 +1,14 @@
 @extends('layouts.layout')
+@section('one_page_js')
+    <script src="{{ asset('js/quill.js') }}"></script>
+    <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+@endsection
+@section('one_page_css')
+    <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
@@ -32,7 +42,7 @@
                                     <div class="input-group-prepend">
                                       <span class="input-group-text"><i class="fas fa-calendar"></i>
                                     </div>
-                                    <input type="text" name="paid_at" id="paid_at" class="form-control dateTime-flatpickr" value="{{ old('paid_at') }}" required>
+                                    <input type="text" name="paid_at" id="paid_at" class="form-control flatpickr" value="{{ old('paid_at') }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -158,6 +168,14 @@
 <script>
     "use strict";
         $(document).ready(function() {
+
+            $('.dropify').dropify();
+
+            $(".flatpickr").flatpickr({
+                enableTime: false,
+                defaultDate: "today"
+            });
+
             var quill = new Quill('#input_description', {
             theme: 'snow'
         });

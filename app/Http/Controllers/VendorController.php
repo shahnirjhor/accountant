@@ -3,12 +3,29 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\Models\Company;
 use App\Models\Vendor;
 use App\Models\Currency;
 use Illuminate\Http\Request;
+use App\Exports\VendorsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VendorController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:vendor-read|vendor-create|vendor-update|vendor-delete', ['only' => ['index']]);
+        $this->middleware('permission:vendor-create', ['only' => ['create','store']]);
+        $this->middleware('permission:vendor-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:vendor-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:vendor-export', ['only' => ['doExport']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +33,12 @@ class VendorController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
+        $company = Company::findOrFail(Session::get('company_id'));
+        $company->setSettings();
         $vendors = $this->filter($request)->paginate(10)->withQueryString();
-        return view('vendors.index',compact('vendors'));
+        return view('vendors.index',compact('vendors','company'));
     }
 
     private function filter(Request $request)
@@ -33,6 +54,17 @@ class VendorController extends Controller
             $query->where('email', 'like', $request->email.'%');
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new VendorsExport($request, session('company_id')), 'customers.xlsx');
     }
 
     /**

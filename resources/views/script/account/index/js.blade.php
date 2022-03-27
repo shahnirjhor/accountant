@@ -1,4 +1,4 @@
-<script>    
+<script>
     "use strict";
     $(document).ready( function () {
         $('#laravel_datatable').DataTable({
@@ -11,5 +11,4 @@
             "responsive": true,
         });
     });
-    </script>
-    
+</script>

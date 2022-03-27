@@ -1,4 +1,3 @@
-
 <table>
     <thead>
         <tr>
@@ -11,13 +10,13 @@
     </thead>
     <tbody>
         @foreach($vendors as $vendor)
-            <tr>
-                <td>{{ $vendor->name }}</td>
-                <td>{{ $vendor->email }}</td>
-                <td>{{ $vendor->phone }}</td>
-                <td>{{ $vendor->Unpaid }}</td>
-                <td>{{ ($vendor->enabled == '1') ? "Enable" : "Disable" }}</td>
-            </tr>
+        <tr>
+            <td>{{ $vendor->name }}</td>
+            <td>{{ $vendor->email }}</td>
+            <td>{{ $vendor->phone }}</td>
+            <td>{{ $vendor->Unpaid }}</td>
+            <td>{{ ($vendor->enabled == '1') ? "Enable" : "Disable" }}</td>
+        </tr>
         @endforeach
     </tbody>
 </table>

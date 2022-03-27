@@ -1,11 +1,9 @@
 @extends('layouts.layout')
 @section('one_page_js')
-    <!-- Color Picker -->
     <script src="{{ asset('plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
 @endsection
 
 @section('one_page_css')
-    <!-- Color Picker -->
     <link href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')

@@ -195,7 +195,5 @@
         </div>
     </div>
 </div>
-
 @include('script.application.js')
-
 @endsection

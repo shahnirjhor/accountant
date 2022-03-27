@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\DateTime;
 use Session;
-use Akaunting\Money\Currency;
+use Akaunting\Money\Currency as AkCurrency;
+use App\Models\Currency;
 
 class Bill extends Model
 {
@@ -201,7 +202,7 @@ class Bill extends Model
         $company->setSettings();
 
 
-        $default = new Currency($company->default_currency);
+        $default = new AkCurrency($company->default_currency);
 
         if ($format) {
             $money = Money::$code($amount, true)->convert($default, (double) $rate)->format();

@@ -1,4 +1,3 @@
-
 <table>
     <thead>
         <tr>
@@ -14,23 +13,17 @@
     </thead>
     <tbody>
         @foreach($items as $item)
-            <tr>
-                <td>{{ $item->name }}</td>
-                <td>{{ $item->sku }}</td>
-                <td>{{ $item->sale_price }}</td>
-                <td>{{ $item->purchase_price }}</td>
-                <td>{{ $item->quantity }}</td>
-                @php
-                    if(isset($item->tax->name) && !empty($item->tax->name)) {
-                        $tax = $item->tax->name;
-                    } else {
-                        $tax = "No Tax";
-                    }
-                @endphp
-                <td>{{ $tax }}</td>
-                <td>{{ $item->category->name }}</td>
-                <td>{{ ($item->enabled == '1') ? "Enable" : "Disable" }}</td>
-            </tr>
+        <tr>
+            <td>{{ $item->name }}</td>
+            <td>{{ $item->sku }}</td>
+            <td>{{ $item->sale_price }}</td>
+            <td>{{ $item->purchase_price }}</td>
+            <td>{{ $item->quantity }}</td>
+            @php if(isset($item->tax->name) && !empty($item->tax->name)) { $tax = $item->tax->name; } else { $tax = "No Tax"; } @endphp
+            <td>{{ $tax }}</td>
+            <td>{{ $item->category->name }}</td>
+            <td>{{ ($item->enabled == '1') ? "Enable" : "Disable" }}</td>
+        </tr>
         @endforeach
     </tbody>
 </table>

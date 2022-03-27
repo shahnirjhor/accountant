@@ -1,12 +1,9 @@
-<!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-dark navbar-info">
-    <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
-    <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -30,17 +27,12 @@
                 @endif
             </div>
         </li>
-
-        <!-- Company Name -->
         <li class="nav-item dropdown nav-margin">
-
             <a class="dropdown-toggle profile-pic login_profile mr-2" data-toggle="dropdown" href="#">
                 <img src="{{ asset('img/company.png') }}" alt="user-img" width="36" class="img-circle">
                 <b id="ambitious-user-name-id" class="hidden-xs">{{ \Illuminate\Support\Str::limit($company_full_name, 20, '...') }}</b>
                 <span class="caret"></span>
             </a>
-
-
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <div class="dropdown-divider"></div>
                 @foreach ($companySwitchingInfo as $key => $value)
@@ -49,17 +41,11 @@
                     </a>
                     <div class="dropdown-divider"></div>
                 @endforeach
-
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('company.index') }}" class="dropdown-item"><i class="fa fa-sliders-h mr-2"></i> @lang('Manage Company')</a>
             </div>
         </li>
-        <!-- Company Name // -->
-
-        <!-- flag -->
-
         <li class="nav-item dropdown">
-
             @php
                 $locale = App::getLocale();
             @endphp
@@ -75,9 +61,6 @@
                 @endforeach
             </div>
         </li>
-
-        <!-- flag -->
-
         <li class="nav-item dropdown">
             <?php
                 if(Auth::user()->photo == NULL)
@@ -87,16 +70,12 @@
                     $photo = Auth::user()->photo;
                 }
             ?>
-
             <a class="dropdown-toggle profile-pic login_profile" data-toggle="dropdown" href="#">
                 <img src="{{ asset($photo) }}" alt="user-img" width="36" class="img-circle">
                 <b id="ambitious-user-name-id" class="hidden-xs">{{  strtok(Auth::user()->name, " ") }}</b>
                 <span class="caret"></span>
             </a>
-
-
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-
                 <div class="dw-user-box">
                     <div class="u-img"><img src="{{ asset($photo) }}" alt="user" /></div>
                     <div class="u-text">
@@ -124,4 +103,3 @@
         </li>
     </ul>
 </nav>
-<!-- /.navbar -->

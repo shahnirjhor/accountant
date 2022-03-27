@@ -18,12 +18,28 @@ use Illuminate\Support\Str;
 use App\Models\BillHistory;
 use App\Models\BillItemTax;
 use App\Models\BillPayment;
+use App\Exports\BillsExport;
 use Illuminate\Http\Request;
 use App\Models\OfflinePayment;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BillController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:bill-read|bill-create|bill-update|bill-delete', ['only' => ['index']]);
+        $this->middleware('permission:bill-create', ['only' => ['create','store']]);
+        $this->middleware('permission:bill-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:bill-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:bill-export', ['only' => ['doExport']]);
+    }
     private $billId;
     /**
      * Display a listing of the resource.
@@ -32,6 +48,8 @@ class BillController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->export)
+            return $this->doExport($request);
         $company = Company::findOrFail(Session::get('company_id'));
         $company->setSettings();
         $bills = $this->filter($request)->paginate(10)->withQueryString();
@@ -51,6 +69,17 @@ class BillController extends Controller
             $query->where('billed_at', 'like', $request->billed_at.'%');
 
         return $query;
+    }
+
+    /**
+     * Performs exporting
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function doExport(Request $request)
+    {
+        return Excel::download(new BillsExport($request, session('company_id')), 'revenues.xlsx');
     }
 
     /**

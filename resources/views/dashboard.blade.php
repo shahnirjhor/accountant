@@ -9,6 +9,7 @@
 @endsection
 @section('content')
 <div class="container-fluid">
+    <br>
     <div class="row">
         <!---Income-->
         <div class="col-md-4">
@@ -66,6 +67,101 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="charts">
+                <div class="charts-chart">
+                    <div>
+                        <canvas id="combine-chart" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="white-box">
+                <h3 class="box-title">{{ __('Incomes By Category') }}</h3>
+                <br>
+                <div id="canvas-holder">
+                    <canvas id="dIncomes_area"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="white-box">
+                <h3 class="box-title">{{ __('Expenses By Category') }}</h3>
+                <br>
+                <div id="canvas-holder">
+                    <canvas id="dexpense_area"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="box-title">@lang('Latest Incomes')</h4>
+            <table class="table table-striped compact table-width table-bordered">
+                <thead>
+                    <tr class="table-success">
+                        <th>@lang('Date')</th>
+                        <th>@lang('Categories')</th>
+                        <th class="text-right">@lang('Amount')</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ($latest_incomes->count())
+                        @foreach($latest_incomes as $item)
+                        <tr>
+                            <td class="text-left">{{ \Carbon\Carbon::parse($item->paid_at)->format($company->date_format) }}</td>
+                            <td class="text-left">{{ $item->category->name }}</td>
+                            <td class="text-right">@money($item->amount, $item->currency_code, true)</td>
+                        </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="13">
+                                <h5 class="text-center">@lang('No Records')</h5>
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h4 class="box-title">@lang('Latest Expenses')</h4>
+            <table class="table table-striped compact table-width table-bordered">
+                <thead>
+                    <tr class="table-danger">
+                        <th>@lang('Date')</th>
+                        <th>@lang('Categories')</th>
+                        <th class="text-right">@lang('Amount')</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ($latest_expenses->count())
+                        @foreach($latest_expenses as $item)
+                        <tr>
+                            <td class="text-left">{{ \Carbon\Carbon::parse($item->paid_at)->format($company->date_format) }}</td>
+                            <td class="text-left">{{ $item->category->name }}</td>
+                            <td class="text-right">@money($item->amount, $item->currency_code, true)</td>
+                        </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="13">
+                                <h5 class="text-center">@lang('No Records')</h5>
+                            </td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

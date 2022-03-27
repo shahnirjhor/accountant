@@ -1,17 +1,19 @@
 @extends('layouts.layout')
 @section('one_page_js')
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
 @endsection
 
 @section('one_page_css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="{{ asset('plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3><a href="{{ route('bill.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Bill')</a></h3>
+                @can('bill-create')
+                    <h3><a href="{{ route('bill.create') }}" class="btn btn-outline btn-info">+ @lang('Add New Bill')</a></h3>
+                @endcan
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -28,9 +30,11 @@
             <div class="card-header">
                 <h3 class="card-title">@lang('Bills') </h3>
                 <div class="card-tools">
-                    <a class="btn btn-primary" target="_blank" href="{{ route('bill.index') }}?export=1">
-                        <i class="fas fa-cloud-download-alt"></i> @lang('Export')
-                    </a>
+                    @can('bill-export')
+                        <a class="btn btn-primary" target="_blank" href="{{ route('bill.index') }}?export=1">
+                            <i class="fas fa-cloud-download-alt"></i> @lang('Export')
+                        </a>
+                    @endcan
                     <button class="btn btn-default" data-toggle="collapse" href="#filter">
                         <i class="fas fa-filter"></i> @lang('Filter')
                     </button>
@@ -81,7 +85,9 @@
                             <th>@lang('Bill Date')</th>
                             <th>@lang('Due Date')</th>
                             <th>@lang('Status')</th>
-                            <th data-orderable="false">@lang('Actions')</th>
+                            @canany(['bill-update', 'bill-delete'])
+                                <th data-orderable="false">@lang('Actions')</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody>
@@ -115,8 +121,12 @@
                             </td>
                             <td>
                                 <a href="{{ route('bill.show', $bill) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="View"><i class="fa fa-eye ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="{{ route('bill.edit', $bill) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
-                                <a href="#" data-href="{{ route('bill.destroy', $bill) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                @can('revenue-update')
+                                    <a href="{{ route('bill.edit', $bill) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="tooltip" title="Edit"><i class="fa fa-edit ambitious-padding-btn"></i></a>&nbsp;&nbsp;
+                                @endcan
+                                @can('revenue-delete')
+                                    <a href="#" data-href="{{ route('bill.destroy', $bill) }}" class="btn btn-info btn-outline btn-circle btn-lg" data-toggle="modal" data-target="#myModal" title="Delete"><i class="fa fa-trash ambitious-padding-btn"></i></a>
+                                @endcan
                             </td>
                         </tr>
                         @endforeach

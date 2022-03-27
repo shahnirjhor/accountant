@@ -11,14 +11,14 @@
     </thead>
     <tbody>
         @foreach($payments as $payment)
-            <tr>
-                <td>{{ $payment->id }}</td>
-                <td>{{ date($companyDateFormat, strtotime($payment->paid_at)) }}</td>
-                <td>@money($payment->amount, $payment->currency_code, true)</td>
-                <td>{{ $payment->vendor->name}}</td>
-                <td>{{ $payment->category->name}}</td>
-                <td>{{ $payment->account->name}}</td>
-            </tr>
+        <tr>
+            <td>{{ $payment->id }}</td>
+            <td>{{ date($companyDateFormat, strtotime($payment->paid_at)) }}</td>
+            <td>@money($payment->amount, $payment->currency_code, true)</td>
+            <td>{{ $payment->vendor->name}}</td>
+            <td>{{ $payment->category->name}}</td>
+            <td>{{ $payment->account->name}}</td>
+        </tr>
         @endforeach
     </tbody>
 </table>

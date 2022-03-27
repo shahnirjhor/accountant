@@ -1,20 +1,14 @@
-<!-- Main Sidebar Container -->
 @php
-
 $c = Request::segment(1);
 $m = Request::segment(2);
 $RoleName = Auth::user()->getRoleNames();
-
 @endphp
 
 <aside class="main-sidebar elevation-4 sidebar-light-info">
-    <!-- Brand Logo -->
     <a href="{{ route('dashboard')  }}" class="brand-link navbar-info">
         <img src="{{ asset('img/favicon.png') }}" alt="{{ $ApplicationSetting->item_name }}" class="brand-image" style="opacity: .8; width :32px; height : 32px">
         <span class="brand-text font-weight-light">{{ $ApplicationSetting->item_name }}</span>
     </a>
-
-    <!-- Sidebar -->
     <div class="sidebar">
         <?php
             if(Auth::user()->photo == NULL)
@@ -24,7 +18,6 @@ $RoleName = Auth::user()->getRoleNames();
                 $photo = Auth::user()->photo;
             }
         ?>
-        <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="{{ asset($photo) }}" class="img-circle elevation-2" alt="User Image">
@@ -33,8 +26,6 @@ $RoleName = Auth::user()->getRoleNames();
                 {{ Auth::user()->name }}
             </div>
         </div>
-
-        <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
@@ -43,14 +34,12 @@ $RoleName = Auth::user()->getRoleNames();
                         <p>@lang('Dashboard')</p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     <a href="{{ route('item.index') }}" class="nav-link @if($c == 'item') active @endif ">
                         <i class="fab fa-buffer nav-icon"></i>
                         <p>@lang('Items')</p>
                     </a>
                 </li>
-
                 <li class="nav-item has-treeview @if($c == 'customer' || $c == 'invoice' || $c == 'revenue') menu-open @endif">
                     <a href="javascript:void(0)" class="nav-link @if($c == 'customer' || $c == 'invoice' || $c == 'revenue') active @endif">
                         <i class="nav-icon fas fa-plus"></i>
@@ -80,7 +69,6 @@ $RoleName = Auth::user()->getRoleNames();
                         </li>
                     </ul>
                 </li>
-
                 <li class="nav-item has-treeview @if($c == 'vendor' || $c == 'payment' || $c == 'bill') menu-open @endif">
                     <a href="javascript:void(0)" class="nav-link @if($c == 'vendor' || $c == 'payment' || $c == 'bill') active @endif">
                         <i class="nav-icon fas fa-minus"></i>

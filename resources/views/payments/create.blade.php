@@ -2,12 +2,12 @@
 @section('one_page_js')
     <script src="{{ asset('js/quill.js') }}"></script>
     <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
 @endsection
 @section('one_page_css')
     <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="{{ asset('plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <section class="content-header">
@@ -165,28 +165,5 @@
         </div>
     </div>
 </div>
-<script>
-    "use strict";
-        $(document).ready(function() {
-
-            $('.dropify').dropify();
-
-            $(".flatpickr").flatpickr({
-                enableTime: false,
-                defaultDate: "today"
-            });
-
-            var quill = new Quill('#input_description', {
-            theme: 'snow'
-        });
-
-        var description = $("#description").val();
-        quill.clipboard.dangerouslyPasteHTML(description);
-        quill.root.blur();
-        $('#input_description').on('keyup', function(){
-            var input_description = quill.container.firstChild.innerHTML;
-            $("#description").val(input_description);
-        });
-    });
-</script>
+@include('script.payments.create.js')
 @endsection

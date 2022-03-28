@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('one_page_css')
-    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/dashboard.css') }}" rel="stylesheet">
 @endsection
 @section('one_page_js')
 <script src="{{ asset('plugins/bower_components/chart.js/bundle.js') }}"></script>

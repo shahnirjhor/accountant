@@ -1,16 +1,15 @@
 @extends('layouts.layout')
 @section('one_page_js')
-    <script src="{{ asset('js/quill.js') }}"></script>
+    <script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
+    <script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 @endsection
 
 @section('one_page_css')
-    <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
 @endsection
 @section('content')
 <section class="content-header">
@@ -562,29 +561,6 @@
         </section>
     </div>
 </div>
-
 @include('script.general.js')
-
-<script>
-    $(document).ready( function () {
-
-        if($('#sku_type').val() == '1') {
-            $('#sku_random').show(500);
-            $('#sku_define').hide(500);
-        } else {
-            $('#sku_random').hide(500);
-            $('#sku_define').show(500);
-        }
-        $('#sku_type').change(function(){
-            if($('#sku_type').val() == '1') {
-                $('#sku_random').show(500);
-                $('#sku_define').hide(500);
-            } else {
-                $('#sku_random').hide(500);
-                $('#sku_define').show(500);
-            }
-        });
-    });
-</script>
 
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('one_page_js')
     <!-- Include the Quill library -->
-    <script src="{{ asset('js/quill.js') }}"></script>
+    <script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
     <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
     <script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
     <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
@@ -11,7 +11,7 @@
 
 @section('one_page_css')
     <!-- Include quill -->
-    <link href="{{ asset('css/quill.snow.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/quill.snow.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet">

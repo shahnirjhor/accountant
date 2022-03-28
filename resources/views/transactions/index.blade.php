@@ -1,10 +1,10 @@
 @extends('layouts.layout')
 @section('one_page_js')
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
 @endsection
 
 @section('one_page_css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="{{ asset('plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
 <section class="content-header">
@@ -98,23 +98,5 @@
         </div>
     </div>
 </div>
-<script>
-    "use strict";
-    $(document).ready( function () {
-
-        $(".flatpickr").flatpickr({
-            enableTime: false
-        });
-
-        $('#laravel_datatable').DataTable({
-            "paging": false,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": false,
-            "autoWidth": false,
-            "responsive": true,
-        });
-    });
-</script>
+@include('script.transaction.index.js')
 @endsection

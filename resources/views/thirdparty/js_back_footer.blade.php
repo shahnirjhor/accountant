@@ -1,4 +1,4 @@
-<script src="{{ asset('js/toastr.min.js') }}"></script>
+<script src="{{ asset('plugins/toastr/toastr.min.js') }}"></script>
 <script>
     @if(Session::has('demo_error'))
         toastr.options = {

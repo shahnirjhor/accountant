@@ -1,9 +1,24 @@
 <script>
     "use strict";
 
-
-
     $(document).ready(function() {
+
+        if($('#sku_type').val() == '1') {
+            $('#sku_random').show(500);
+            $('#sku_define').hide(500);
+        } else {
+            $('#sku_random').hide(500);
+            $('#sku_define').show(500);
+        }
+        $('#sku_type').change(function(){
+            if($('#sku_type').val() == '1') {
+                $('#sku_random').show(500);
+                $('#sku_define').hide(500);
+            } else {
+                $('#sku_random').hide(500);
+                $('#sku_define').show(500);
+            }
+        });
 
         $("#financial_start").flatpickr({
             enableTime: false,

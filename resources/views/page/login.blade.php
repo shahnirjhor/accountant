@@ -6,14 +6,14 @@
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
         <title>@lang('Log in') | NextPOS :: ambitiousit.net</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
-        <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/css/adminlte.min.css') }}" />
-        <link href="{{ asset('assets/css/frontend.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('plugins/dist/css/adminlte.min.css') }}" />
+        <link href="{{ asset('plugins/custom/css/frontend.css') }}" rel="stylesheet">
         @if(session('locale') == 'ar')
-            <link href="{{ asset('assets/css/bootstrap-rtl.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('plugins/custom/css/bootstrap-rtl.min.css') }}" rel="stylesheet">
         @else
-            <link href="{{ asset('assets/plugins/alertifyjs/css/themes/bootstrap.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('plugins/alertifyjs/css/themes/bootstrap.min.css') }}" rel="stylesheet">
         @endif
     </head>
     <body class="hold-transition login-page">
@@ -73,13 +73,13 @@
                 </div>
             </div>
         </div>
-        <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
         @if(session('locale') == 'ar')
-            <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+            <script src="{{ asset('plugins/custom/js/bootstrap.bundle.min.js') }}"></script>
         @else
-            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('plugins/custom/js/bootstrap.min.js') }}"></script>
         @endif
-        <script src="{{ asset('assets/js/adminlte.min.js') }}"></script>
-        <script src="{{ asset('assets/js/custom/login.js') }}"></script>
+        <script src="{{ asset('plugins/custom/js/adminlte.min.js') }}"></script>
+        <script src="{{ asset('plugins/custom/js/custom/login.js') }}"></script>
     </body>
 </html>

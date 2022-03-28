@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="_token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
     <title>ShadowHRM</title>
-    
+
 
     <!-- css back -->
 
@@ -20,8 +20,6 @@
 
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
-<link href="{{ asset('plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.css') }}" rel="stylesheet">
-
 <link href="{{ asset('plugins/alertifyjs/css/alertify.min.css') }}" rel="stylesheet">
 <!-- Summernote CSS -->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
@@ -29,7 +27,7 @@
 <link href="{{ asset('plugins/bower_components/custom-select/custom-select.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.css') }}" rel="stylesheet" />
 <!-- fontawesome CSS -->
-<link href="{{ asset('plugins/fontawesome_5_11_2/css/all.min.css') }}" rel="stylesheet">
+<link href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 <!-- alertify CSS -->
 <link href="{{ asset('plugins/alertifyjs/css/alertify.min.css') }}" rel="stylesheet">
 <link href="{{ asset('plugins/alertifyjs/css/themes/default.min.css') }}" rel="stylesheet">
@@ -39,22 +37,16 @@
 <link href="{{ asset('bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
 <!-- Menu CSS -->
 <link href="{{ asset('plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
-<!-- morris CSS -->
-<link href="{{ asset('plugins/bower_components/morrisjs/morris.css') }}" rel="stylesheet">
 <!-- animation CSS -->
-<link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+<link href="{{ asset('plugins/custom/css/animate.css') }}" rel="stylesheet">
 <!-- Custom CSS -->
-<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('plugins/custom/css/style.css') }}" rel="stylesheet">
 <!-- color CSS -->
-<link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
+<link href="{{ asset('plugins/custom/css/colors/default.css') }}" id="theme" rel="stylesheet">
 <!-- Ambitious CSS -->
-<link href="{{ asset('css/ambitious.css') }}" rel="stylesheet">
+<link href="{{ asset('plugins/custom/css/ambitious.css') }}" rel="stylesheet">
 <!-- Toastr CSS -->
-<link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
-<!-- Datatables CSS -->
-<link href="{{ asset('plugins/bower_components/datatables.net-bs/css/dataTables.bootstrap.css') }}" rel="stylesheet">
-<!-- Date picker plugins css -->
-<link href="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<link href="{{ asset('plugins/toastr/toastr.min.css') }}" rel="stylesheet">
 <!-- Include stylesheet -->
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
@@ -62,7 +54,7 @@
     @yield('one_page_css')
 
     <!-- js back -->
-    
+
 
     <script src="{{ asset('plugins/alertifyjs/alertify.min.js') }}"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -73,10 +65,10 @@
 <![endif]-->
 
 <!-- jQuery -->
-<script src="{{ asset('plugins/fontawesome_5_11_2/js/all.min.js') }}"></script>
+<script src="{{ asset('plugins/fontawesome-free/js/all.min.js') }}"></script>
 
 <!-- jQuery -->
-<script src="{{ asset('plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="{{ asset('bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- Menu Plugin JavaScript -->
@@ -85,25 +77,16 @@
 <script src="{{ asset('plugins/bower_components/chart.js/bundle.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/chart.js/utils.js') }}"></script>
 <!--slimscroll JavaScript -->
-<script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
+<script src="{{ asset('plugins/custom/js/jquery.slimscroll.js') }}"></script>
 <!--Wave Effects -->
-<script src="{{ asset('js/waves.js') }}"></script>
+<script src="{{ asset('plugins/custom/js/waves.js') }}"></script>
 <!-- Custom Theme JavaScript -->
-<script src="{{ asset('js/custom.min.js') }}"></script>
-<!--Style Switcher -->
-<script src="{{ asset('plugins/bower_components/styleswitcher/jQuery.style.switcher.js') }}"></script>
-<!--Datatables -->
-<script src="{{ asset('plugins/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('plugins/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+<script src="{{ asset('plugins/custom/js/custom.min.js') }}"></script>
 <!-- Select 2 js -->
 <script src="{{ asset('plugins/bower_components/custom-select/custom-select.min.js') }}"></script>
 <script src="{{ asset('plugins/bower_components/bootstrap-select/bootstrap-select.min.js') }}"></script>
 <!-- Summernote js -->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js" defer></script>
-<!-- Date Picker Plugin JavaScript -->
-<script src="{{ asset('plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
-<!-- Bootstrap Multiselect -->
-<script src="{{ asset('plugins/bootstrap-multiselect/bootstrap-multiselect.js') }}"></script>
 <!-- Include the Quill library -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
@@ -118,10 +101,8 @@
 
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
-<!-- Clock Plugin JavaScript -->
-<script src="{{ asset('plugins/bower_components/clockpicker/dist/jquery-clockpicker.min.js') }}"></script>
 
-    
+
     @yield('one_page_js')
 </head>
 

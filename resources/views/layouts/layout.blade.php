@@ -15,7 +15,6 @@
     @yield('one_page_css')
     @include('thirdparty.js_back')
     @yield('one_page_js')
-
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">

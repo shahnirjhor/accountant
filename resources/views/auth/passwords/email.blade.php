@@ -11,18 +11,18 @@
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- animation CSS -->
-    <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/animate.css') }}" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/style.css') }}" rel="stylesheet">
     <!-- color CSS -->
-    <link href="{{ asset('css/colors/default.css') }}" id="theme"  rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/colors/default.css') }}" id="theme"  rel="stylesheet">
     <!-- Ambitious CSS -->
-    <link href="{{ asset('css/ambitious.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/ambitious.css') }}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="{{ asset('js/html5shiv.js') }}"></script>
-    <script src="{{ asset('js/respond.min.js') }}"></script>
+    <script src="{{ asset('plugins/custom/js/html5shiv.js') }}"></script>
+    <script src="{{ asset('plugins/custom/js/respond.min.js') }}"></script>
     <![endif]-->
 </head>
 <body>
@@ -68,17 +68,17 @@
     </div>
 </section>
 <!-- jQuery -->
-<script src="{{ asset('plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="{{ asset('dist/js/bootstrap.min.js') }}"></script>
 <!-- Menu Plugin JavaScript -->
 <script src="{{ asset('plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
 <!--slimscroll JavaScript -->
-<script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
+<script src="{{ asset('plugins/custom/js/jquery.slimscroll.js') }}"></script>
 <!--Wave Effects -->
-<script src="{{ asset('js/waves.js') }}"></script>
+<script src="{{ asset('plugins/custom/js/waves.js') }}"></script>
 <!-- Custom Theme JavaScript -->
-<script src="{{ asset('js/custom.js') }}"></script>
+<script src="{{ asset('plugins/custom/js/custom.js') }}"></script>
 </body>
 </html>
 

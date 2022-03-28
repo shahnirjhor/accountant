@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="_token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('plugins/images/favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
     <title>ShadowHRM</title>
 
     <!-- Toastr CSS -->
-    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/toastr/toastr.min.css') }}" rel="stylesheet">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.css') }}">
     <!-- Font Awesome Icons -->
@@ -18,7 +18,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
     <!-- Ambitious CSS -->
-    <link href="{{ asset('css/ambitious.css') }}" rel="stylesheet">
+    <link href="{{ asset('plugins/custom/css/ambitious.css') }}" rel="stylesheet">
     <!-- overlayScrollbars -->
     <link href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}" rel="stylesheet">
     <!-- Google Font: Source Sans Pro -->
@@ -34,7 +34,7 @@
 
 
 <!-- jQuery -->
-<script src="{{ asset('plugins/bower_components/jquery/dist/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="{{ asset('bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <!-- Menu Plugin JavaScript -->

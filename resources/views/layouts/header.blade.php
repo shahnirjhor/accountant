@@ -46,22 +46,6 @@
             </div>
         </li>
         <li class="nav-item dropdown">
-            @php
-                $locale = App::getLocale();
-            @endphp
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            @foreach ($getLang as $key => $value)
-                    @if($locale == $key)
-                        <span  class="flag-icon {{ $flag[$key] }}"> </span> <span id="ambitious-flag-name-id">{{ $value }}</span> </a>
-                    @endif
-            @endforeach
-            <div class="dropdown-menu" aria-labelledby="dropdown09">
-                @foreach ($getLang as $key => $value)
-                       <a class="dropdown-item" href="{{ route('lang.index', ['language' => $key]) }}" @if ($key == $locale) style="background-color : #ddd" @endif><span class="flag-icon {{ $flag[$key] }}"> </span>  {{ $value }}</a>
-                @endforeach
-            </div>
-        </li>
-        <li class="nav-item dropdown">
             <?php
                 if(Auth::user()->photo == NULL)
                 {

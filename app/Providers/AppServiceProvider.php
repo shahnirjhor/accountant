@@ -30,9 +30,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();
+        if (request()->is('install'))
+            return;
 
-        $check = env('DB_DATABASE', NULL) ;
+        Paginator::useBootstrap();
         view()->composer('*', function ($view) {
 
             if (Schema::hasTable('application_settings')) {

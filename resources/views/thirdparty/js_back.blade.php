@@ -1,5 +1,5 @@
-<script src="{{ asset('plugins/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/dist/js/adminlte.min.js') }}"></script>
 <script src="{{ asset('plugins/alertifyjs/alertify.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

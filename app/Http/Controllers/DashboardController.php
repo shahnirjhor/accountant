@@ -79,6 +79,8 @@ class DashboardController extends Controller
         $cincome = $this->calculateCashFlowTotals('income', $start, $end, $period);
         $cexpense = $this->calculateCashFlowTotals('expense', $start, $end, $period);
         $cprofit = $this->calculateCashFlowProfit($cincome, $cexpense);
+
+        // dd($cprofit);
         $formattedCprofit = array_map(function($num){return number_format($num,2);}, $cprofit);
 
         $myMonth = json_encode(array_values($labels));

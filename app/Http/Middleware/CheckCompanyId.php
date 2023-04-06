@@ -16,8 +16,10 @@ class CheckCompanyId
      */
     public function handle(Request $request, Closure $next)
     {
-        if (empty(session('company_id')) 
-            && (!$request->is('company*') && !$request->is('login') && !$request->is('logout*'))) {
+        if (
+            empty(session('company_id'))
+            && (!$request->is('/') && !$request->is('lang') && !$request->is('company*') && !$request->is('login') && !$request->is('logout*') && !$request->is('install'))
+        ) {
             return redirect('company');
         }
 

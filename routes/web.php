@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schema;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +23,15 @@ Route::get('/lang',[
 ]);
 
 Route::get('/', function () {
+    try {
+        DB::connection()->getPdo();
+        if (!Schema::hasTable('application_settings'))
+            return redirect('/install');
+    } catch (\Exception $e) {
+        return redirect('/install');
+    }
     return redirect('dashboard');
-})->name('login.index');
+});
 
 Route::get('/clear', function() {
     $exitCode = Artisan::call('config:clear');

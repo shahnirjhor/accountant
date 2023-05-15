@@ -79,7 +79,29 @@ class AppServiceProvider extends ServiceProvider
             $items_reminder = [];
             $notifications = 0;
 
+            $company_full_name = "No Company Imported";
+            $activeCompany = [];
             if (Auth::check()) {
+
+
+                $companies = auth()->user()->companies()->with(['settings'])->get();
+                $firstCompanies = $companies->first();
+
+                if (!empty(auth()->user()->company_id))
+                    session(['company_id' => auth()->user()->company_id]);
+                elseif(!empty($firstCompanies))
+                    session(['company_id' => $firstCompanies->id]);
+
+                foreach ($companies as $company) {
+                    $company->setSettings();
+                    if ($company->id == session('company_id')) {
+                        $activeCompany = $company;
+                        $company_full_name = $activeCompany->shop_name;
+                    }
+                    $companySwitchingInfo[$company->id] = $company->shop_name;
+                }
+
+                dd($firstCompanies);
 
                 $firstCompanies = Auth::user()->companies()->first();
                 if(isset($firstCompanies) && !empty($firstCompanies))
@@ -147,6 +169,8 @@ class AppServiceProvider extends ServiceProvider
                      ->with('notify_items', $items)
                      ->with('notify_items_reminder', $items_reminder)
                      ->with('notifications', $notifications)
+                     ->with('companySettings', $activeCompany)
+
                      ->with('flag', $flag);
         });
 

@@ -6,7 +6,7 @@ $RoleName = Auth::user()->getRoleNames();
 
 <aside class="main-sidebar elevation-4 sidebar-light-info">
     <a href="{{ route('dashboard')  }}" class="brand-link navbar-info">
-        <img src="{{ asset('img/favicon.png') }}" alt="{{ $ApplicationSetting->item_name }}" class="brand-image" style="opacity: .8; width :32px; height : 32px">
+        <img src="{{ asset('img/logo-text.png') }}" alt="{{ $ApplicationSetting->item_name }}" class="brand-image" style="opacity: .8; width :32px; height : 32px">
         <span class="brand-text font-weight-light">{{ $ApplicationSetting->item_name }}</span>
     </a>
     <div class="sidebar">

@@ -83,7 +83,7 @@ class ApplicationSettingController extends Controller
             $favicon = 'favicon.png';
         }
 
-        $data = ApplicationSetting::updateOrCreate(['id' => "1"], [
+        ApplicationSetting::updateOrCreate(['id' => "1"], [
             'item_name' => $request->item_name,
             'item_short_name' => $request->item_short_name,
             'company_name' => $request->company_name,
@@ -97,10 +97,11 @@ class ApplicationSettingController extends Controller
         $currentLang = env('LOCALE_LANG', 'en');
         $defaultLang = $request->language;
 
-        if($currentLang != $defaultLang) {
+        if($currentLang != $defaultLang)
+        {
             if (!$this->locale($defaultLang))
             {
-                $message = "Database Connection Error !!!";
+                "Database Connection Error !!!";
             }
         }
         return redirect()->route('apsetting')->withSuccess(trans('Application Settings Has Updated'));

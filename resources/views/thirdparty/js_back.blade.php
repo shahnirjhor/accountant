@@ -4,6 +4,11 @@
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+<script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
+<script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
+<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
+<script src="{{ asset('plugins/sweetalert2/swal.js') }}"></script>
 
 <script>
     function selectChange(val) {

@@ -1,17 +1,5 @@
 @extends('layouts.layout')
-
-@section('one_page_js')
-    <script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
-    <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
-@endsection
-
-@section('one_page_css')
-     <link href="{{ asset('plugins/custom/css/quill.snow.css') }}" rel="stylesheet">
-     <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
-@endsection
-
 @section('content')
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -25,16 +13,15 @@
         </div>
     </div>
 </section>
-
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
                 <h3>@lang('Application Configuration')</h3>
             </div>
-            <div class="card-body">
-                <form class="form-material form-horizontal" action="{{ route('apsetting.update') }}" method="post" enctype="multipart/form-data">
-                    @csrf
+            <form class="form-material form-horizontal" action="{{ route('apsetting.update') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -69,7 +56,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -104,19 +90,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <div class="col-md-12">
-                            <label class="col-md-12 col-form-label"><h4>@lang('Company Address') <b class="ambitious-crimson">*</b></h4></label>
-                            <div class="col-md-12">
-                                <div id="company_address" style="min-height: 100px;"></div>
-                                <input type="hidden" name="address" id="address" value="{{ old('address',$data->company_address) }}">
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 d-none">
                             <div class="form-group">
                                 <label class="col-md-12 col-form-label"><h4>@lang('Deafult Language') <b class="ambitious-crimson">*</b></h4></label>
                                 <div class="input-group mb-3">
@@ -161,7 +136,15 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="form-group row">
+                        <div class="col-md-12">
+                            <label class="col-md-12 col-form-label"><h4>@lang('Company Address') <b class="ambitious-crimson">*</b></h4></label>
+                            <div class="col-md-12">
+                                <div id="company_address" style="min-height: 100px;"></div>
+                                <input type="hidden" name="address" id="address" value="{{ old('address',$data->company_address) }}">
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row mb-0">
                         <div class="col-md-6">
                             <label class="col-md-12 col-form-label"><h4>@lang('Logo')</h4></label>
@@ -181,17 +164,12 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-md-3 col-form-label"></label>
-                        <div class="col-md-8">
-                            <input type="submit" value="@lang('Submit')" class="btn btn-outline btn-info btn-lg"/>
-                            <a href="{{ route('dashboard') }}" class="btn btn-outline btn-warning btn-lg">@lang('Cancel')</a>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="@lang('Submit')" class="btn btn-info"/>
+                    <a href="{{ route('dashboard') }}" class="btn btn-default float-right">@lang('Cancel')</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

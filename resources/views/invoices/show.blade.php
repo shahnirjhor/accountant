@@ -1,13 +1,4 @@
 @extends('layouts.layout')
-@section('one_page_js')
-    <script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
-    <script src="{{ asset('plugins/sweetalert2/swal.js') }}"></script>
-    <script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
-@endsection
-@section('one_page_css')
-    <link href="{{ asset('plugins/custom/css/quill.snow.css') }}" rel="stylesheet">
-    <link href="{{ asset('plugins/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
-@endsection
 @section('content')
 <section class="content-header">
     <div class="container-fluid">

@@ -1,9 +1,5 @@
 @extends('layouts.layout')
-@section('one_page_js')
-    <script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
-@endsection
 @section('one_page_css')
-    <link href="{{ asset('plugins/custom/css/quill.snow.css') }}" rel="stylesheet">
     <link href="{{ asset('plugins/custom/css/switch.css') }}" rel="stylesheet">
 @endsection
 @section('content')

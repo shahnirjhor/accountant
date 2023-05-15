@@ -1,15 +1,4 @@
 @extends('layouts.layout')
-@section('one_page_js')
-<!-- Include the Quill library -->
-    <script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
-    <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
-@endsection
-
-@section('one_page_css')
-    <!-- Include quill -->
-    <link href="{{ asset('plugins/custom/css/quill.snow.css') }}" rel="stylesheet">
-    <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
-@endsection
 @section('content')
     <section class="content-header">
         <div class="container-fluid">

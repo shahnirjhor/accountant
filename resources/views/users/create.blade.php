@@ -1,13 +1,7 @@
 @extends('layouts.layout')
-@section('one_page_js')
-    <script src="{{ asset('plugins/custom/js/quill.js') }}"></script>
-    <script src="{{ asset('plugins/dropify/dist/js/dropify.min.js') }}"></script>
-    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-@endsection
+
 @section('one_page_css')
-    <link href="{{ asset('plugins/custom/css/quill.snow.css') }}" rel="stylesheet">
-    <link href="{{ asset('plugins/dropify/dist/css/dropify.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+
     <link href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Session;
-use Akaunting\Money\Money;
-use Akaunting\Money\Currency;
+use Cknow\Money\Money;
+use Money\Currency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

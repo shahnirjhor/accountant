@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\DateTime;
-use Akaunting\Money\Money;
+use Cknow\Money\Money;
 use Session;
-use Akaunting\Money\Currency;
+use Money\Currency;
 
 class Revenue extends Model
 {

@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\DateTime;
 use Session;
-use Akaunting\Money\Currency;
-use Akaunting\Money\Money;
+use Money\Currency;
+use Cknow\Money\Money;
 
 class Payment extends Model
 {

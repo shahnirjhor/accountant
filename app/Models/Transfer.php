@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Akaunting\Money\Money;
-use Akaunting\Money\Currency;
+use Cknow\Money\Money;
+use Cknow\Money\Currency;
 
 class Transfer extends Model
 {

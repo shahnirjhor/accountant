@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Akaunting\Money\Money;
-use Akaunting\Money\Currency as AkCurrency;
+use Cknow\Money\Money;
+use Money\Currency as ckCurrency;
 use App\Models\Currency;
 use App\Traits\DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -195,7 +195,7 @@ class Invoice extends Model
         $company->setSettings();
 
 
-        $default = new AkCurrency($company->default_currency);
+        $default = new ckCurrency($company->default_currency);
 
         if ($format) {
             $money = Money::$code($amount, true)->convert($default, (double) $rate)->format();

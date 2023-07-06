@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Akaunting\Money\Money;
+use Cknow\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\DateTime;
 use Session;
-use Akaunting\Money\Currency as AkCurrency;
+use Money\Currency as ckCurrency;
 use App\Models\Currency;
 
 class Bill extends Model
@@ -202,7 +202,7 @@ class Bill extends Model
         $company->setSettings();
 
 
-        $default = new AkCurrency($company->default_currency);
+        $default = new ckCurrency($company->default_currency);
 
         if ($format) {
             $money = Money::$code($amount, true)->convert($default, (double) $rate)->format();

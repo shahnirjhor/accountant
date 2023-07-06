@@ -101,8 +101,6 @@ class AppServiceProvider extends ServiceProvider
                     $companySwitchingInfo[$company->id] = $company->shop_name;
                 }
 
-                dd($firstCompanies);
-
                 $firstCompanies = Auth::user()->companies()->first();
                 if(isset($firstCompanies) && !empty($firstCompanies))
                 {

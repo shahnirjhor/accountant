@@ -23,6 +23,8 @@ class ProfileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:profile-read|profile-update', ['only' => ['setting']]);
+        $this->middleware('permission:profile-read|profile-update', ['only' => ['setting','updateSetting']]);
     }
 
     /**

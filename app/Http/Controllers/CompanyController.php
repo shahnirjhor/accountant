@@ -18,6 +18,26 @@ use App\Http\Controllers\Controller;
 
 class CompanyController extends Controller
 {
+    /**
+     * load constructor method
+     *
+     * @access public
+     * @return void
+     */
+    function __construct()
+    {
+        $this->middleware('permission:company-read|company-create|company-update|company-delete', ['only' => ['index']]);
+        $this->middleware('permission:company-create', ['only' => ['create','store']]);
+        $this->middleware('permission:company-update', ['only' => ['edit','update']]);
+        $this->middleware('permission:company-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:company-export', ['only' => ['doExport']]);
+    }
+
+    /**
+     * Switch company account
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function companyAccountSwitch(Request $request)
     {
         $companySwitch = $request->company_switch;

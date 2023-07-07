@@ -15,8 +15,8 @@ class ApplicationSetting extends Seeder
     public function run()
     {
         \App\Models\ApplicationSetting::create([
-            'item_name' => 'Accountant',
-            'item_short_name' => 'Accountant',
+            'item_name' => 'ShadowPro',
+            'item_short_name' => 'ShadowPro',
             'item_version' => 'V 1.0',
             'company_name' => 'ambitiousitbd',
             'company_email' => 'ambitiousitbd@gmail.com',

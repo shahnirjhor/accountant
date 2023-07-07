@@ -80,35 +80,43 @@ $RoleName = Auth::user()->getRoleNames();
                         </ul>
                     </li>
                 @endcanany
-                <li class="nav-item has-treeview @if($c == 'vendor' || $c == 'payment' || $c == 'bill') menu-open @endif">
-                    <a href="javascript:void(0)" class="nav-link @if($c == 'vendor' || $c == 'payment' || $c == 'bill') active @endif">
-                        <i class="nav-icon fas fa-minus"></i>
-                        <p>
-                            @lang('Expenses')
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('bill.index') }}" class="nav-link @if($c == 'bill') active @endif ">
-                                <i class="fas fa-file-invoice nav-icon"></i>
-                                <p>@lang('Bill')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('payment.index') }}" class="nav-link @if($c == 'payment') active @endif ">
-                                <i class="fab fa-ethereum nav-icon"></i>
-                                <p>@lang('Payment')</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('vendor.index') }}" class="nav-link @if($c == 'vendor') active @endif ">
-                                <i class="fas fa-user-minus nav-icon"></i>
-                                <p>@lang('Vendor')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['bill-read', 'bill-create', 'bill-update', 'bill-delete', 'bill-export', 'payment-read', 'payment-create', 'payment-update', 'payment-delete', 'payment-export', 'vendo-read', 'vendo-create', 'vendo-update', 'vendo-delete', 'vendo-export'])
+                    <li class="nav-item has-treeview @if($c == 'vendor' || $c == 'payment' || $c == 'bill') menu-open @endif">
+                        <a href="javascript:void(0)" class="nav-link @if($c == 'vendor' || $c == 'payment' || $c == 'bill') active @endif">
+                            <i class="nav-icon fas fa-minus"></i>
+                            <p>
+                                @lang('Expenses')
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            @canany(['bill-read', 'bill-create', 'bill-update', 'bill-delete', 'bill-export'])
+                                <li class="nav-item">
+                                    <a href="{{ route('bill.index') }}" class="nav-link @if($c == 'bill') active @endif ">
+                                        <i class="fas fa-file-invoice nav-icon"></i>
+                                        <p>@lang('Bill')</p>
+                                    </a>
+                                </li>
+                            @endcanany
+                            @canany(['payment-read', 'payment-create', 'payment-update', 'payment-delete', 'payment-export'])
+                                <li class="nav-item">
+                                    <a href="{{ route('payment.index') }}" class="nav-link @if($c == 'payment') active @endif ">
+                                        <i class="fab fa-ethereum nav-icon"></i>
+                                        <p>@lang('Payment')</p>
+                                    </a>
+                                </li>
+                            @endcanany
+                            @canany(['vendo-read', 'vendo-create', 'vendo-update', 'vendo-delete', 'vendo-export'])
+                                <li class="nav-item">
+                                    <a href="{{ route('vendor.index') }}" class="nav-link @if($c == 'vendor') active @endif ">
+                                        <i class="fas fa-user-minus nav-icon"></i>
+                                        <p>@lang('Vendor')</p>
+                                    </a>
+                                </li>
+                            @endcanany
+                        </ul>
+                    </li>
+                @endcanany
                 @canany(['account-read', 'account-create', 'account-update', 'account-delete', 'account-export', 'transfer-read', 'transfer-create', 'transfer-update', 'transfer-delete', 'transfer-export', 'transaction-read', 'transaction-export'])
                     <li class="nav-item has-treeview @if($c == 'account' || $c == 'transfer' || $c == 'transaction') menu-open @endif">
                         <a href="javascript:void(0)" class="nav-link @if($c == 'account' || $c == 'transfer' || $c == 'transaction' ) active @endif">
